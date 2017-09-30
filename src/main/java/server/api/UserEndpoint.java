@@ -20,8 +20,6 @@ public class UserEndpoint {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(String jsonUser) {
 
         User user = new Gson().fromJson(jsonUser, User.class);
