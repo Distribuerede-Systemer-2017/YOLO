@@ -58,7 +58,7 @@ Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til 
 7. Tryk på fanen "Deployment"
 8. Tryk på "+" nederste til venstre
 9. Vælg "Artifact"
-10. Vælg "restfull-dis:war" og klik OK
+10. Vælg "restfull-dis:war exploded" og klik OK
 11. Klik OK så du gemmer og lukker konfigurationsvinduet
 
 Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
