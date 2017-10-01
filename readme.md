@@ -71,16 +71,16 @@ Som du kan se, så returnerer din server en HTML side når du rammer `http://loc
 Da vi ikke har tilkoblet en database endnu, så har jeg oprettet en falsk database klasse, som blot gemmer information i RAM fremfor på disk. Klasse kan dog nogle basale ting, som også kunne forventes af en rigtig database.
 
 ##### 4.1 Opgave
-Når åbner `http://localhost:8080/api/users` skal serveren returnere alle brugerene i vores system i JSON format
+Når du åbner `http://localhost:8080/api/users` skal serveren returnere alle brugerene i vores system, i JSON format
 
 ##### 4.2 Opgave
-Færddigør `createUser()` metoden, så der kan oprettes nye brugere i systemet. Til at teste dette kan programmer som f.eks. Advanced Rest Client eller Postman bruges.
+Færddigør `createUser()` metoden (main/java/server/endpoints/UserEndpoint), så der kan oprettes nye brugere i systemet. Til at teste dette kan programmer som f.eks. Advanced Rest Client eller Postman bruges.
 
 Lidt hjælp:
 1. Brug Gson's `fromJson()` metode til at konvertere fra en string til object
 2. Brug herefter UserTable's `addUser()` metode
 
 ##### 4.3 Opgave
-Lav et endpoint som kan returnere én specifik bruger, hvor der søges med brugerens ID.
+Lav et nyt endpoint i `UserEndpoint`-klassen, som kan returnere én specifik bruger, hvor der søges med brugerens ID.
 
 Jeg har givet lidt hjælp i kommentarerene i koden!
