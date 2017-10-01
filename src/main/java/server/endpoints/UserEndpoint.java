@@ -1,4 +1,4 @@
-package server.api;
+package server.endpoints;
 
 import com.google.gson.Gson;
 import server.models.User;
