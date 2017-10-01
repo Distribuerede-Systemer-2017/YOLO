@@ -33,7 +33,8 @@ Da Installationsprocessen for Windows og Mac er forskellig, skal du her kun føl
 ##### Windows
 1. Hent denne installer http://mirrors.dotsrc.org/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.exe
 2. Åbn .exe filen og følg installationsguiden
-3. Du er færdig
+3. Åben "Configure Tomcat" (kan findes ved at søge, eller ved at åbne "tomcat8w.exe" i jeres installations mappe), og hvis der står "Service Status: Started" så skal i trykke på Stop. 
+4. Du er færdig
 
 
 #### 2. Opgave - Hent dette repo
