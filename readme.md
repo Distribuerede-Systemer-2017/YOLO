@@ -64,3 +64,7 @@ Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til 
 Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
 
 Hvis din browser nu åbner på `http://localhost:8080/` og der står "Jersey RESTful Web Application!" med store bogstaver, så kører din server - tillykke!
+
+#### 4. Opgave - udforsk og udbyg din server 
+Som du kan se, så returnerer din server en HTML side når du rammer `http://localhost:8080/`. Der er oprettet endpoints for `User` som både accepterer `GET http://localhost:8080/api/users` og `POST http://localhost:8080/api/users`. 
+
