@@ -66,5 +66,21 @@ Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "
 Hvis din browser nu åbner på `http://localhost:8080/` og der står "Jersey RESTful Web Application!" med store bogstaver, så kører din server - tillykke!
 
 #### 4. Opgave - udforsk og udbyg din server 
-Som du kan se, så returnerer din server en HTML side når du rammer `http://localhost:8080/`. Der er oprettet endpoints for `User` som både accepterer `GET http://localhost:8080/api/users` og `POST http://localhost:8080/api/users`. 
+Som du kan se, så returnerer din server en HTML side når du rammer `http://localhost:8080/`. Der er oprettet endpoints for `User` som både accepterer `GET http://localhost:8080/api/users` og `POST http://localhost:8080/api/users`.
 
+Da vi ikke har tilkoblet en database endnu, så har jeg oprettet en falsk database klasse, som blot gemmer information i RAM fremfor på disk. Klasse kan dog nogle basale ting, som også kunne forventes af en rigtig database.
+
+##### 4.1 Opgave
+Når åbner `http://localhost:8080/api/users` skal serveren returnere alle brugerene i vores system i JSON format
+
+##### 4.2 Opgave
+Færddigør `createUser()` metoden, så der kan oprettes nye brugere i systemet. Til at teste dette kan programmer som f.eks. Advanced Rest Client eller Postman bruges.
+
+Lidt hjælp:
+1. Brug Gson's `fromJson()` metode til at konvertere fra en string til object
+2. Brug herefter UserTable's `addUser()` metode
+
+##### 4.3 Opgave
+Lav et endpoint som kan returnere én specifik bruger, hvor der søges med brugerens ID.
+
+Jeg har givet lidt hjælp i kommentarerene i koden!
