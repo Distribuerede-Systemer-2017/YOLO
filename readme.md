@@ -43,4 +43,28 @@ til at køre på jeres lokale maskine:
 1. Åbn din terminal og naviger hen til mappen hvor du ønsker dette projekt skal ligge (HINT: `cd` bruges til at skifte mappe)
 2. `git clone https://github.com/Distribuerede-Systemer-2017/restfull-dis.git`
 3. Åbn IntelliJ, lav et nyt projekt og placer projektet oven i dette repository
-4. OBS: læg mærke til at IntelliJ spørger 
+4. OBS: læg mærke til de to pop-up beskeder nederst til højre i vinduet: "Frameworks Detected" og "Non-managed pom.xml file found". I "Frameworks Detected" trykker I "configure" og trykker OK". I den næste trykker i på pilen, og trykker "Add as Maven Project".
+5. Du er færdig!
+
+#### 3. Opgave - Kør serveren med Tomcat
+Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til er at der ingen `main()` metode er i projektet. Du kan derfor ikke højre-klikke på nogen fil og trykker `run`. Det er fordi at projektet er konfigureret til selv at kalde `main()` metoden (oplyst i `webapp/WEB-INF/web.xml`). Vi kan derfor deploye vores app med Tomcat, og så er det Tomcat der sørger for at køre vores server.
+
+1. I øverste højre hjørne af IntellJ (lige til venstre for den mørke play-knap) er der en pil som åbner en dropdown, klik på denne. 
+2. Tryk "Edit Configurations ..."
+3. Tryk "+" i øverste venstre hjørne af vinduet
+4. Find "Tomcat Server" på listen
+5. Vælg "Local"
+6. Start med at ændre navnet på denne konfiguration fra "Unnamed" til "Run server"
+7. Tryk på fanen "Deployment"
+8. Tryk på "+" nederste til venstre
+9. Vælg "Artifact"
+10. Vælg "restfull-dis:war" og klik OK
+11. Klik OK så du gemmer og lukker konfigurationsvinduet
+
+Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
+
+Hvis din browser nu åbner på `http://localhost:8080/` og der står "Jersey RESTful Web Application!" med store bogstaver, så kører din server - tillykke!
+
+#### 4. Opgave - udforsk og udbyg din server 
+Som du kan se, så returnerer din server en HTML side når du rammer `http://localhost:8080/`. Der er oprettet endpoints for `User` som både accepterer `GET http://localhost:8080/api/users` og `POST http://localhost:8080/api/users`. 
+
