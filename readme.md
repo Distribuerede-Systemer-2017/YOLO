@@ -33,7 +33,8 @@ Da Installationsprocessen for Windows og Mac er forskellig, skal du her kun føl
 ##### Windows
 1. Hent denne installer http://mirrors.dotsrc.org/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.exe
 2. Åbn .exe filen og følg installationsguiden
-3. Du er færdig
+3. Åben "Configure Tomcat" (kan findes ved at søge, eller ved at åbne "tomcat8w.exe" i jeres installations mappe), og hvis der står "Service Status: Started" så skal i trykke på Stop. 
+4. Du er færdig
 
 
 #### 2. Opgave - Hent dette repo
@@ -58,7 +59,7 @@ Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til 
 7. Tryk på fanen "Deployment"
 8. Tryk på "+" nederste til venstre
 9. Vælg "Artifact"
-10. Vælg "restfull-dis:war" og klik OK
+10. Vælg "restfull-dis:war exploded" og klik OK
 11. Klik OK så du gemmer og lukker konfigurationsvinduet
 
 Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
@@ -71,16 +72,16 @@ Som du kan se, så returnerer din server en HTML side når du rammer `http://loc
 Da vi ikke har tilkoblet en database endnu, så har jeg oprettet en falsk database klasse, som blot gemmer information i RAM fremfor på disk. Klasse kan dog nogle basale ting, som også kunne forventes af en rigtig database.
 
 ##### 4.1 Opgave
-Når åbner `http://localhost:8080/api/users` skal serveren returnere alle brugerene i vores system i JSON format
+Når du åbner `http://localhost:8080/api/users` skal serveren returnere alle brugerene i vores system, i JSON format
 
 ##### 4.2 Opgave
-Færddigør `createUser()` metoden, så der kan oprettes nye brugere i systemet. Til at teste dette kan programmer som f.eks. Advanced Rest Client eller Postman bruges.
+Færddigør `createUser()` metoden (main/java/server/endpoints/UserEndpoint), så der kan oprettes nye brugere i systemet. Til at teste dette kan programmer som f.eks. Advanced Rest Client eller Postman bruges.
 
 Lidt hjælp:
 1. Brug Gson's `fromJson()` metode til at konvertere fra en string til object
 2. Brug herefter UserTable's `addUser()` metode
 
 ##### 4.3 Opgave
-Lav et endpoint som kan returnere én specifik bruger, hvor der søges med brugerens ID.
+Lav et nyt endpoint i `UserEndpoint`-klassen, som kan returnere én specifik bruger, hvor der søges med brugerens ID.
 
 Jeg har givet lidt hjælp i kommentarerene i koden!
