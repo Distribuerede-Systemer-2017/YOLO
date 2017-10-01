@@ -27,7 +27,7 @@ public class UserEndpoint {
     @Path("{id}")
     public Response getUserById(@PathParam("id") int id){
 
-        //Lidt hjælpe
+        //Lidt hjælp
         //
         //UserTable userTable = UserTable.getInstance();
         //User foundUser = userTable.findById(id);
