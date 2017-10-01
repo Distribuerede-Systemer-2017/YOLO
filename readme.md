@@ -49,7 +49,7 @@ til at køre på jeres lokale maskine:
 #### 3. Opgave - Kør serveren med Tomcat
 Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til er at der ingen `main()` metode er i projektet. Du kan derfor ikke højre-klikke på nogen fil og trykker `run`. Det er fordi at projektet er konfigureret til selv at kalde `main()` metoden (oplyst i `webapp/WEB-INF/web.xml`). Vi kan derfor deploye vores app med Tomcat, og så er det Tomcat der sørger for at køre vores server.
 
-1. I øverste højre hjørne af IntellJ (lige til venstre for den grønne play-knap) er der en pil som åbner en dropdown, klik på denne
+1. I øverste højre hjørne af IntellJ (lige til venstre for den mørke play-knap) er der en pil som åbner en dropdown, klik på denne. 
 2. Tryk "Edit Configurations ..."
 3. Tryk "+" i øverste venstre hjørne af vinduet
 4. Find "Tomcat Server" på listen
@@ -60,3 +60,7 @@ Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til 
 9. Vælg "Artifact"
 10. Vælg "restfull-dis:war" og klik OK
 11. Klik OK så du gemmer og lukker konfigurationsvinduet
+
+Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
+
+Hvis din browser nu åbner på `http://localhost:8080/` og der står "Jersey RESTful Web Application!" med store bogstaver, så kører din server - tillykke!
