@@ -31,7 +31,7 @@ Da Installationsprocessen for Windows og Mac er forskellig, skal du her kun føl
 ... så er du færdig!
 
 ##### Windows
-1. Hent denne installer http://mirrors.dotsrc.org/apache/tomcat/tomcat-8/v8.5.20/bin/apache-tomcat-8.5.20.exe
+1. Hent denne installer http://mirrors.rackhosting.com/apache/tomcat/tomcat-8/v8.5.23/bin/apache-tomcat-8.5.23.exe
 2. Åbn .exe filen og følg installationsguiden
 3. Åben "Configure Tomcat" (kan findes ved at søge, eller ved at åbne "tomcat8w.exe" i jeres installations mappe), og hvis der står "Service Status: Started" så skal i trykke på Stop. 
 4. Du er færdig
