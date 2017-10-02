@@ -60,6 +60,7 @@ Vi skal nu prøve at starte serveren, og det først du måske ligger mærke til 
 8. Tryk på "+" nederste til venstre
 9. Vælg "Artifact"
 10. Vælg "restfull-dis:war exploded" og klik OK
+12. Sørg for at Application server er valgt til "Tomcat 8.5.xx". Hvis du er på Mac og får fejlen "Application Server not specified", så klik "Configure", klik "+" i venstre hjørne, og sæt `/usr/local/Cellar/tomcat/8.5.20/libexec` ind som Tomcat Home og tryk OK til alle vinduer er lukket.
 11. Klik OK så du gemmer og lukker konfigurationsvinduet
 
 Du bør nu se at "Play-knappen" er blevet grøn, og der ved siden af den står "Run server". Tryk på "Play-knappen" og lad Tomcat starte serveren op. Denne process kan godt tage lidt tid, og i din konsol bliver der printet en masse rød tekst - dette er ikke nødvendigvis pga. af fejl!
