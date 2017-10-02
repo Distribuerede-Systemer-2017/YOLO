@@ -11,7 +11,7 @@ Da Installationsprocessen for Windows og Mac er forskellig, skal du her kun føl
 
 ##### Mac
 1. Åbn Terminal
-2. Kør følgende (Installer Homebrew): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+2. Kør følgende (Installer Homebrew): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` - du bliver her bedt om at skrive dit password til computeren
 3. Når install er færdig så kør: `brew install tomcat`
 4. Når install er færdig så kør: `brew list tomcat`
 5. Hvis du får et output der ligner det her:
