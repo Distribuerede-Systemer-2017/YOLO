@@ -46,6 +46,6 @@ K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
 
 K7 : Klienten skal kunne markere færdige ordre (kantinepersonalet).
 
-
+Branch test
 
 
