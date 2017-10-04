@@ -15,7 +15,7 @@ S2 : Serveren skal kunne oprette, slette og opdatere en bruger.
 
 
 S3 : Serveren skal udstille et API, som gør det nemt at udarbejde klienter der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
-•	En elev skal kunne oprette sig som bruger
+•	En elev skal kunne oprette sig som bruger 
 o	Fulde navn som fremgår af studiekort, (studieID) og personlig password – kan scannes hvis nødvendigt
 •	En elev/kantinepersonale skal kunne logge ind/ud
 •	En elev skal kunne ændre brugeroplysninger (password)
@@ -46,3 +46,8 @@ K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
 
 K7 : Klienten skal kunne markere færdige ordre (kantinepersonalet).
 
+
+
+
+
+test
