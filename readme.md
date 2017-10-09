@@ -11,7 +11,6 @@ o	Godkendelse af identitet ikke nødvendigt (nice to have)
 
 
 S2 : Serveren skal kunne oprette, slette og opdatere en bruger. 
-•	I tilfælde af glemt password (sikkerhed)
 
 
 S3 : Serveren skal udstille et API, som gør det nemt at udarbejde klienter der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
@@ -25,12 +24,11 @@ o	En bruger skal kunne sammensætte egen brugerdefineret indkøbskurv (betaling 
 •	Kantinepersonalet skal kunne tilgå liste for bestillinger
 •	Kantinepersonalet skal kunne markere/(”alerte” eleven) når en ordre er klar til afhentning
 o	Eleven skal selv refreshe ordresiden og holde sig opdateret på når ordren er færdig (easy method).
-o	Eleven fremviser studiekort ved afhentning 
 
 KLIENT
 
 Kravspec. – Klienten:
-K1 : Klienten skal udstille et login-vindue for brugeren, samt give brugeren mulighed for at logge ud igen. 
+K1 : Klienten skal udstille et login for brugeren, samt give brugeren mulighed for at logge ud igen. 
 
 K2 : Klienten skal kunne oprette en elev
 
