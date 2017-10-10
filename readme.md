@@ -4,44 +4,28 @@ SERVER
 
 Kravspec. – Serveren:
 
-S1 : Server skal kunne validere login baseret på et hashet password.
-•	Genkendelse af bruger (log)
-o	Godkendelse af identitet ikke nødvendigt (nice to have)
-•	Sikkerhed for password
-
-
-S2 : Serveren skal kunne oprette, slette og opdatere en bruger. 
-
-
-S3 : Serveren skal udstille et API, som gør det nemt at udarbejde klienter der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
+S1 : Server skal kunne validere login baseret på et hashet password
+S2 : Server skal kunne adskille elev og kantinemedarbejde. 
+S3 : Serveren skal kunne oprette en bruger. 
+S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
 - En elev skal kunne oprette sig som bruger 
-- Fulde navn som fremgår af studiekort, (studieID) og personlig password
 - En elev/kantinepersonale skal kunne logge ind/ud
-- En elev skal kunne vælge CBS-afdeling for afhentning
+- En elev skal kunne vælge CBS Campus for afhentning
 - En elev skal kunne tilgå liste med priser og vareinformation baseret på afdeling
-- En bruger skal kunne sammensætte egen brugerdefineret indkøbskurv (betaling ved kasse 
+- En bruger skal kunne sammensætte varer i en indkøbskurv (betaling ved kasse) 
 - Kantinepersonalet skal kunne tilgå en liste med alle bestillinger
-- Kantinepersonalet skal kunne markere/(”alerte” eleven) når en ordre er klar til afhentning
-- Eleven skal selv refreshe ordresiden og holde sig opdateret på når ordren er færdig
+S5 : Serveren skal kunne logge alle transaktioner
 
 KLIENT
 
 Kravspec. – Klienten:
-K1 : Klienten skal udstille et login for brugeren, samt give brugeren mulighed for at logge ud igen. 
-
-K2 : Klienten skal kunne oprette en elev
-
-K3 : Klienten skal kunne ændre brugeroplysninger for den elev, der er logget ind.
-
-K4: Klienten skal kunne vise købsmuligheder ved forskellige afdelinger (elev)
-
-K4.1 : Klienten skal kunne tilgå vareinformation og priser (elev)
-
-K5: Klienten skal kunne sammensætte brugerdefineret indkøbskurv (elev)
-
-K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
-
-K7 : Klienten skal kunne markere færdige ordre (kantinepersonalet).
+K1 - Klienten skal udstille et login/logud
+K2 - Klienten skal kunne oprette en elev
+K3 - Klienten skal gøre det muligt at vælge CBS Campus til bestilling 
+K3 - Klienten skal udstille et menu med varer samt pris
+k4 - Klienten skal udstille en indkøbskurv med valgte varer
+K4 - Klienten skal kunne tilgå vareinformation og priser (elev)
+K6 - Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
 
 
 
