@@ -22,10 +22,10 @@ Kravspec. – Klienten:
 K1 : Klienten skal udstille et login/logud
 K2 : Klienten skal kunne oprette en elev
 K3 : Klienten skal gøre det muligt at vælge CBS Campus til bestilling 
-K3 : Klienten skal udstille et menu med varer samt pris
-k4 : Klienten skal udstille en indkøbskurv med valgte varer
-K4 : Klienten skal kunne tilgå vareinformation og priser (elev)
-K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
+K4 : Klienten skal udstille et menu med varer samt pris
+k5 : Klienten skal udstille en indkøbskurv med valgte varer
+K6 : Klienten skal kunne tilgå vareinformation og priser (elev)
+K7 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
 
 
 
