@@ -2,8 +2,8 @@
 
 SERVER
 
-S1 : Server skal kunne validere login baseret på et hashet password
-S2 : Server skal kunne adskille elev og kantinemedarbejde. 
+S1 : Server skal kunne validere login baseret på et hashet password.    
+S2 : Server skal kunne adskille elev og kantinemedarbejde.    
 S3 : Serveren skal kunne oprette en bruger. 
 S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
 - En elev skal kunne oprette sig som bruger 
@@ -23,7 +23,3 @@ K4 : Klienten skal udstille et menu med varer samt pris.
 K5 : Klienten skal udstille en indkøbskurv med valgte varer.     
 K6 : Klienten skal kunne tilgå vareinformation og priser (elev).     
 K7 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
-
-
-
-
