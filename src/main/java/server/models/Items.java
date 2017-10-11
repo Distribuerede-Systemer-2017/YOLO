@@ -1,5 +1,4 @@
 package server.models;
 
-
-public class User {
+public class Items {
 }
