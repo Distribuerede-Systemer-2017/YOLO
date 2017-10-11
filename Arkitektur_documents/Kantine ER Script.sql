@@ -8,18 +8,18 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema KantineAppDB
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `KantineAppDB` ;
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema KantineAppDB
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `KantineAppDB` DEFAULT CHARACTER SET utf8 ;
 USE `KantineAppDB` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`User`
+-- Table `KantineAppDB`.`User`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `KantineAppDB`.`User` ;
 
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Order`
+-- Table `KantineAppDB`.`Order`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `KantineAppDB`.`Order` ;
 
@@ -54,7 +54,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Personel`
+-- Table `KantineAppDB`.`Personel`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `KantineAppDB`.`Personel` ;
 
@@ -67,7 +67,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Items`
+-- Table `KantineAppDB`.`Items`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `KantineAppDB`.`Items` ;
 
@@ -81,7 +81,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Order_has_Items`
+-- Table `KantineAppDB`.`Order_has_Items`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `KantineAppDB`.`Order_has_Items` ;
 
