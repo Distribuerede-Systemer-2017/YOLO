@@ -11,6 +11,7 @@ S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet
 - En elev skal kunne tilgå liste med priser og vareinformation baseret på afdeling
 - En bruger skal kunne sammensætte varer i en indkøbskurv (betaling ved kasse) 
 - Kantinepersonalet skal kunne tilgå en liste med alle bestillinger
+
 S5 : Serveren skal kunne logge alle transaktioner
 
 KLIENT
