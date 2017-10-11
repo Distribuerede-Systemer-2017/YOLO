@@ -16,10 +16,12 @@ public class UserEndpoint {
 
     @GET
     public Response getUsers(){
+        //Laver vores ArrayList om til en Json streng
+        String usersAsJson = new Gson().toJson(users);
         return Response
                 .status(200)
                 .type("application/json")
-                .entity("[]")
+                .entity(usersAsJson)
                 .build();
     }
 
@@ -27,22 +29,22 @@ public class UserEndpoint {
     @Path("{id}")
     public Response getUserById(@PathParam("id") int id){
 
-        //Lidt hjælp
-        //
-        //UserTable userTable = UserTable.getInstance();
-        //User foundUser = userTable.findById(id);
-        //Husk at returnere som JSON
+        UserTable userTable = UserTable.getInstance();
+        User foundUser = userTable.findById(id); //Finds the user according to id
+        String foundUserToJson = new Gson().toJson(foundUser); //String to contain JSON
 
         return Response
                 .status(200)
                 .type("application/json")
-                .entity("{}")
+                .entity(foundUserToJson)
                 .build();
     }
 
     @POST
     public Response createUser(String jsonUser) {
+        User newUser = new Gson().fromJson(jsonUser, User.class); //De-serializes from JSON to an object of the User class
 
+        UserTable.getInstance().addUser(newUser); //Adds the object to the UserTable
 
         return Response
                 .status(200)
