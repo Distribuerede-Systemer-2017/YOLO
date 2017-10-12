@@ -9,7 +9,7 @@ S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet
 - En elev skal kunne oprette sig som bruger 
 - En elev/kantinepersonale skal kunne logge ind/ud
 - En elev skal kunne tilgå liste med priser og vareinformation baseret på afdeling
-- En bruger skal kunne sammensætte varer i en indkøbskurv (betaling ved kasse) 
+- En bruger skal kunne købe en vare
 - Kantinepersonalet skal kunne tilgå en liste med alle bestillinger
 
 S5 : Serveren skal kunne logge alle transaktioner
@@ -19,6 +19,6 @@ KLIENT
 K1 : Klienten skal udstille et login/logud.  
 K2 : Klienten skal kunne oprette en elev.      
 K3 : Klienten skal udstille et menu med varer samt pris.     
-K4 : Klienten skal udstille en indkøbskurv med valgte varer.     
+K4 : Klienten skal kunne tilade en bruger at købe en vare.     
 K5 : Klienten skal kunne tilgå vareinformation og priser (elev).     
 K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet).
