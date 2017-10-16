@@ -1,12 +1,12 @@
-# Team-YOLO
+# Team-YOLO - Kantine App
 
 SERVER
 
 S1 : Server skal kunne validere login baseret på et hashet password 
 
-S2 : Server skal kunne adskille elev og kantinemedarbejde   
+S2 : Server skal kunne adskille elev og kantinemedarbejde ved login   
 
-S3 : Serveren skal kunne oprette en bruger.   
+S3 : Serveren skal kunne oprette en bruger   
 
 S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet. API’et skal dække følgende funktionaliteter:
 - En elev skal kunne oprette sig som bruger 
