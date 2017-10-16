@@ -1,0 +1,36 @@
+Inddeling af roller til Hackathon
+
+Projektleder
+-	Lasse
+
+Logik (UserController)
+-	Tobias
+-	Martin
+
+Logik (StaffController)
+-	Aisha J
+
+Logik (MainController)
+-	Aisha K
+-	Anas
+
+Model (Items)
+-	Felix
+
+Model (User)
+-	Per Kristian
+
+Model (Order)
+-	Hanna
+
+Sikkerhed (Hashing mm.)
+-	Frederik
+-	Alexander
+
+Logging
+-	Malte
+-	Rasmus
+
+View (REST provider og endpoints)
+-	Lukas
+-	Muneeb
