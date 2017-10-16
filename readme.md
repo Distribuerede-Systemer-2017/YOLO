@@ -1,6 +1,8 @@
 # Team-YOLO - Kantine App
 
-SERVER
+## Kravspesifikation
+
+### Server
 
 S1 : Server skal kunne validere login baseret på et hashet password 
 
@@ -17,7 +19,7 @@ S4 : Serveren skal udstille et API, der kan trække på serverens funktionalitet
 
 S5 : Serveren skal kunne logge alle transaktioner
 
-KLIENT
+### Klient
 
 K1 : Klienten skal udstille et login/logud  
 
@@ -30,3 +32,13 @@ K4 : Klienten skal kunne tilade en bruger at købe en vare
 K5 : Klienten skal kunne tilgå vareinformation og priser (elev)
 
 K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet)
+
+## ER-diagram
+
+## Klassediagram
+
+## Flowchart
+
+## Sekvensdiagram
+
+## Use-cases
