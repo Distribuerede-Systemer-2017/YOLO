@@ -74,7 +74,6 @@ public class DBConnection {
                     item.setItemPrice(resultSet.getInt("price"));
 
                     items.add(item);
-
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
