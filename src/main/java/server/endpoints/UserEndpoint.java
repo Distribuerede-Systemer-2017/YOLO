@@ -2,9 +2,11 @@ package server.endpoints;
 
 import com.google.gson.Gson;
 import server.controllers.UserController;
+import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
+import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -18,6 +20,7 @@ public class UserEndpoint {
     private DBConnection dbCon = new DBConnection();
     private Digester dig = new Digester();
     private ArrayList<Item> items;
+    private UserController ucontroller = new UserController();
 
     @POST
     @Path("/createUser")
