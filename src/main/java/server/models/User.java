@@ -1,6 +1,7 @@
 package server.models;
 
 import java.util.ArrayList;
+import server.utility.Digester;
 
 /**
  * Created by PK on 17-10-2017
@@ -14,6 +15,7 @@ public class User {
     private String email;
     private boolean isPersonel;
     private ArrayList<User> users;
+    public Digester digester;
 
     public User(int userId, String username, String password, String email, boolean isPersonel) {
         this.userId = userId;
@@ -22,6 +24,8 @@ public class User {
         this.email = email;
         this.isPersonel = isPersonel;
         this.users = new ArrayList<User>();
+        this.digester = new Digester();
+
     }
 
     public User() {
@@ -49,7 +53,9 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+
+        //Kalder metoden hashWithSalt fra Digester klassen, saa passwordet kan hashes
+        this.password = digester.hashWithSalt(password);
     }
 
     public String getEmail() {
@@ -65,7 +71,7 @@ public class User {
     }
 
     public void setPersonel(boolean isPersonel) {
-        isPersonel = isPersonel;
+        this.isPersonel = isPersonel;
     }
 
     public ArrayList<User> getUsers() {
