@@ -96,6 +96,7 @@ public class DBConnection {
 
             resultSet = getOrders.executeQuery();
 
+            //????
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
