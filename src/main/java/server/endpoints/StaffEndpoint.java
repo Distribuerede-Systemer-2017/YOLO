@@ -16,6 +16,7 @@ public class StaffEndpoint {
     DBConnection dbCon = new DBConnection();
     ArrayList<Order> orders = dbCon.getOrders();
     String ordersAsJson = new Gson().toJson(orders);
+    String isReadyFeedback = "This order is now ready";
 
     @PUT
     @Path("{orderId}")
@@ -23,7 +24,7 @@ public class StaffEndpoint {
         return Response
                 .status(200)
                 .type("application/json")
-                .entity()
+                .entity(isReadyFeedback)
                 .build();
     }
 
