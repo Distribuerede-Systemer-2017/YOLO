@@ -14,8 +14,10 @@ import java.util.ArrayList;
 
 @Path("/user")
 public class UserEndpoint {
-    UserController ucontroller = new UserController();
-    ArrayList<Item> items;
+
+    private DBConnection dbCon = new DBConnection();
+    private Digester dig = new Digester();
+    private ArrayList<Item> items;
 
     @POST
     @Path("/createUser")
