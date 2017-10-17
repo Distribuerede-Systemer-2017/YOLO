@@ -7,21 +7,19 @@ import server.models.Order;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import server.controllers.StaffController;
+
+/**
+ * Created by Felix on 17-10-2017
+ */
 
 public class StaffEndpoint {
     DBConnection dbCon = new DBConnection();
     ArrayList<Order> orders = dbCon.getOrders();
     String ordersAsJson = new Gson().toJson(orders);
 
-    StaffController staffController = new StaffController();
-
     @PUT
-    @Path("{id}")
-    public Response isReady(@PathParam("id") boolean isReady) {
-
-
-
+    @Path("{orderId}")
+    public Response isReady(@PathParam("orderId") int orderId) {
         return Response
                 .status(200)
                 .type("application/json")

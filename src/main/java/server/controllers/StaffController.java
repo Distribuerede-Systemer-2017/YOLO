@@ -15,8 +15,8 @@ public class StaffController {
         return StaffEndpoint.getOrders();
     }
 
-    public void changeOrderStatus(boolean isReady) {
-
+    public void changeOrderStatus(int id) {
+        StaffEndpoint.isReady(id);
     }
 
     public void logout(int id){
