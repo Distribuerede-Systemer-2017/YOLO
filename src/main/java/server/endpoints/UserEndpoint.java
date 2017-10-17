@@ -15,12 +15,7 @@ import java.util.ArrayList;
 
 public class UserEndpoint {
     DBConnection dbCon = new DBConnection();
-    ArrayList<User> users = dbCon.getUsers();
-    String usersAsJson = new Gson().toJson(users);
-    ArrayList<Item> items = dbCon.getItems();
-    String itemsAsJson = new Gson().toJson(items);
-    ArrayList<Order> orders = dbCon.getOrders();
-    String ordersAsJson = new Gson().toJson(orders);
+    ArrayList<Item> items;
 
     @POST
     public Response createUser(String jsonUser){
@@ -65,6 +60,10 @@ public class UserEndpoint {
 
     @GET
     public Response getItems(){
+
+        this.items = dbCon.getItems();
+        String itemsAsJson = new Gson().toJson(items);
+
         return Response
                 .status(200)
                 .type("application/json")
