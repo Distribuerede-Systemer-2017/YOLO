@@ -11,14 +11,14 @@ public class Order {
 
     private int orderId;
     private DateTimeAtCreation orderTime;
-    private boolean status;  //Skal det gjøres noe med denne?
+    private boolean isReady;  //Skal det gjøres noe med denne?
     private int User_userId;
     private ArrayList<Order> orders;
 
-    public Order (int orderId, DateTimeAtCreation orderTime, boolean status, int User_userId){
+    public Order (int orderId, DateTimeAtCreation orderTime, boolean isReady, int User_userId){
         this.orderId = orderId;
         this.orderTime = orderTime;
-        this.status = status;
+        this.isReady = isReady;
         this.User_userId = User_userId;
 
         this.orders = new ArrayList<Order>();
@@ -40,12 +40,12 @@ public class Order {
     public void setOrderTime(DateTimeAtCreation orderTime) {
         this.orderTime = orderTime;
     }
-    public boolean status() {
-        return status;
+    public boolean isReady() {
+        return isReady;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setisReady(boolean isReady) {
+        this.isReady = isReady;
     }
 
     public int getUser_userId() {
