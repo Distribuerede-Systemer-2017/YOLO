@@ -1,11 +1,10 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
-import server.database.DBConnection;
+import server.controllers.UserController;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
-import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -13,17 +12,20 @@ import java.util.ArrayList;
 
 //Created by Tobias & Martin 17-10-2017 Gruppe YOLO
 
+@Path("/user")
 public class UserEndpoint {
+
     private DBConnection dbCon = new DBConnection();
     private Digester dig = new Digester();
     private ArrayList<Item> items;
 
     @POST
+    @Path("/createUser")
     public Response createUser(String jsonUser){
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
-            boolean result = dbCon.addUser(userCreated);
+            boolean result = ucontroller.addUser(userCreated);
             status = 200;
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
@@ -41,11 +43,11 @@ public class UserEndpoint {
     }
 
     @POST
-    public Response createOrder(String jsonUser, String jsonOrder){
-        User currentUser = new Gson().fromJson(jsonUser, User.class);
+    @Path("/createOrder")
+    public Response createOrder(String jsonOrder){
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-        boolean result = dbCon.addOrder(currentUser, orderCreated.getItems());
+        boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
         if (result) {
             status = 200;
         } else if (!result){
@@ -67,7 +69,7 @@ public class UserEndpoint {
 
         int status = 500;
         ArrayList<Order> foundOrders;
-        foundOrders = dbCon.findOrderById(id);
+        foundOrders = ucontroller.getOrdersById(id);
 
         if (!(foundOrders == null)){
             status = 200;
@@ -86,9 +88,10 @@ public class UserEndpoint {
     }
 
     @GET
+    @Path("/getItems")
     public Response getItems(){
         int status = 500;
-        this.items = dbCon.getItems();
+        this.items = ucontroller.getItems();
 
         if(!(items == null)){
             status = 200;
@@ -104,19 +107,17 @@ public class UserEndpoint {
                 .build();
     }
 
-    @GET
-    @Path("{username}/{password}")
-
-    public Response authorizeUser(@PathParam("username") String username, @PathParam("password") String password) {
-
-        String hashedPassword = dig.hashWithSalt(password);
-        User user = dbCon.authorizeUser(username, hashedPassword);
-        String userAsJson = new Gson().toJson(user, User.class);
+    @POST
+    @Path("/login")
+    public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
+        User user = new Gson().fromJson(userAsJson, User.class);
+        User userCheck = ucontroller.authorizeUser(user);
+        String userAsJson2 = new Gson().toJson(userCheck, User.class);
 
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(userAsJson)
+                .entity(userAsJson2)
                 .build();
     }
 
