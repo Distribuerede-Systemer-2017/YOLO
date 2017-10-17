@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 public final class Config {
 
     private static String DATABASE_HOST;
-    private static String DATABASE_PORT;
+    private static Integer DATABASE_PORT;
     private static String DATABASE_NAME;
     private static String DATABASE_USER;
     private static String DATABASE_PASSWORD;
@@ -52,13 +52,13 @@ public final class Config {
         /**
          * Json objects are stored in Java variables
          */
-
-        DATABASE_HOST = json.get("DATABASE_HOST").toString();
-        DATABASE_PORT = json.get("DATABASE_PORT").toString();
-        DATABASE_NAME = json.get("DATABASE_NAME").toString();
-        DATABASE_USER = json.get("DATABASE_USER").toString();
-        DATABASE_PASSWORD = json.get("DATABASE_PASSWORD").toString();
-        SALT = json.get("SALT").toString();
+        //.replace("\"", "") betyder at vi tager " (gåseøjne) og erstatter dem med ingenting. For at fjerne dem
+        DATABASE_HOST = json.get("DATABASE_HOST").toString().replace("\"", "");
+        DATABASE_PORT = Integer.parseInt(json.get("DATABASE_PORT").toString());
+        DATABASE_NAME = json.get("DATABASE_NAME").toString().replace("\"", "");
+        DATABASE_USER = json.get("DATABASE_USER").toString().replace("\"", "");
+        DATABASE_PASSWORD = json.get("DATABASE_PASSWORD").toString().replace("\"", "");
+        SALT = json.get("SALT").toString().replace("\"", "");
 
         return json;
 
@@ -69,7 +69,7 @@ public final class Config {
 
     }
 
-    public static String getDatabasePort() {
+    public static Integer getDatabasePort() {
         return DATABASE_PORT;
 
     }

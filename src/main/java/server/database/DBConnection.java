@@ -32,11 +32,24 @@ public class DBConnection {
         }
 
         try {
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
             connection = DriverManager.getConnection(("jdbc:mysql://" + config.getDatabaseHost() + ":"
                             + config.getDatabasePort() + "/" + config.getDatabaseName()),
                     config.getDatabaseUser(), config.getDatabasePassword());
 
         } catch (SQLException e) {
+            System.out.println(config.getDatabaseHost());
+            System.out.println(config.getDatabaseName());
+            System.out.println(config.getDatabasePort());
             e.printStackTrace();
         }
 
@@ -54,7 +67,7 @@ public class DBConnection {
 
     public boolean addUser(User user) {
         try {
-            PreparedStatement addUser = connection.prepareStatement("INSERT into users (username, password, email) VALUES (?, ?, ?)");
+            PreparedStatement addUser = connection.prepareStatement("INSERT into Users (username, password, email) VALUES (?, ?, ?)");
 
             addUser.setString(1, user.getUsername());
             addUser.setString(2, user.getPassword());
@@ -112,15 +125,15 @@ public class DBConnection {
             ArrayList<Item> items = new ArrayList<>();
 
             try {
-                PreparedStatement getItems = connection.prepareStatement("SELECT * FROM items");
+                PreparedStatement getItems = connection.prepareStatement("SELECT * FROM Items");
                 resultSet = getItems.executeQuery();
 
                 while (resultSet.next()) {
                     Item item = new Item();
-                    item.setItemId(resultSet.getInt("id"));
-                    item.setItemName(resultSet.getString("name"));
-                    item.setItemDescription(resultSet.getString("description"));
-                    item.setItemPrice(resultSet.getInt("price"));
+                    item.setItemId(resultSet.getInt("item_id"));
+                    item.setItemName(resultSet.getString("itemName"));
+                    item.setItemDescription(resultSet.getString("itemDescription"));
+                    item.setItemPrice(resultSet.getInt("itemPrice"));
 
                     items.add(item);
                 }
@@ -142,7 +155,7 @@ public class DBConnection {
         ArrayList<Order> orders = null;
 
         try{
-            PreparedStatement findOrderById = connection.prepareStatement("SELECT * FROM orders WHERE user_userid = ?");
+            PreparedStatement findOrderById = connection.prepareStatement("SELECT * FROM Orders WHERE user_userid = ?");
             findOrderById.setInt(1, userId);
 
             resultset = findOrderById.executeQuery();
@@ -164,7 +177,7 @@ public class DBConnection {
     public boolean addOrder(User user, ArrayList<Item> items){
 
         try{
-            PreparedStatement addOrder = connection.prepareStatement("INSERT into orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             addOrder.setInt(1, user.getUserId());
             addOrder.executeUpdate();
             ResultSet rs = addOrder.getGeneratedKeys();
@@ -192,7 +205,7 @@ public class DBConnection {
         User user = null;
 
         try {
-            PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ?");
+            PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
 
             authorizeUser.setString(1, username);
             authorizeUser.setString(2, password);
