@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class StaffEndpoint {
     DBConnection dbCon = new DBConnection();
-    ArrayList<Order> orders = dbCon.getOrders();
-    String ordersAsJson = new Gson().toJson(orders);
     String isReadyFeedback = "This order is now ready";
 
     @PUT
@@ -30,6 +28,8 @@ public class StaffEndpoint {
 
     @GET
     public Response getOrders() {
+
+        String ordersAsJson = new Gson().toJson(dbCon.getOrders());
         return Response
                 .status(200)
                 .type("application/json")
