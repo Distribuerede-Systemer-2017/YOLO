@@ -68,11 +68,10 @@ public class DBConnection {
 
     public boolean addUser(User user) {
         try {
-            PreparedStatement addUser = connection.prepareStatement("INSERT into Users (username, password, email) VALUES (?, ?, ?)");
+            PreparedStatement addUser = connection.prepareStatement("INSERT into Users (username, password) VALUES (?, ?)");
 
             addUser.setString(1, user.getUsername());
             addUser.setString(2, user.getPassword());
-            addUser.setString(3, user.getEmail());
 
             int rowsAffected = addUser.executeUpdate();
             if (rowsAffected == 1) {
@@ -202,28 +201,34 @@ public class DBConnection {
         return false;
     }
 
-    public User authorizeUser(User user){
+    public User authorizeUser(User controlUser){
         ResultSet resultSet = null;
+        User newUser = null;
         try {
             PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
 
-            authorizeUser.setString(1, user.getUsername());
-            authorizeUser.setString(2, user.getPassword());
+            authorizeUser.setString(1, controlUser.getUsername());
+            authorizeUser.setString(2, controlUser.getPassword());
 
             resultSet = authorizeUser.executeQuery();
 
             while (resultSet.next()) {
-                user = new User();
-                user.setUserId(resultSet.getInt("userId"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPersonel(resultSet.getBoolean("isPersonel"));
+                newUser = new User();
+                newUser.setUserId(resultSet.getInt("user_id"));
+                newUser.setUsername(resultSet.getString("username"));
+                newUser.setPassword(resultSet.getString("password"));
+                newUser.setPersonel(resultSet.getBoolean("isPersonel"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try{
+                resultSet.close();
+            } catch (SQLException se){
+                se.printStackTrace();
+            }
         }
-        return user;
+        return newUser;
     }
 
     public boolean makeReady(int orderId){

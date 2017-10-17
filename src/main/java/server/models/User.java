@@ -9,19 +9,17 @@ import server.utility.Digester;
 
 public class User {
 
-    private int userId;
+    private int user_id;
     private String username;
     private String password;
-    private String email;
     private boolean isPersonel;
     private ArrayList<User> users;
     private Digester digester;
 
-    public User(int userId, String username, String password, String email, boolean isPersonel) {
-        this.userId = userId;
+    public User(int userId, String username, String password, boolean isPersonel) {
+        this.user_id = userId;
         this.username = username;
         this.password = password;
-        this.email = email;
         this.isPersonel = isPersonel;
         this.users = new ArrayList<User>();
         this.digester = new Digester();
@@ -33,11 +31,11 @@ public class User {
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public String getUsername() {
@@ -53,16 +51,9 @@ public class User {
     }
 
     public void setPassword(String password){
-        this.password = digester.hashWithSalt(password);
+        this.password = password; //skal ifølge Andy hashes her(han fikk vite det av Tidemann), DB authorizeUser fungerer ikke med det.
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public boolean isPersonel() {
         return isPersonel;
@@ -72,12 +63,6 @@ public class User {
         isPersonel = personel;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
-    }
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-    }
 }
 
