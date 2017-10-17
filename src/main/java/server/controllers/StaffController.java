@@ -19,7 +19,7 @@ public class StaffController {
         StaffEndpoint.isReady(id);
     }
 
-    public void logout(int id){
-        mainController.logout(id);
+    public void logout(){
+        mainController.logout();
     }
 }
