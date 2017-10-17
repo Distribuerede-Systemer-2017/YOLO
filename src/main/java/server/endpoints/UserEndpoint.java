@@ -5,6 +5,7 @@ import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
+import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class UserEndpoint {
     DBConnection dbCon = new DBConnection();
+    Digester dig = new Digester();
     ArrayList<Item> items;
 
     @POST
@@ -39,10 +41,11 @@ public class UserEndpoint {
     }
 
     @POST
-    public Response createOrder(String jsonOrder){
+    public Response createOrder(String jsonUser, String jsonOrder){
+        User currentUser = new Gson().fromJson(jsonUser, User.class);
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-        boolean result = dbCon.addOrder(orderCreated);
+        boolean result = dbCon.addOrder(currentUser, orderCreated.getItems());
         if (result) {
             status = 200;
         } else if (!result){
@@ -63,22 +66,22 @@ public class UserEndpoint {
     public Response getOrdersById(@PathParam("id") int id){
 
         int status = 500;
-        Order foundOrder;
-        foundOrder = dbCon.findOrderById(id);
+        ArrayList<Order> foundOrders;
+        foundOrders = dbCon.findOrderById(id);
 
-        if (!(foundOrder == null)){
+        if (!(foundOrders == null)){
             status = 200;
         }
-        else if (foundOrder == null){
+        else if (foundOrders == null){
             status = 500;
         }
 
-        String orderAsJson = new Gson().toJson(foundOrder, Order.class);
+        String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
 
         return Response
                 .status(status)
                 .type("application/json")
-                .entity(orderAsJson)
+                .entity(ordersAsJson)
                 .build();
     }
 
@@ -106,7 +109,8 @@ public class UserEndpoint {
 
     public Response authorizeUser(@PathParam("username") String username, @PathParam("password") String password) {
 
-        User user = dbCon.authorizeUser(username, password);
+        String hashedPassword = dig.hashWithSalt(password);
+        User user = dbCon.authorizeUser(username, hashedPassword);
         String userAsJson = new Gson().toJson(user, User.class);
 
         return Response
