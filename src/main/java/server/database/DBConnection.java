@@ -1,11 +1,9 @@
 package server.database;
 
+import server.models.Order;
 import server.models.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Class responsible for establishing connection between the database and the server
@@ -54,5 +52,14 @@ public class DBConnection {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean addOrder(Order order, User user) throws Exception{
+        try{
+            PreparedStatement addOrder = connection.prepareStatement("INSERT into orders (orderTime, userId) VALUES (?, ?)");
+            Date date = order.getOrderTime();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
