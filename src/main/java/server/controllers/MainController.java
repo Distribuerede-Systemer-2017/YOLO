@@ -1,5 +1,8 @@
 package server.controllers;
 
+import server.endpoints.RootEndpoint;
+import server.endpoints.StaffEndpoint;
+import server.endpoints.UserEndpoint;
 import server.models.User;
 
 import java.security.MessageDigest;
@@ -11,15 +14,28 @@ import java.util.ArrayList;
 public class MainController {
 
     private User currentUser;
+    private StaffController staffController;
+    private UserController userController;
+    private UserEndpoint userEndpoint;
+    private StaffEndpoint staffEndpoint;
+    private RootEndpoint rootEndpoint;
 
-    public MainController(User currentUser) {
-        this.currentUser = currentUser;
+
+    public MainController() {
+        currentUser = null;
+        staffController = new StaffController();
+        userController = new UserController();
+        userEndpoint = new UserEndpoint();
+        staffEndpoint = new StaffEndpoint();
+        rootEndpoint = new RootEndpoint();
+        
     }
 
 
-    public void Login(String username, String password) {
+    public void login(String username, String password) {
 
-        //kald DBConnection metode (find objekt ud fra username og password)
+        //Klienten rammer userendpoint
+
 
         //tjek om objekt = is personel eller ej
 
