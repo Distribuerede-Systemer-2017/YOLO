@@ -14,15 +14,17 @@ import java.util.ArrayList;
 
 public class StaffEndpoint {
     DBConnection dbCon = new DBConnection();
-    String isReadyFeedback = "This order is now ready";
 
     @PUT
     @Path("{orderId}")
     public Response isReady(@PathParam("orderId") int orderId) {
+
+        dbCon.makeReady(orderId);
+
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(isReadyFeedback)
+                .entity("{\"orderUpdated\":\"true\"}")
                 .build();
     }
 
