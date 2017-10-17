@@ -6,11 +6,6 @@ import server.endpoints.StaffEndpoint;
 import server.endpoints.UserEndpoint;
 import server.models.User;
 
-import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainController {
 
@@ -49,9 +44,14 @@ public class MainController {
             //Findes ikke
         } else if(!currentUser.isPersonel()) {
             //Log-in as user
+            userController.setCurrentUser(user);
         } else {
             //Log-in as staff
         }
+
+    }
+
+    public void logout(){
 
     }
 

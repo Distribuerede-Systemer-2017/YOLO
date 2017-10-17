@@ -1,6 +1,7 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.controllers.UserController;
 import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
@@ -9,13 +10,14 @@ import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.ArrayList;
 
 //Created by Tobias & Martin 17-10-2017 Gruppe YOLO
 
 @Path("/user")
 public class UserEndpoint {
+    User currentUser;
+    UserController ucontroller = new UserController();
     DBConnection dbCon = new DBConnection();
     Digester dig = new Digester();
     ArrayList<Item> items;
@@ -26,7 +28,7 @@ public class UserEndpoint {
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
-            boolean result = dbCon.addUser(userCreated);
+            boolean result = ucontroller.addUser(userCreated);
             status = 200;
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
@@ -48,7 +50,7 @@ public class UserEndpoint {
     public Response createOrder(@PathParam("jsonOrder") String jsonOrder){
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-        boolean result = dbCon.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+        boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
         if (result) {
             status = 200;
         } else if (!result){
@@ -70,7 +72,7 @@ public class UserEndpoint {
 
         int status = 500;
         ArrayList<Order> foundOrders;
-        foundOrders = dbCon.findOrderById(id);
+        foundOrders = ucontroller.getOrdersById(id);
 
         if (!(foundOrders == null)){
             status = 200;
@@ -91,7 +93,7 @@ public class UserEndpoint {
     @GET
     public Response getItems(){
         int status = 500;
-        this.items = dbCon.getItems();
+        this.items = ucontroller.getItems();
 
         if(!(items == null)){
             status = 200;
@@ -111,9 +113,7 @@ public class UserEndpoint {
     @Path("{userAsJson}")
     public Response authorizeUser(@PathParam("userAsJson") String userAsJson) {
         User user = new Gson().fromJson(userAsJson, User.class);
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
-        user.setPassword(hashedPassword);
-        User userCheck = dbCon.authorizeUser(user);
+        User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
 
         return Response
