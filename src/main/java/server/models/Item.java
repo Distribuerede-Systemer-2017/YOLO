@@ -23,6 +23,10 @@ public class Item {
         this.items = new ArrayList<Item>();
     }
 
+    public Item () {
+
+    }
+
     public int getItemId() {
         return itemId;
     }
