@@ -13,7 +13,7 @@ public class Order {
     private Timestamp orderTime;
     private boolean isReady;
     private int User_userId;
-    private ArrayList<Order> orders;
+    private ArrayList<Item> orders;
 
     public Order(){
 
@@ -25,7 +25,7 @@ public class Order {
         this.isReady = isReady;
         this.User_userId = User_userId;
 
-        this.orders = new ArrayList<Order>();
+        this.orders = new ArrayList<Item>();
 
     }
 
@@ -61,7 +61,7 @@ public class Order {
         User_userId = user_userId;
     }
 
-    public ArrayList<Order> getOrders() {
+    public ArrayList<Item> getOrders() {
         return orders;
     }
 

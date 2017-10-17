@@ -88,4 +88,27 @@ public class DBConnection {
             return items;
         }
 
+    public ArrayList<Order> findOrderById(int userId) throws Exception{
+        ResultSet resultset = null;
+        ArrayList<Order> orders = null;
+
+        try{
+            PreparedStatement findOrderById = connection.prepareStatement("SELECT * FROM orders WHERE user_userid = ?");
+            findOrderById.setInt(1, userId);
+
+            resultset = findOrderById.executeQuery();
+            while(resultset.next()){
+                Order order = new Order();
+                order.setOrderId(resultset.getInt("order_id"));
+                order.setOrderTime(resultset.getTimestamp("orderTime"));
+                if(resultset.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                order.setUser_userId(resultset.getInt("user_userid"));
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
 }
