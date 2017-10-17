@@ -37,8 +37,12 @@ public class MainController {
 
     public void login(String username, String password) {
 
+        User user = new User();
+
+        user.setUsername(username);
+        user.setPassword(password);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
-        currentUser = dbConnection.authorizeUser(username, password);
+        currentUser = dbConnection.authorizeUser(user);
 
 
         if(currentUser == null) {

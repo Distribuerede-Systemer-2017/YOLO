@@ -226,4 +226,20 @@ public class DBConnection {
         }
         return user;
     }
+
+    public boolean makeReady(int orderId){
+        try{
+            PreparedStatement makeReady = connection.prepareStatement("UPDATE order SET isReady = 1 WHERE orderID = ?");
+            makeReady.setInt(1, orderId);
+            int rowsAffected = makeReady.executeUpdate();
+
+            if(rowsAffected == 1){
+                return true;
+            }
+
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
