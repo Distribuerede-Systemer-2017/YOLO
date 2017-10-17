@@ -38,12 +38,12 @@ public class MainController {
     public void login(String username, String password) {
 
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
-        currentUser = dbConnection.getUser(username, password);
+        currentUser = dbConnection.authorizeUser(username, password);
 
 
         if(currentUser == null) {
             //Findes ikke
-        } else if(currentUser.isPersonel() == 0) {
+        } else if(!currentUser.isPersonel()) {
             //Log-in as user
         } else {
             //Log-in as staff

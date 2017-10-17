@@ -9,7 +9,7 @@ import java.io.FileReader;
  * Created by AR, FE, LH on 17-10-2017
  */
 
-public class Config {
+public final class Config {
 
     private static String DATABASE_HOST;
     private static String DATABASE_PORT;
@@ -18,7 +18,7 @@ public class Config {
     private static String DATABASE_PASSWORD;
     private static String SALT;
 
-    public static JsonObject initConfig() {
+    public JsonObject initConfig() {
 
         JsonObject json = new JsonObject();
 

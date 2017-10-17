@@ -22,10 +22,14 @@ public class DBConnection {
      * Gets variables from config file
      */
     public DBConnection() {
+
+        Config config= new Config();
+        config.initConfig();
+
         try {
-            connection = DriverManager.getConnection(("jdbc:mysql://" + Config.getDatabaseHost() + ":"
-                            + Config.getDatabasePort() + "/" + Config.getDatabaseName()),
-                    Config.getDatabaseUser(), Config.getDatabasePassword());
+            connection = DriverManager.getConnection(("jdbc:mysql://" + config.getDatabaseHost() + ":"
+                            + config.getDatabasePort() + "/" + config.getDatabaseName()),
+                    config.getDatabaseUser(), config.getDatabasePassword());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +47,7 @@ public class DBConnection {
 
     //Begin SQL statements
 
-    public boolean addUser(User user) throws Exception {
+    public boolean addUser(User user) {
         try {
             PreparedStatement addUser = connection.prepareStatement("INSERT into users (username, password, email) VALUES (?, ?, ?)");
 
@@ -128,7 +132,7 @@ public class DBConnection {
             return items;
         }
 
-    public ArrayList<Order> findOrderById(int userId) throws Exception{
+    public ArrayList<Order> findOrderById(int userId) {
         ResultSet resultset = null;
         ArrayList<Order> orders = null;
 
@@ -152,7 +156,7 @@ public class DBConnection {
         return orders;
     }
 
-    public boolean addOrder(User user, ArrayList<Item> items) throws Exception{
+    public boolean addOrder(User user, ArrayList<Item> items){
 
         try{
             PreparedStatement addOrder = connection.prepareStatement("INSERT into orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
@@ -178,7 +182,7 @@ public class DBConnection {
         return false;
     }
 
-    public User authorizeUser(String username, String password) throws Exception {
+    public User authorizeUser(String username, String password){
         ResultSet resultSet = null;
         User user = null;
 

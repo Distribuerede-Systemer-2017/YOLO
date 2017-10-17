@@ -13,12 +13,14 @@ import java.util.ArrayList;
 
 //Created by Tobias & Martin 17-10-2017 Gruppe YOLO
 
+@Path("/user")
 public class UserEndpoint {
     DBConnection dbCon = new DBConnection();
     Digester dig = new Digester();
     ArrayList<Item> items;
 
     @POST
+    @Path("{jsonUser}")
     public Response createUser(String jsonUser){
         int status = 0;
         try {
@@ -41,7 +43,8 @@ public class UserEndpoint {
     }
 
     @POST
-    public Response createOrder(String jsonUser, String jsonOrder){
+    @Path("{jsonUser}/{jsonOrder}")
+    public Response createOrder(@PathParam("jsonUser") String jsonUser, @PathParam("jsonOrder") String jsonOrder){
         User currentUser = new Gson().fromJson(jsonUser, User.class);
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
@@ -106,7 +109,6 @@ public class UserEndpoint {
 
     @GET
     @Path("{username}/{password}")
-
     public Response authorizeUser(@PathParam("username") String username, @PathParam("password") String password) {
 
         String hashedPassword = dig.hashWithSalt(password);
