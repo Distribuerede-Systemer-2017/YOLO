@@ -15,7 +15,7 @@ public class User {
     private String email;
     private boolean isPersonel;
     private ArrayList<User> users;
-    public Digester digester;
+    private Digester digester;
 
     public User(int userId, String username, String password, String email, boolean isPersonel) {
         this.userId = userId;
