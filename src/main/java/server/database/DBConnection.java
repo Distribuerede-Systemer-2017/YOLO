@@ -176,11 +176,11 @@ public class DBConnection {
         return orders;
     }
 
-    public boolean addOrder(User user, ArrayList<Item> items){
+    public boolean addOrder(int userId, ArrayList<Item> items){
 
         try{
             PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-            addOrder.setInt(1, user.getUserId());
+            addOrder.setInt(1, userId);
             addOrder.executeUpdate();
             ResultSet rs = addOrder.getGeneratedKeys();
             rs.next();
