@@ -1,27 +1,26 @@
 package server.utility;
 
 import java.security.MessageDigest;
+import server.config.Config;
+
+
+/**
+ * Created by AR, FE, LH on 17-10-2017
+ */
 
 public class Digester {
 
-    //Klassens atributter
     private String salt;
     private static MessageDigest digester;
 
     static {
-        //try-catch: Så programmet ikke fejler
+        //try-catch: ensures that the program does not fail
         try {
-            //MD5 = Hashing algoritme
+            //SHA-256 = Hashing algorithm
             digester = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setSalt(String salt) {
-        //Her defineres String salt til at være lig salt
-        this.salt = salt;
-
     }
 
     /**
@@ -32,8 +31,8 @@ public class Digester {
 
     public String hashWithSalt (String string){
 
-        salt = "8a24afeac710ca2ae8601e877b84bc201e7e6762698d5f305f61035c24e1ecd4";
-        return Digester.performHashing(string+salt);
+        salt = Config.getSalt();
+        return Digester.performHashing(string + salt);
 
     }
 
