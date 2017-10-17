@@ -2,11 +2,9 @@ package server.endpoints;
 
 import com.google.gson.Gson;
 import server.controllers.UserController;
-import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
-import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -16,14 +14,11 @@ import java.util.ArrayList;
 
 @Path("/user")
 public class UserEndpoint {
-    User currentUser;
     UserController ucontroller = new UserController();
-    DBConnection dbCon = new DBConnection();
-    Digester dig = new Digester();
     ArrayList<Item> items;
 
     @POST
-    @Path("{jsonUser}")
+    @Path("/createUser")
     public Response createUser(String jsonUser){
         int status = 0;
         try {
@@ -46,8 +41,8 @@ public class UserEndpoint {
     }
 
     @POST
-    @Path("{jsonOrder}")
-    public Response createOrder(@PathParam("jsonOrder") String jsonOrder){
+    @Path("/createOrder")
+    public Response createOrder(String jsonOrder){
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
@@ -91,6 +86,7 @@ public class UserEndpoint {
     }
 
     @GET
+    @Path("/getItems")
     public Response getItems(){
         int status = 500;
         this.items = ucontroller.getItems();
@@ -109,9 +105,9 @@ public class UserEndpoint {
                 .build();
     }
 
-    @GET
-    @Path("{userAsJson}")
-    public Response authorizeUser(@PathParam("userAsJson") String userAsJson) {
+    @POST
+    @Path("/login")
+    public Response authorizeUser(String userAsJson) {
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);

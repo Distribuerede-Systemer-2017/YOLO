@@ -13,7 +13,6 @@ public class UserController {
 
     public UserController (){
         this.currentUser = currentUser;
-        this.mainController = new MainController();
         this.dbConnection = new DBConnection();
         this.dig = new Digester();
     }
