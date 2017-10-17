@@ -1,28 +1,27 @@
 package server.models;
 
 import java.util.ArrayList;
-import server.utility.Digester;
 
+/**
+ * Created by PK on 17-10-2017
+ */
 
 public class User {
 
-    private int userid;
+    private int userId;
     private String username;
     private String password;
     private String email;
     private boolean isPersonel;
     private ArrayList<User> users;
-    public Digester digester;
 
-    public User(int userid, String username, String password, String email, boolean isPersonel) {
-        this.userid = userid;
+    public User(int userId, String username, String password, String email, boolean isPersonel) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.isPersonel = isPersonel;
         this.users = new ArrayList<User>();
-        this.digester = new Digester();
-
     }
 
     public User() {
@@ -30,11 +29,11 @@ public class User {
     }
 
     public int getUserid() {
-        return userid;
+        return userId;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUserid(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -50,9 +49,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-
-        //Kalder metoden hashWithSalt fra Digester klassen, saa passwordet kan hashes
-        this.password = digester.hashWithSalt(password);
+        this.password = password;
     }
 
     public String getEmail() {
@@ -67,8 +64,8 @@ public class User {
         return isPersonel;
     }
 
-    public void setPersonel(boolean personel) {
-        isPersonel = personel;
+    public void setPersonel(boolean isPersonel) {
+        isPersonel = isPersonel;
     }
 
     public ArrayList<User> getUsers() {
