@@ -44,12 +44,11 @@ public class UserEndpoint {
     }
 
     @POST
-    @Path("{jsonUser}/{jsonOrder}")
-    public Response createOrder(@PathParam("jsonUser") String jsonUser, @PathParam("jsonOrder") String jsonOrder){
-        User currentUser = new Gson().fromJson(jsonUser, User.class);
+    @Path("{jsonOrder}")
+    public Response createOrder(@PathParam("jsonOrder") String jsonOrder){
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-        boolean result = dbCon.addOrder(currentUser, orderCreated.getItems());
+        boolean result = dbCon.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
         if (result) {
             status = 200;
         } else if (!result){
