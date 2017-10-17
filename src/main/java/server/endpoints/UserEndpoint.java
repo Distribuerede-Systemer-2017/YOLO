@@ -72,7 +72,7 @@ public class UserEndpoint {
     }
 
     @GET
-    @Path("{id}/{username}/{password}/{email}")
+    @Path("{username}/{password}")
 
     public Response authorizeUser(
             @PathParam("username") String username,
