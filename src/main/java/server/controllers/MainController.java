@@ -1,5 +1,6 @@
 package server.controllers;
 
+import server.database.DBConnection;
 import server.endpoints.RootEndpoint;
 import server.endpoints.StaffEndpoint;
 import server.endpoints.UserEndpoint;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class MainController {
 
     private User currentUser;
+    DBConnection dbConnection;
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;
@@ -23,26 +25,28 @@ public class MainController {
 
     public MainController() {
         currentUser = null;
+        dbConnection = new DBConnection();
         staffController = new StaffController();
         userController = new UserController();
         userEndpoint = new UserEndpoint();
         staffEndpoint = new StaffEndpoint();
         rootEndpoint = new RootEndpoint();
-        
+
     }
 
 
     public void login(String username, String password) {
 
-        //Klienten rammer userendpoint
+        //Logikken der tjekker, hvorvidt en bruger findes eller ej
+        currentUser = dbConnection.getUser(username, password);
 
 
-        //tjek om objekt = is personel eller ej
-
-        if (currentUser.isPersonel()) {
-
+        if(currentUser == null) {
+            //Findes ikke
+        } else if(currentUser.isPersonel() == 0) {
+            //Log-in as user
         } else {
-
+            //Log-in as staff
         }
 
     }
