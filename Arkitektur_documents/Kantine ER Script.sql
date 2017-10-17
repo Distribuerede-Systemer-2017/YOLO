@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `KantineAppDB`.`User` ;
 
 CREATE TABLE IF NOT EXISTS `KantineAppDB`.`User` (
   `userId` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL UNIQUE,
   `password` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `isPersonel` TINYINT(1) NOT NULL DEFAULT 0,
