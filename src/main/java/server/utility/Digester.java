@@ -32,7 +32,7 @@ public class Digester {
 
     public String hashWithSalt (String string){
 
-        salt = "xyz";
+        salt = "8a24afeac710ca2ae8601e877b84bc201e7e6762698d5f305f61035c24e1ecd4";
         return Digester.performHashing(string+salt);
 
     }
