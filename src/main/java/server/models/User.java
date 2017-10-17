@@ -24,6 +24,7 @@ public class User {
         this.users = new ArrayList<User>();
     }
 
+
     public User() {
 
     }
