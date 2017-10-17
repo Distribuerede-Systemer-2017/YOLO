@@ -2,6 +2,9 @@ package server.models;
 
 import java.util.ArrayList;
 
+/**
+ * Created by PK on 17-10-2017
+ */
 
 public class User {
 
@@ -19,7 +22,6 @@ public class User {
         this.email = email;
         this.isPersonel = isPersonel;
         this.users = new ArrayList<User>();
-
     }
 
     public User() {
