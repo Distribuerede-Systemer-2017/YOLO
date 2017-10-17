@@ -14,6 +14,10 @@ public class Item {
 
     private ArrayList<Item> items;
 
+    public Item(){
+
+    }
+
     public Item (int itemId, String itemName, String itemDescription, int itemPrice) {
         this.itemId = itemId;
         this.itemName = itemName;

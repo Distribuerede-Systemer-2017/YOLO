@@ -33,11 +33,11 @@ public class User {
 
     }
 
-    public int getUserid() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserid(int userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -71,11 +71,16 @@ public class User {
         return isPersonel;
     }
 
-    public void setPersonel(boolean isPersonel) {
-        this.isPersonel = isPersonel;
+    public void setPersonel(boolean personel) {
+        isPersonel = personel;
     }
 
     public ArrayList<User> getUsers() {
         return users;
     }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
 }
+
