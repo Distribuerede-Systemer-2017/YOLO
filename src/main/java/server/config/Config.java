@@ -5,6 +5,10 @@ import com.google.gson.JsonParser;
 
 import java.io.FileReader;
 
+/**
+ * Created by AR, FE, LH on 17-10-2017
+ */
+
 public class Config {
 
     private static String DATABASE_HOST;
@@ -18,6 +22,10 @@ public class Config {
 
         JsonObject json = new JsonObject();
 
+        /**
+         * Json config filepath
+         */
+
         try {
             JsonParser parserJ = new JsonParser();
             json = (JsonObject) parserJ.parse(new FileReader("src/main/java/server/config/config.json"));
@@ -25,6 +33,18 @@ public class Config {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        /**
+         * Json objects are stored in Java variables
+         */
+
+        DATABASE_HOST = json.get("DATABASE_HOST").toString();
+        DATABASE_PORT = json.get("DATABASE_PORT").toString();
+        DATABASE_NAME = json.get("DATABASE_NAME").toString();
+        DATABASE_USER = json.get("DATABASE_USER").toString();
+        DATABASE_PASSWORD = json.get("DATABASE_PASSWORD").toString();
+        SALT = json.get("SALT").toString();
+
         return json;
 
     }

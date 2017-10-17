@@ -15,7 +15,8 @@ public class DBConnection {
     private static Connection connection = null;
 
     /**
-     * Attempts to create the connection
+     * Attempts to create the connection to database
+     * Gets variables from config file
      */
     public DBConnection() {
         try {
