@@ -79,4 +79,30 @@ public class DBConnection {
         }
         return orders;
     }
+
+    public boolean addOrder(User user, ArrayList<Item> items) throws Exception{
+
+        try{
+            PreparedStatement addOrder = connection.prepareStatement("INSERT into orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            addOrder.setInt(1, user.getUserId());
+            addOrder.executeUpdate();
+            ResultSet rs = addOrder.getGeneratedKeys();
+            rs.next();
+            int orderId = rs.getInt(1);
+
+
+            PreparedStatement addItemsToOrder;
+            for (int i = 0; i < items.size(); i++) {
+                addItemsToOrder = connection.prepareStatement("INSERT into order_has_items (Order_orderId, Items_itemsId) VALUES (?, ?)");
+                addItemsToOrder.setInt(1, orderId);
+                addItemsToOrder.setInt(2, items.get(i).getItemId());
+                addItemsToOrder.executeUpdate();
+            }
+            return true;
+
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
