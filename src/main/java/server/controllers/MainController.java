@@ -9,7 +9,7 @@ import server.models.User;
 public class MainController {
 
     private User currentUser;
-    DBConnection dbConnection;
+    private DBConnection dbConnection;
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;
