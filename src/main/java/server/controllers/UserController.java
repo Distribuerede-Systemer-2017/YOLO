@@ -31,6 +31,8 @@ public class UserController {
     }
 
     public boolean addUser(User user){
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
         return result;
     }
@@ -51,8 +53,6 @@ public class UserController {
     }
 
     public User authorizeUser(User user){
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
-        user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
     }

@@ -52,9 +52,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-
-        //Kalder metoden hashWithSalt fra Digester klassen, saa passwordet kan hashes
+    public void setPassword(String password){
         this.password = digester.hashWithSalt(password);
     }
 

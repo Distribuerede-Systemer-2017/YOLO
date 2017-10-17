@@ -107,7 +107,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/login")
-    public Response authorizeUser(String userAsJson) {
+    public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
