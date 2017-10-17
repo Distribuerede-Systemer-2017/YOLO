@@ -1,4 +1,8 @@
 package server.controllers;
+import server.database.DBConnection;
+import server.models.*;
+import server.endpoints.UserEndpoint;
+import server.utility.Digester;
 
 import server.database.DBConnection;
 import server.models.*;
@@ -11,32 +15,29 @@ public class UserController {
     private Digester dig;
     private MainController mainController;
     private DBConnection dbConnection;
-
-
-    public UserController (User currentUser){
+}
+    public UserController (){
         this.currentUser = currentUser;
-        this.mainController = new MainController();
         this.dbConnection = new DBConnection();
         this.dig = new Digester();
     }
-
     /**
      * Return the customer's orders
-     * @param id id of the user
+     * @param
      * @return the ArrayList containing orders
      */
-    public ArrayList<Order> myOrders(int id){
-
-        //Sørg for at denn metode returnerer et ArrayList
-        return dbConnection.getOrders(id);
-
-    }
 
     public void logOut() {
         mainController.logout();
     }
 
+    public void setCurrentUser(User user){
+        this.currentUser = user;
+    }
+
     public boolean addUser(User user){
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
         return result;
     }

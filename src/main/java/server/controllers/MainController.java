@@ -31,11 +31,15 @@ public class MainController {
 
     public void login(String username, String password) {
 
+        User user = new User();
+
+        user.setUsername(username);
+        user.setPassword(password);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
+        
         try {
 
             currentUser = dbConnection.getUser(username, password);
-
 
             if (currentUser == null) {
                 //Findes ikke
@@ -45,9 +49,22 @@ public class MainController {
                 userController.loadUser(currentUser);
             }
 
+
+        if(currentUser == null) {
+            //Findes ikke
+        } else if(!currentUser.isPersonel()) {
+            //Log-in as user
+            userController.setCurrentUser(user);
+        } else {
+            //Log-in as staff
         } catch (Exception e) {
             e.printStackTrace();
+
         }
+
+    }
+
+    public void logout(){
 
     }
 
