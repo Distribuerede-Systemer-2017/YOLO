@@ -36,37 +36,35 @@ public class MainController {
         user.setUsername(username);
         user.setPassword(password);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
-        
+
         try {
 
-            currentUser = dbConnection.getUser(username, password);
+         //   currentUser = dbConnection.getUser(username, password);
 
             if (currentUser == null) {
                 //Findes ikke
             } else if (currentUser.isPersonel()) {
-                staffController.loadUser(currentUser);
+           //     staffController.loadUser(currentUser);
             } else {
-                userController.loadUser(currentUser);
+            //    userController.loadUser(currentUser);
             }
 
 
-        if(currentUser == null) {
-            //Findes ikke
-        } else if(!currentUser.isPersonel()) {
-            //Log-in as user
-            userController.setCurrentUser(user);
-        } else {
-            //Log-in as staff
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (!currentUser.isPersonel()) {
+                //Log-in as user
+                userController.setCurrentUser(user);
+            } else {
+                //Log-in as staff
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
 
         }
 
-    }
-
-    public void logout(){
 
     }
-
 }
 

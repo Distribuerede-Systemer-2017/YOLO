@@ -15,21 +15,16 @@ public class UserController {
     private Digester dig;
     private MainController mainController;
     private DBConnection dbConnection;
-}
+
     public UserController (){
         this.currentUser = currentUser;
         this.dbConnection = new DBConnection();
         this.dig = new Digester();
     }
-    /**
-     * Return the customer's orders
-     * @param
-     * @return the ArrayList containing orders
-     */
 
-    public void logOut() {
-        mainController.logout();
-    }
+   // public void logOut() {
+   //     mainController.logout();
+   // }
 
     public void setCurrentUser(User user){
         this.currentUser = user;
