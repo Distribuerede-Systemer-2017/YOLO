@@ -202,15 +202,14 @@ public class DBConnection {
         return false;
     }
 
-    public User authorizeUser(String username, String password){
+    public User authorizeUser(User user){
         ResultSet resultSet = null;
-        User user = null;
 
         try {
             PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
 
-            authorizeUser.setString(1, username);
-            authorizeUser.setString(2, password);
+            authorizeUser.setString(1, user.getUsername());
+            authorizeUser.setString(2, user.getPassword());
 
             resultSet = authorizeUser.executeQuery();
 

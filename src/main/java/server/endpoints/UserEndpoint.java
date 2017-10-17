@@ -108,17 +108,18 @@ public class UserEndpoint {
     }
 
     @GET
-    @Path("{username}/{password}")
-    public Response authorizeUser(@PathParam("username") String username, @PathParam("password") String password) {
-
-        String hashedPassword = dig.hashWithSalt(password);
-        User user = dbCon.authorizeUser(username, hashedPassword);
-        String userAsJson = new Gson().toJson(user, User.class);
+    @Path("{userAsJson}")
+    public Response authorizeUser(@PathParam("userAsJson") String userAsJson) {
+        User user = new Gson().fromJson(userAsJson, User.class);
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        user.setPassword(hashedPassword);
+        User userCheck = dbCon.authorizeUser(user);
+        String userAsJson2 = new Gson().toJson(userCheck, User.class);
 
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(userAsJson)
+                .entity(userAsJson2)
                 .build();
     }
 
