@@ -33,6 +33,7 @@ public class DBConnection {
 
         try {
             try {
+                //Calls a new instance of the Class com.mysql.jdbc.Driver.class with no parameters
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } catch (InstantiationException e) {
                 e.printStackTrace();
