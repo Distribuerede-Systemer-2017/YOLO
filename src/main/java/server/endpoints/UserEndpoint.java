@@ -14,9 +14,9 @@ import java.util.ArrayList;
 //Created by Tobias & Martin 17-10-2017 Gruppe YOLO
 
 public class UserEndpoint {
-    DBConnection dbCon = new DBConnection();
-    Digester dig = new Digester();
-    ArrayList<Item> items;
+    private DBConnection dbCon = new DBConnection();
+    private Digester dig = new Digester();
+    private ArrayList<Item> items;
 
     @POST
     public Response createUser(String jsonUser){
