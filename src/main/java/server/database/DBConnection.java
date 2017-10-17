@@ -1,9 +1,11 @@
 package server.database;
 
+import server.models.Item;
 import server.models.Order;
 import server.models.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Class responsible for establishing connection between the database and the server
@@ -29,15 +31,15 @@ public class DBConnection {
     private static void close() {
         try {
             connection.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     //Begin SQL statements
 
-    public boolean addUser(User user) throws Exception{
-        try{
+    public boolean addUser(User user) throws Exception {
+        try {
             PreparedStatement addUser = connection.prepareStatement("INSERT into users (username, password, email) VALUES (?, ?, ?)");
 
             addUser.setString(1, user.getUsername());
@@ -45,7 +47,7 @@ public class DBConnection {
             addUser.setString(3, user.getEmail());
 
             int rowsAffected = addUser.executeUpdate();
-            if(rowsAffected == 1){
+            if (rowsAffected == 1) {
                 return true;
             }
         } catch (SQLException e) {
@@ -54,12 +56,38 @@ public class DBConnection {
         return false;
     }
 
-    public boolean addOrder(Order order, User user) throws Exception{
-        try{
-            PreparedStatement addOrder = connection.prepareStatement("INSERT into orders (orderTime, userId) VALUES (?, ?)");
-            Date date = order.getOrderTime();
-        } catch(SQLException e){
-            e.printStackTrace();
+
+    public ArrayList<Item> getItems() {
+
+            ResultSet resultSet = null;
+            ArrayList<Item> items = new ArrayList<>();
+
+            try {
+                PreparedStatement getItems = connection.prepareStatement("SELECT * FROM items");
+                resultSet = getItems.executeQuery();
+
+                while (resultSet.next()) {
+                    Item item = new Item();
+                    item.setItemId(resultSet.getInt("id"));
+                    item.setItemName(resultSet.getString("name"));
+                    item.setItemDescription(resultSet.getString("description"));
+                    item.setItemPrice(resultSet.getInt("price"));
+
+
+                    items.add(item);
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    close();
+                }
+            }
+            return items;
         }
-    }
+
 }
