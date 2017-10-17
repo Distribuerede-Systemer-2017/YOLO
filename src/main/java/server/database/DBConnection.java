@@ -105,4 +105,30 @@ public class DBConnection {
         }
         return false;
     }
+
+    public User authorizeUser(String username, String password) throws Exception {
+        ResultSet resultSet = null;
+        User user = null;
+
+        try {
+            PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ?");
+
+            authorizeUser.setString(1, username);
+            authorizeUser.setString(2, password);
+
+            resultSet = authorizeUser.executeQuery();
+
+            while (resultSet.next()) {
+                user = new User();
+                user.setUserId(resultSet.getInt("userId"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPersonel(resultSet.getBoolean("isPersonel"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
