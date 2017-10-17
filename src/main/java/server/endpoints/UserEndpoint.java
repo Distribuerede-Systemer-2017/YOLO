@@ -73,6 +73,7 @@ public class UserEndpoint {
 
     @GET
     @Path("{id}/{username}/{password}/{email}")
+
     public Response authorizeUser(
             @PathParam("username") String username,
             @PathParam("password") String password) {
