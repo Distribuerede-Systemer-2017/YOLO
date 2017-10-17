@@ -15,6 +15,10 @@ public class Order {
     private int User_userId;
     private ArrayList<Order> orders;
 
+    public Order(){
+
+    }
+
     public Order (int orderId, Timestamp orderTime, boolean isReady, int User_userId){
         this.orderId = orderId;
         this.orderTime = orderTime;
