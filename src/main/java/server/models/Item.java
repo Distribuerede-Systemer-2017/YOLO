@@ -14,7 +14,7 @@ public class Item {
 
     private ArrayList<Item> items;
 
-    public Items (int itemId, String itemName, String itemDescription, int itemPrice) {
+    public Item (int itemId, String itemName, String itemDescription, int itemPrice) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
