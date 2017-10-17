@@ -33,6 +33,25 @@ public class DBConnection {
         }
     }
 
+    public boolean addUser(){
+
+    }
+
+    public boolean addOrder(){
+
+    }
+
+    public void findOrderById(int id){
+    }
+
+    public void getItems(){
+
+    }
+
+    public void authorizeUser(String username, String password){
+
+    }
+
     //Begin SQL statements
     
 }
