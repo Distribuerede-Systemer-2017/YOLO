@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class UserController {
     private User currentUser;
+    private Digester dig;
     private MainController mainController;
     private DBConnection dbConnection;
 
@@ -16,6 +17,7 @@ public class UserController {
         this.currentUser = currentUser;
         this.mainController = new MainController();
         this.dbConnection = new DBConnection();
+        this.dig = new Digester();
     }
 
     /**
@@ -30,12 +32,35 @@ public class UserController {
 
     }
 
-    public ArrayList<Item> getItems(){
-        return UserEndpoint.getItems();
-    }
-
     public void logOut() {
         mainController.logout();
+    }
+
+    public boolean addUser(User user){
+        boolean result = dbConnection.addUser(user);
+        return result;
+    }
+
+    public boolean addOrder(int id, ArrayList<Item> items){
+        boolean result = dbConnection.addOrder(id, items);
+        return result;
+    }
+
+    public ArrayList<Order> getOrdersById(int id){
+        ArrayList<Order> orders = dbConnection.findOrderById(id);
+        return orders;
+    }
+
+    public ArrayList<Item> getItems(){
+        ArrayList<Item> items = dbConnection.getItems();
+        return items;
+    }
+
+    public User authorizeUser(User user){
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        user.setPassword(hashedPassword);
+        User userCheck = dbConnection.authorizeUser(user);
+        return userCheck;
     }
 
 
