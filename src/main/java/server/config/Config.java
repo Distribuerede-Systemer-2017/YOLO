@@ -30,6 +30,13 @@ public final class Config {
 
         JsonParser parserJ = new JsonParser();
 
+        /**
+         * InputStream i stedet for filereader --> når der compiles lægges det ind i en tomcat webapp, hvorfor det ikke ligger i YOLO dir som først antaget
+         * Derfor ligger vi config filen ind i en mappe der hedder resources --> lægger config filen ind i javas class path --> en buffered reader
+         * hjælper med at hive ting ud og StringBuffer læser filen én efter én
+         * String str er blank til at starte med, som bliver parset nede i while loopet under
+         * Til sidst parses der til fra json til json objekt
+         */
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("/config.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         StringBuffer json_string = new StringBuffer();
