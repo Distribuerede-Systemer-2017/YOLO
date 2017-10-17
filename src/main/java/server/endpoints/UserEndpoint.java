@@ -70,4 +70,22 @@ public class UserEndpoint {
                 .entity(itemsAsJson)
                 .build();
     }
+
+    @GET
+    @Path("{id}/{username}/{password}/{email}")
+    public Response authorizeUser(
+            @PathParam("username") String username,
+            @PathParam("password") String password) {
+
+        User user = dbCon.findUserById(id);
+        String userAsJson = new Gson().toJson(user, User.class);
+
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(user)
+                .build();
+    }
+
+
 }
