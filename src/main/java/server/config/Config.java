@@ -2,8 +2,10 @@ package server.config;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import sun.misc.IOUtils;
 
-import java.io.FileReader;
+import java.io.*;
+import java.net.URISyntaxException;
 
 /**
  * Created by AR, FE, LH on 17-10-2017
@@ -18,7 +20,7 @@ public final class Config {
     private static String DATABASE_PASSWORD;
     private static String SALT;
 
-    public JsonObject initConfig() {
+    public JsonObject initConfig() throws IOException {
 
         JsonObject json = new JsonObject();
 
@@ -26,13 +28,19 @@ public final class Config {
          * Json config filepath
          */
 
-        try {
-            JsonParser parserJ = new JsonParser();
-            json = (JsonObject) parserJ.parse(new FileReader("src/main/java/server/config/config.json"));
+        JsonParser parserJ = new JsonParser();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream("/config.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        StringBuffer json_string = new StringBuffer();
+        String str = "";
+
+        while((str = reader.readLine()) != null){
+            json_string.append(str);
         }
+
+        json = (JsonObject) parserJ.parse(json_string.toString());
+
 
         /**
          * Json objects are stored in Java variables

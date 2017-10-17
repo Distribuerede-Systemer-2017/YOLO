@@ -9,6 +9,7 @@ import server.utility.Digester;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 
 //Created by Tobias & Martin 17-10-2017 Gruppe YOLO

@@ -4,6 +4,7 @@ import server.models.Item;
 import server.models.Order;
 import server.models.User;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,7 +25,11 @@ public class DBConnection {
     public DBConnection() {
 
         Config config= new Config();
-        config.initConfig();
+        try {
+            config.initConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             connection = DriverManager.getConnection(("jdbc:mysql://" + config.getDatabaseHost() + ":"
