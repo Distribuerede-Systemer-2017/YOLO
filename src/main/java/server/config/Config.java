@@ -29,7 +29,7 @@ public class Config {
 
     }
 
-    public String getDatabaseHost() {
+    public static String getDatabaseHost() {
         return DATABASE_HOST;
 
     }
