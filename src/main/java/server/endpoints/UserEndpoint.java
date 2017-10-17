@@ -120,6 +120,4 @@ public class UserEndpoint {
                 .entity(userAsJson2)
                 .build();
     }
-
-
 }

@@ -4,13 +4,18 @@ import server.models.*;
 import server.endpoints.UserEndpoint;
 import server.utility.Digester;
 
+import server.database.DBConnection;
+import server.models.*;
+import server.endpoints.UserEndpoint;
+
 import java.util.ArrayList;
+
 public class UserController {
     private User currentUser;
     private Digester dig;
     private MainController mainController;
     private DBConnection dbConnection;
-
+}
     public UserController (){
         this.currentUser = currentUser;
         this.dbConnection = new DBConnection();
@@ -53,7 +58,12 @@ public class UserController {
     }
 
     public User authorizeUser(User user){
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
     }
+
+
+
 }

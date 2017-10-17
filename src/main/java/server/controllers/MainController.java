@@ -6,11 +6,10 @@ import server.endpoints.StaffEndpoint;
 import server.endpoints.UserEndpoint;
 import server.models.User;
 
-
 public class MainController {
 
     private User currentUser;
-    DBConnection dbConnection;
+    private DBConnection dbConnection;
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;
@@ -37,7 +36,18 @@ public class MainController {
         user.setUsername(username);
         user.setPassword(password);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
-        currentUser = dbConnection.authorizeUser(user);
+        
+        try {
+
+            currentUser = dbConnection.getUser(username, password);
+
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (currentUser.isPersonel()) {
+                staffController.loadUser(currentUser);
+            } else {
+                userController.loadUser(currentUser);
+            }
 
 
         if(currentUser == null) {
@@ -47,6 +57,9 @@ public class MainController {
             userController.setCurrentUser(user);
         } else {
             //Log-in as staff
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
     }

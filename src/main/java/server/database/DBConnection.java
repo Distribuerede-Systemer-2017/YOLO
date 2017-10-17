@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import server.config.Config;
 
+
 /**
  * Class responsible for establishing connection between the database and the server
  */
@@ -65,7 +66,6 @@ public class DBConnection {
     }
 
     //Begin SQL statements
-
     public boolean addUser(User user) {
         try {
             PreparedStatement addUser = connection.prepareStatement("INSERT into Users (username, password) VALUES (?, ?)");
