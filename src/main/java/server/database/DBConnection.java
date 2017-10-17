@@ -1,7 +1,10 @@
 package server.database;
 
+import server.models.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -34,5 +37,22 @@ public class DBConnection {
     }
 
     //Begin SQL statements
-    
+
+    public boolean addUser(User user) throws Exception{
+        try{
+            PreparedStatement addUser = connection.prepareStatement("INSERT into users (username, password, email) VALUES (?, ?, ?)");
+
+            addUser.setString(1, user.getUsername());
+            addUser.setString(2, user.getPassword());
+            addUser.setString(3, user.getEmail());
+
+            int rowsAffected = addUser.executeUpdate();
+            if(rowsAffected == 1){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
