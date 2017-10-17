@@ -56,6 +56,41 @@ public class DBConnection {
         return false;
     }
 
+    public ArrayList<Order> getOrders() {
+
+        ResultSet resultSet = null;
+        ArrayList<Order> orders = new ArrayList<>();
+        ArrayList<Item> itemsInOrder = new ArrayList<>();
+
+        try {
+            PreparedStatement getOrders = connection.prepareStatement("SELECT Order.order_id, Items.item_id, Items.ItemName from ((Orders " +
+                                                                "INNER JOIN Order_has_Items ON Orders.order_id = Order_has_Items.Orders_orderId)" +
+                                                                "INNER JOIN Items ON Items.item_id = Order_has_Items.Items_itemId)");
+
+            resultSet = getOrders.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setOrderTime(resultSet.getTimestamp("orderTime"));
+                if(resultSet.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                order.setUser_userId(resultSet.getInt("user_userid"));
+
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                close();
+            }
+        }
+        return orders;
+    }
 
     public ArrayList<Item> getItems() {
 
