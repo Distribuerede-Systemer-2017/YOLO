@@ -18,7 +18,7 @@ public class StaffController {
     }
 
     /**
-     * Returns the list of all orders currently in the database
+     * Returns the list of all orders in the database
      */
     public ArrayList<Order> getOrders() {
         ArrayList<Order> orders = dbConnection.getOrders();
