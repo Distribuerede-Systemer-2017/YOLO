@@ -42,7 +42,7 @@ public class StaffEndpoint {
     @Path("{id}")
     public Response makeReady() {
 
-        int status = 200;
+        int status = 0;
 
         if (status == 200) {
             this.isReady = true;
