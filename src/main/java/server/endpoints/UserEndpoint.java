@@ -61,7 +61,7 @@ public class UserEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"orderCreated\":\"true\"}")
+                .entity("{\"orderCreated\":\""+result+"\"}")
                 .build();
     }
 
