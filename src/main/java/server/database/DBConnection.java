@@ -257,20 +257,6 @@ public class DBConnection {
         return false;
     }
 
-    public Date checkTokenDate(User user){
-        ResultSet rs;
-        try{
-            PreparedStatement checkTokenDate = connection.prepareStatement("SELECT * Token WHERE Token_userId = ?");
-            checkTokenDate.setInt(1, user.getUserId());
-            rs = checkTokenDate.executeQuery();
-            rs.next();
-            return rs.getDate("tokenDate");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String createToken(User user, String token){
         try{
             PreparedStatement createToken = connection.prepareStatement("INSERT into Token (tokenString, Token_userId) VALUES (?, ?)");
