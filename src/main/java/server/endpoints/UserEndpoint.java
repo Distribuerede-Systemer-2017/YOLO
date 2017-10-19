@@ -7,6 +7,7 @@ import server.models.Item;
 import server.models.Order;
 import server.models.User;
 import server.utility.Digester;
+import server.utility.Encryption;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -21,6 +22,8 @@ public class UserEndpoint {
     private Digester dig = new Digester();
     private ArrayList<Item> items;
     private UserController ucontroller = new UserController();
+    private Encryption encryption = new Encryption();
+
 
     @POST
     @Path("/createUser")
@@ -113,14 +116,17 @@ public class UserEndpoint {
     @POST
     @Path("/login")
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
+
+        userAsJson = new Gson().fromJson(userAsJson, String.class);
+        userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
-
+        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2)+"klientBody:"+encryption.encryptDecryptXOR(userAsJson));
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(userAsJson2)
+                .entity(response)
                 .build();
     }
 }

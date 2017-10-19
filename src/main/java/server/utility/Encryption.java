@@ -1,7 +1,5 @@
 package server.utility;
 
-import com.google.gson.JsonObject;
-
 public class Encryption {
 
     /**
@@ -18,7 +16,7 @@ public class Encryption {
 
     */
 
-    private static String encryptDecryptXOR(String toBeEncryptedDecrypted) {
+    public String encryptDecryptXOR(String toBeEncryptedDecrypted) {
 
         //Vi vælger selv værdierne til nøglen
         char[] key = {'Y','O','L','O'};
@@ -27,7 +25,6 @@ public class Encryption {
 
         for (int i = 0; i < toBeEncryptedDecrypted.length(); i++) {
             isEncryptedDecrypted.append((char) (toBeEncryptedDecrypted.charAt(i) ^ key[i % key.length]));
-
         }
 
         return isEncryptedDecrypted.toString();
