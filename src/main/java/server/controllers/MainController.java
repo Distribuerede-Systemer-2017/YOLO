@@ -6,16 +6,10 @@ import server.endpoints.StaffEndpoint;
 import server.endpoints.UserEndpoint;
 import server.models.User;
 
-import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 public class MainController {
 
     private User currentUser;
-    DBConnection dbConnection;
+    private DBConnection dbConnection;
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;
@@ -37,19 +31,40 @@ public class MainController {
 
     public void login(String username, String password) {
 
+        User user = new User();
+
+        user.setUsername(username);
+        user.setPassword(password);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
-        currentUser = dbConnection.getUser(username, password);
+
+        try {
+
+         //   currentUser = dbConnection.getUser(username, password);
+
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (currentUser.isPersonel()) {
+           //     staffController.loadUser(currentUser);
+            } else {
+            //    userController.loadUser(currentUser);
+            }
 
 
-        if(currentUser == null) {
-            //Findes ikke
-        } else if(currentUser.isPersonel() == 0) {
-            //Log-in as user
-        } else {
-            //Log-in as staff
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (!currentUser.isPersonel()) {
+                //Log-in as user
+                userController.setCurrentUser(user);
+            } else {
+                //Log-in as staff
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
-    }
 
+    }
 }
 

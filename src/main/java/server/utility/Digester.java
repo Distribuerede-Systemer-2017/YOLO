@@ -1,27 +1,26 @@
 package server.utility;
 
 import java.security.MessageDigest;
+import server.config.Config;
+
+
+/**
+ * Created by AR, FE, LH on 17-10-2017
+ */
 
 public class Digester {
 
-    //Klassens atributter
     private String salt;
     private static MessageDigest digester;
 
     static {
-        //try-catch: Så programmet ikke fejler
+        //try-catch: ensures that the program does not fail
         try {
-            //MD5 = Hashing algoritme
-            digester = MessageDigest.getInstance("MD5");
+            //SHA-256 = Hashing algorithm
+            digester = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setSalt(String salt) {
-        //Her defineres String salt til at være lig salt
-        this.salt = salt;
-
     }
 
     /**
@@ -32,8 +31,8 @@ public class Digester {
 
     public String hashWithSalt (String string){
 
-        salt = "xyz";
-        return Digester.performHashing(string+salt);
+        salt = Config.getSalt();
+        return Digester.performHashing(string + salt);
 
     }
 
@@ -43,18 +42,21 @@ public class Digester {
      * @return Hashed string
      */
 
-    private static String performHashing(String string){
-        digester.update(string.getBytes());
-        byte[] hash = digester.digest();
-        StringBuilder hexString = new StringBuilder();
-        for (byte aHash : hash) {
-            if ((0xff & aHash) < 0x10) {
-                hexString.append("0" + Integer.toHexString((0xFF & aHash)));
-            } else {
-                hexString.append(Integer.toHexString(0xFF & aHash));
-            }
-        }
-        return hexString.toString();
-    }
+    private static String performHashing(String string) {
+        try {
+            byte[] hash = digester.digest(string.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
 
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+
+            }
+
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }
