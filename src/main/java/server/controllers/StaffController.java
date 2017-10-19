@@ -24,7 +24,7 @@ public class StaffController {
         return orders;
     }
 
-    public makeReady() {
+    public void makeReady() {
 
     }
 
