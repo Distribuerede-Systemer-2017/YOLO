@@ -27,29 +27,30 @@ public class AuthEndpoint {
 
     @POST
     public Response AuthUser(String jsonUser) {
-        User authUser = new Gson().fromJson(jsonUser, User.class);
+        User user = new Gson().fromJson(jsonUser, User.class);
         String token = null;
 
         try {
-            tokenUser = ucontroller.authorizeUser(authUser);
+            tokenUser = ucontroller.authorizeUser(user);
+            try {
+                Algorithm algorithm = Algorithm.HMAC256("secret");
+                long timevalue;
+                timevalue = (System.currentTimeMillis()*1000)+20000205238L;
+                Date expDate = new Date(timevalue);
+
+                token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
+                        .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
+                // tokenArray.add(token);
+            }catch (UnsupportedEncodingException e){
+                e.printStackTrace();
+            }catch (JWTCreationException e){
+                e.printStackTrace();
+            }
+
+            return Response.status(200).type("plain/text").entity(token).build();
         } catch (Exception e) {
-            return Response.status(401).type("plain/text").entity("feil # 1").build();
-        }
-        try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
-            long timevalue;
-            timevalue = (System.currentTimeMillis()*1000)+20000205238L;
-            Date expDate = new Date(timevalue);
-
-            token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
-                    .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
-            // tokenArray.add(token);
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        }catch (JWTCreationException e){
-            e.printStackTrace();
+            return Response.status(401).type("plain/text").entity("User not authorized").build();
         }
 
-        return Response.status(200).type("plain/text").entity(token).build();
     }
 }
