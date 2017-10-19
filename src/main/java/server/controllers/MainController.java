@@ -5,6 +5,7 @@ import server.endpoints.RootEndpoint;
 import server.endpoints.StaffEndpoint;
 import server.endpoints.UserEndpoint;
 import server.models.User;
+import server.utility.Globals;
 
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
@@ -42,14 +43,18 @@ public class MainController {
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
 
         try {
-            //   currentUser = dbConnection.getUser(username, password);
+               currentUser = dbConnection.authorizeUser(user);
             if (currentUser == null) {
-                //Findes ikke
+                //User doesn't exist or username/password is wrong
+                Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + username + " failed", 0);
             } else if (!currentUser.isPersonel()) {
                 //Log-in as user
+                Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + username + " (user) successful", 0);
                 userController.setCurrentUser(user);
             } else {
                 //Log-in as staff
+                Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + username + " (staff) successful", 0);
+
             }
 
         } catch (Exception e) {

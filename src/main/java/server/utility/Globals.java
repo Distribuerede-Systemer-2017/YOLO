@@ -14,6 +14,8 @@ public class Globals implements ServletContextListener {
      * This function can be used to initialize Logger and Config classes.
      *
      * We do this in order for the rest of the program to use it afterwards.
+     *
+     * This method is automatically called by JERSEY when the server is started
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
