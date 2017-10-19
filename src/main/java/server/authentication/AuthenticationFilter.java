@@ -64,6 +64,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             //Validate the token
             validateToken(token);
 
+
+
         } catch (Exception e) {
             abortWithUnauthorized(containerRequestContext);
         }
@@ -92,15 +94,16 @@ public class AuthenticationFilter implements ContainerRequestFilter {
      * @throws Exception
      */
     private boolean validateToken(String token) throws Exception {
+        mc = new MainController();
+        boolean isValidToken;
 
-        boolean isValidToken = true;
-        try {
-            isValidToken = mc.tokenExists();
-        }
+            isValidToken = mc.checkTokenOwner(token);
 
+            if(!isValidToken){
+                throw new Exception();
+            }
 
-        //else return valid
-        return isValidToken;
+            return isValidToken;
     }
 }
 

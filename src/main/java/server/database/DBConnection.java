@@ -288,23 +288,21 @@ public class DBConnection {
         return false;
     }
 
-    public Token tokenExists(String token){
+    public boolean tokenExists(String token){
         ResultSet rs;
-        Token foundToken = null;
+        String serverToken = "";
         try{
             PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
             tokenExists.setString(1, token);
             rs = tokenExists.executeQuery();
-            rs.next();
-            foundToken.setUserId(rs.getInt("Users_user_id"));
-            foundToken.setTokenDate(rs.getDate("tokenDate"));
-            foundToken.setTokenId(rs.getInt("tokenId"));
-            foundToken.setTokenString(rs.getString("tokenString"));
-            return foundToken;
+
+            Boolean check = rs.next();
+
+            return check;
 
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return foundToken;
+        return false;
     }
 }

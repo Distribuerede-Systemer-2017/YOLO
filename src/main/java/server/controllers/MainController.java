@@ -34,4 +34,9 @@ public class MainController {
         dbConnection.deleteToken(id);
     }
 
+    public boolean checkTokenOwner(String token){
+        Boolean check = dbConnection.tokenExists(token);
+        return check;
+    }
+
 }
