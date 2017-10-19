@@ -73,6 +73,16 @@ public class UserController {
         String hashedPassword = dig.hashWithSalt(user.getPassword());
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
+
+        //Conditional logging for user authorization
+        if (userCheck != null) {
+
+            Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + userCheck.getUsername() + " successful", 0);
+
+        } else {
+
+            Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + userCheck.getUsername() + " failed", 0);
+        }
         return userCheck;
     }
 

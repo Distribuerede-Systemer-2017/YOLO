@@ -7,6 +7,7 @@ import server.models.Item;
 import server.models.Order;
 import server.models.User;
 import server.utility.Digester;
+import server.utility.Globals;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -30,6 +31,7 @@ public class UserEndpoint {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
             boolean result = ucontroller.addUser(userCreated);
             status = 200;
+            Globals.log.writeLog(getClass().getName(), this, "Oprettede bruger med navnet: " + userCreated.getUsername(), 0 );
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
                 status = 400;
@@ -38,6 +40,7 @@ public class UserEndpoint {
                 status = 500;
             }
         }
+
         return Response
                 .status(status)
                 .type("application/json")

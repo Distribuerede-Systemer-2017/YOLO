@@ -1,5 +1,7 @@
 package server.utility;
 import server.config.Config;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
@@ -27,6 +29,10 @@ public class Globals implements ServletContextListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Slet?
+        ServletContext context = servletContextEvent.getServletContext();
+        System.setProperty("rootpath", context.getRealPath("/"));
 
         //Here we can initialize our Logger class and write to our Logging.txt that the system has been started
         System.out.println("Context is initialized");
