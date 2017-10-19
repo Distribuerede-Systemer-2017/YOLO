@@ -76,7 +76,7 @@ public class UserEndpoint {
 
         int status = 500;
         ArrayList<Order> foundOrders;
-        foundOrders = ucontroller.getOrdersById(id);
+        foundOrders = ucontroller.findOrderById(id);
 
         if (!(foundOrders == null)){
             status = 200;
