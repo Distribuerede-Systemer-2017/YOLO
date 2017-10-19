@@ -26,8 +26,8 @@ public class MainController {
     public MainController() {
         currentUser = null;
         dbConnection = new DBConnection();
-        staffController = new StaffController();
-        userController = new UserController();
+        staffController = new StaffController(dbConnection);
+        userController = new UserController(dbConnection);
         userEndpoint = new UserEndpoint();
         staffEndpoint = new StaffEndpoint();
         rootEndpoint = new RootEndpoint();
