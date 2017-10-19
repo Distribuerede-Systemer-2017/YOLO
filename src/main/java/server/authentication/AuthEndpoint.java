@@ -7,13 +7,10 @@
         import com.google.gson.Gson;
         import server.controllers.UserController;
         import server.models.User;
-        import server.utility.Digester;
 
-        import javax.ws.rs.PATCH;
         import javax.ws.rs.POST;
         import javax.ws.rs.Path;
         import javax.ws.rs.core.Response;
-        import java.io.DataInput;
         import java.io.UnsupportedEncodingException;
         import java.util.ArrayList;
         import java.util.Date;
@@ -26,7 +23,7 @@
 public class AuthEndpoint {
     UserController ucontroller = new UserController();
     ArrayList<String> tokenArray = new ArrayList<String>();
-    User foundUser = new User();
+    User tokenUser = new User();
 
     @POST
     public Response AuthUser(String jsonUser) {
@@ -34,7 +31,7 @@ public class AuthEndpoint {
         String token = null;
 
         try {
-            foundUser = ucontroller.authorizeUser(authUser);
+            tokenUser = ucontroller.authorizeUser(authUser);
         } catch (Exception e) {
             return Response.status(401).type("plain/text").entity("feil # 1").build();
         }
@@ -44,7 +41,7 @@ public class AuthEndpoint {
             timevalue = (System.currentTimeMillis()*1000)+20000205238L;
             Date expDate = new Date(timevalue);
 
-            token = JWT.create().withClaim("username",foundUser.getUsername()).withKeyId(String.valueOf(foundUser.getUserId()))
+            token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
                     .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
             // tokenArray.add(token);
         }catch (UnsupportedEncodingException e){
