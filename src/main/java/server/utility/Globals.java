@@ -1,4 +1,5 @@
 package server.utility;
+import org.slf4j.LoggerFactory;
 import server.utility.Log;
 import server.config.Config;
 
@@ -6,10 +7,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 
-
 public class Globals implements ServletContextListener {
 
+    private Log log;
+
     public static Config config = new Config();
+
     /**
      * This function can be used to initialize Logger and Config classes.
      *
@@ -26,14 +29,15 @@ public class Globals implements ServletContextListener {
             e.printStackTrace();
         }
 
-        //log.writeLog(this.getClass().getName(), this, "We've started the system", 2);
-
-        //Here we can initialize our Logger class and
+        //Here we can initialize our Logger class and write to our Logging.txt that the system has been started
         System.out.println("Context is initialized");
+        log.writeLog(this.getClass().getName(), this, "We've started the system", 2);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        //Logging for when the system is stopped
         System.out.println("Context is destroyed");
+        log.writeLog(this.getClass().getName(), this, "The system has been stopped", 2);
     }
 }
