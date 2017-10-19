@@ -60,7 +60,6 @@ public class UserEndpoint {
             status = 500;
         }
 
-
         return Response
                 .status(status)
                 .type("application/json")
@@ -69,22 +68,17 @@ public class UserEndpoint {
     }
 
 
-    @GET
-    @Path("{id}")
-    public Response getOrdersById(@PathParam("id") int id){
-
+    @POST
+    @Path("/findOrdersById?{userId}")
+    public Response findOrderById(@PathParam("userId")int userId){
+        ArrayList<Order> orders;
         int status = 500;
-        ArrayList<Order> foundOrders;
-        foundOrders = ucontroller.getOrdersById(id);
-
-        if (!(foundOrders == null)){
+        orders = ucontroller.findOrderById(userId);
+        if(!(orders == null)){
             status = 200;
         }
-        else if (foundOrders == null){
-            status = 500;
-        }
 
-        String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
+        String ordersAsJson = new Gson().toJson(orders);
 
         return Response
                 .status(status)

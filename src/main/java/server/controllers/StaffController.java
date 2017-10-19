@@ -4,6 +4,7 @@ import server.database.DBConnection;
 import server.models.Order;
 import server.endpoints.StaffEndpoint;
 
+import javax.ws.rs.Path;
 import java.util.ArrayList;
 
 /**
@@ -12,9 +13,9 @@ import java.util.ArrayList;
 public class StaffController {
     private DBConnection dbConnection;
 
+
     public StaffController(){
         this.dbConnection = new DBConnection();
-
     }
 
     /**
