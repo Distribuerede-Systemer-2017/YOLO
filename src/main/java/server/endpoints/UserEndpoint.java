@@ -3,11 +3,9 @@ package server.endpoints;
 import com.google.gson.Gson;
 import server.config.Config;
 import server.controllers.UserController;
-import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
-import server.utility.Digester;
 import server.utility.Encryption;
 
 import javax.ws.rs.*;
@@ -69,7 +67,7 @@ public class UserEndpoint {
 
 
     @POST
-    @Path("/findOrdersById?{userId}")
+    @Path("/findOrdersById/{userId}")
     public Response findOrderById(@PathParam("userId")int userId){
         ArrayList<Order> orders;
         int status = 500;
