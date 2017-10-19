@@ -4,7 +4,6 @@ import server.models.*;
 import server.endpoints.UserEndpoint;
 import server.utility.Digester;
 
-import server.database.DBConnection;
 import server.models.*;
 import server.endpoints.UserEndpoint;
 
