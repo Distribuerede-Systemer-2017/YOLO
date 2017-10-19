@@ -2,35 +2,33 @@ package server.endpoints;
 
 import com.google.gson.Gson;
 import server.controllers.StaffController;
-import server.database.DBConnection;
 import server.models.Order;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-//Created by Nordmenn 19-10-2017 Gruppe YOLO
-
+@Path("/staff")
 public class StaffEndpoint {
-    private DBConnection dbCon = new DBConnection();
-    private ArrayList<Order> orders;
-    private boolean isReady = false;
-    private StaffController staffController = new StaffController();
+
+    StaffController staffController = new StaffController();
 
     @GET
-    @Path("/viewOrders")
-    public Response viewOrders() {
+    @Path("/getOrders")
+    public Response getOrders(){
+        ArrayList<Order> orders;
         int status = 500;
-
-        this.orders = staffController.viewOrders();
+        orders = staffController.getOrders();
 
         if(!(orders == null)){
             status = 200;
         }
 
         String ordersAsJson = new Gson().toJson(orders);
+
         return Response
                 .status(status)
                 .type("application/json")
@@ -38,22 +36,21 @@ public class StaffEndpoint {
                 .build();
     }
 
-    @PUT
-    @Path("{id}")
-    public Response makeReady() {
+    @POST
+    @Path("/makeReady?{orderid}")
+    public Response makeReady(@PathParam("orderid") int orderID){
+        int status = 500;
+        Boolean isReady = staffController.makeReady(orderID);
 
-        int status = 0;
-
-        if (status == 200) {
-            this.isReady = true;
+        if(isReady){
+            status = 200;
         }
-
-        String confirm = "Order ready";
-
         return Response
                 .status(status)
                 .type("application/json")
-                .entity(confirm)
+                .entity("{\"isReady\":\"true\"}")
                 .build();
     }
+
+
 }

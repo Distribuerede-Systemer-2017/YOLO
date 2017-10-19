@@ -13,8 +13,7 @@ public class Order {
     private Timestamp orderTime;
     private boolean isReady;
     private int User_userId;
-    private  ArrayList<Order> orders;
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
 
     public Order(){
 
@@ -26,7 +25,6 @@ public class Order {
         this.isReady = isReady;
         this.User_userId = User_userId;
 
-        this.orders = new ArrayList<Order>();
         this.items = new ArrayList<Item>();
 
     }
@@ -51,7 +49,7 @@ public class Order {
         return isReady;
     }
 
-    public void setIsReady(boolean status) {
+    public void isReady(boolean status) {
         this.isReady = status;
     }
 
@@ -65,10 +63,6 @@ public class Order {
 
     public ArrayList<Item> getItems() {
         return items;
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
     }
 
     public void setItems(Item item) {
