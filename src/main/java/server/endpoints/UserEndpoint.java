@@ -54,6 +54,7 @@ public class UserEndpoint {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+        Globals.log.writeLog(getClass().getName(), this, "Oprettede ordrer med id: " + orderCreated.getOrderId(), 0 );
         if (result) {
             status = 200;
         } else if (!result){
@@ -119,6 +120,8 @@ public class UserEndpoint {
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
+
+        Globals.log.writeLog(getClass().getName(), this, "Authorized bruger med navnet:" + user.getUsername(), 0 );
 
         return Response
                 .status(200)
