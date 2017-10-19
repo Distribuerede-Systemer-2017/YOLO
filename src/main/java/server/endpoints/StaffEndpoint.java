@@ -50,6 +50,7 @@ public class StaffEndpoint {
             Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderReady.getOrderId(), 0 );
 
 
+
         }
         return Response
                 .status(status)
