@@ -27,17 +27,16 @@ public class UserEndpoint {
 
     @POST
     @Path("/createUser")
-    public Response createUser(String jsonUser){
+    public Response createUser(String jsonUser) {
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
             boolean result = ucontroller.addUser(userCreated);
             status = 200;
-        } catch (Exception e){
-            if(e.getClass() == BadRequestException.class){
+        } catch (Exception e) {
+            if (e.getClass() == BadRequestException.class) {
                 status = 400;
-            }
-            else if(e.getClass() == InternalServerErrorException.class){
+            } else if (e.getClass() == InternalServerErrorException.class) {
                 status = 500;
             }
         }
@@ -50,13 +49,13 @@ public class UserEndpoint {
 
     @POST
     @Path("/createOrder")
-    public Response createOrder(String jsonOrder){
+    public Response createOrder(String jsonOrder) {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
         if (result) {
             status = 200;
-        } else if (!result){
+        } else if (!result) {
             status = 500;
         }
 
@@ -71,16 +70,15 @@ public class UserEndpoint {
 
     @GET
     @Path("{id}")
-    public Response getOrdersById(@PathParam("id") int id){
+    public Response getOrdersById(@PathParam("id") int id) {
 
         int status = 500;
         ArrayList<Order> foundOrders;
         foundOrders = ucontroller.getOrdersById(id);
 
-        if (!(foundOrders == null)){
+        if (!(foundOrders == null)) {
             status = 200;
-        }
-        else if (foundOrders == null){
+        } else if (foundOrders == null) {
             status = 500;
         }
 
@@ -95,11 +93,11 @@ public class UserEndpoint {
 
     @GET
     @Path("/getItems")
-    public Response getItems(){
+    public Response getItems() {
         int status = 500;
         this.items = ucontroller.getItems();
 
-        if(!(items == null)){
+        if (!(items == null)) {
             status = 200;
         }
 
@@ -118,18 +116,18 @@ public class UserEndpoint {
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
 
         if (config.getENCRYPTION()) {
-        userAsJson = new Gson().fromJson(userAsJson, String.class);
-        userAsJson = encryption.encryptDecryptXOR(userAsJson);
-        User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = ucontroller.authorizeUser(user);
-        String userAsJson2 = new Gson().toJson(userCheck, User.class);
-        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
+            userAsJson = new Gson().fromJson(userAsJson, String.class);
+            userAsJson = encryption.encryptDecryptXOR(userAsJson);
+            User user = new Gson().fromJson(userAsJson, User.class);
+            User userCheck = ucontroller.authorizeUser(user);
+            String userAsJson2 = new Gson().toJson(userCheck, User.class);
+            String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
             return Response
-                .status(200)
-                .type("application/json")
-                .entity(response)
-                .build();
-        } else{
+                    .status(200)
+                    .type("application/json")
+                    .entity(response)
+                    .build();
+        } else {
             User user = new Gson().fromJson(userAsJson, User.class);
             User userCheck = ucontroller.authorizeUser(user);
             String response = new Gson().toJson(userCheck, User.class);
@@ -152,3 +150,4 @@ public class UserEndpoint {
                 .build();
     }
 }
+

@@ -19,6 +19,7 @@ public final class Config {
 
 
 
+
     public JsonObject initConfig() throws IOException {
 
         JsonObject json = new JsonObject();
@@ -45,10 +46,11 @@ public final class Config {
 
 
         /**
-         * Json objects are stored in Java variables
-         */
+         Json objects are stored in Java variables
         //.replace("\"", "") betyder at vi tager / og erstatter dem med ingenting. For at fjerne dem, da det ellers forårsagede problemer
         // i DBConnection klassen
+         */
+
         DATABASE_HOST = json.get("DATABASE_HOST").toString().replace("\"", "");
         DATABASE_PORT = Integer.parseInt(json.get("DATABASE_PORT").toString());
         DATABASE_NAME = json.get("DATABASE_NAME").toString().replace("\"", "");
@@ -56,6 +58,7 @@ public final class Config {
         DATABASE_PASSWORD = json.get("DATABASE_PASSWORD").toString().replace("\"", "");
         SALT = json.get("SALT").toString().replace("\"", "");
         ENCRYPTION = Boolean.parseBoolean(json.get("ENCRYPTION").toString().replace("\"", ""));
+
 
         return json;
 
