@@ -4,6 +4,8 @@ import server.models.*;
 import server.utility.Digester;
 
 
+import javax.ws.rs.core.Cookie;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class UserController {
@@ -50,7 +52,6 @@ public class UserController {
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
     }
-
 
 
 }
