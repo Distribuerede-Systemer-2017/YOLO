@@ -1,6 +1,7 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.authentication.Secured;
 import server.controllers.UserController;
 import server.database.DBConnection;
 import server.models.Item;
@@ -19,9 +20,8 @@ import java.util.ArrayList;
 public class UserEndpoint {
 
     private DBConnection dbCon = new DBConnection();
-    private Digester dig = new Digester();
     private ArrayList<Item> items;
-    private UserController ucontroller = new UserController();
+    private UserController ucontroller = new UserController(dbCon);
 
     @POST
     @Path("/createUser")
@@ -55,6 +55,7 @@ public class UserEndpoint {
                 .build();
     }
 
+    @Secured
     @POST
     @Path("/createOrder")
     public Response createOrder(String jsonOrder){
@@ -80,7 +81,7 @@ public class UserEndpoint {
                 .build();
     }
 
-
+    @Secured
     @GET
     @Path("{id}")
     public Response getOrdersById(@PathParam("id") int id){
@@ -105,7 +106,7 @@ public class UserEndpoint {
                 .entity(ordersAsJson)
                 .build();
     }
-
+    @Secured
     @GET
     @Path("/getItems")
     public Response getItems(){
@@ -123,23 +124,6 @@ public class UserEndpoint {
                 .status(status)
                 .type("application/json")
                 .entity(itemsAsJson)
-                .build();
-    }
-
-    @POST
-    @Path("/login")
-    public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
-        User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = ucontroller.authorizeUser(user);
-        String userAsJson2 = new Gson().toJson(userCheck, User.class);
-
-        //Logging for user authorized
-        Globals.log.writeLog(getClass().getName(), this, "Authorized user with username:" + user.getUsername(), 0 );
-
-        return Response
-                .status(200)
-                .type("application/json")
-                .entity(userAsJson2)
                 .build();
     }
 }

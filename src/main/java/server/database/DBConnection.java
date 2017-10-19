@@ -2,6 +2,7 @@ package server.database;
 
 import server.models.Item;
 import server.models.Order;
+import server.models.Token;
 import server.models.User;
 
 import java.io.IOException;
@@ -118,7 +119,12 @@ public class DBConnection {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setOrderTime(resultSet.getTimestamp("orderTime"));
-                order.isReady(resultSet.getBoolean("isReady"));
+                if(resultSet.getInt("isReady") != 1) {
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
+
                 order.setUser_userId(resultSet.getInt("user_userid"));
 
                 Item item = new Item();
@@ -223,10 +229,14 @@ public class DBConnection {
              */
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setOrderId(resultSet.getInt("order_id"));
-                order.setOrderTime(resultSet.getTimestamp("orderTime"));
-                order.isReady(resultSet.getBoolean("isReady"));
-                order.setUser_userId(resultSet.getInt("user_userid"));
+                order.setOrderId(resultset.getInt("order_id"));
+                order.setOrderTime(resultset.getTimestamp("orderTime"));
+                if(resultset.getInt("isReady") != 1){
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
+                order.setUser_userId(resultset.getInt("user_userid"));
 
                 Item item = new Item();
                 item.setItemId(resultSet.getInt("item_id"));
@@ -266,11 +276,11 @@ public class DBConnection {
      * @return Returns whether or not the order was added to the database.
      */
     public boolean addOrder(int userId, ArrayList<Item> items){
-
-        //Missing comment
+        Timestamp orderTimestamp = new Timestamp(System.currentTimeMillis());
         try{
-            PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (user_userid, orderTime) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             addOrder.setInt(1, userId);
+            addOrder.setTimestamp(2, orderTimestamp);
             addOrder.executeUpdate();
             ResultSet rs = addOrder.getGeneratedKeys();
             rs.next();
@@ -280,7 +290,7 @@ public class DBConnection {
 
             PreparedStatement addItemsToOrder;
             for (int i = 0; i < items.size(); i++) {
-                addItemsToOrder = connection.prepareStatement("INSERT into order_has_items (Order_orderId, Items_itemsId) VALUES (?, ?)");
+                addItemsToOrder = connection.prepareStatement("INSERT into Order_has_Items (Orders_orderId, Items_itemId) VALUES (?, ?)");
                 addItemsToOrder.setInt(1, orderId);
                 addItemsToOrder.setInt(2, items.get(i).getItemId());
                 addItemsToOrder.executeUpdate();
@@ -319,7 +329,12 @@ public class DBConnection {
                 newUser.setUserId(resultSet.getInt("user_id"));
                 newUser.setUsername(resultSet.getString("username"));
                 newUser.setPassword(resultSet.getString("password"));
-                newUser.setPersonel(resultSet.getBoolean("isPersonel"));
+                if(resultSet.getInt("isPersonel") == 1){
+                    newUser.setPersonel(true);
+                }
+                else{
+                    newUser.setPersonel(false);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -357,4 +372,55 @@ public class DBConnection {
         }
         return false;
     }
+
+    public String createToken(User user, String token){
+        try{
+            PreparedStatement createToken = connection.prepareStatement("INSERT into Token (tokenString, Users_user_id) VALUES (?, ?)");
+            createToken.setString(1, token);
+            createToken.setInt(2, user.getUserId());
+            int rowsAffected = createToken.executeUpdate();
+            if (rowsAffected == 1){
+                return token;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        //Return empty
+        return "";
+    }
+
+    public boolean deleteToken(int id){
+        try{
+            PreparedStatement deleteToken = connection.prepareStatement("DELETE FROM Token WHERE Users_userId = ?");
+            deleteToken.setInt(1, id);
+            int rowsAffected = deleteToken.executeUpdate();
+            if (rowsAffected > 0){
+                return true;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean tokenExists(String token){
+        ResultSet rs;
+        String serverToken = "";
+        try{
+            PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
+            tokenExists.setString(1, token);
+            rs = tokenExists.executeQuery();
+
+            Boolean check = rs.next();
+
+            return check;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

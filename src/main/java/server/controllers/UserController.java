@@ -1,18 +1,21 @@
 package server.controllers;
 import server.database.DBConnection;
 import server.models.*;
-import server.endpoints.UserEndpoint;
 import server.utility.Digester;
-
 import server.database.DBConnection;
 import server.models.*;
 import server.endpoints.UserEndpoint;
 import server.utility.Globals;
 
-import java.util.ArrayList;
-
 public class UserController {
-    private User currentUser;
+    private Digester dig;
+    private DBConnection dbConnection;
+
+    public UserController (DBConnection dbConnection){
+        this.dbConnection = dbConnection;
+        this.dig = new Digester();
+    }
+
     private Digester digester;
     private MainController mainController;
     private DBConnection dbConnection;
@@ -26,23 +29,7 @@ public class UserController {
     public UserController ( ) {
 
     }
-
-
-
-   // public void logOut() {
-   //     mainController.logout();
-   // }
-
-     // sets the user to the coherent value of the current user
-    public void setCurrentUser(User user){
-        this.currentUser = user;
-    }
-
-    /**
-     *
-     * @param user
-     * hashes the password+salt of the user and sends it back to DBConnection
-     */
+  
     public boolean addUser(User user){
 
 
@@ -72,16 +59,5 @@ public class UserController {
         ArrayList<Item> items = dbConnection.getItems();
         return items;
     }
-
-    // Authorizes a user, by hashing the input password first, and comparing it to the stored hashed password
-    public User authorizeUser(User user){
-        String hashedPassword = digester.hashWithSalt(user.getPassword());
-        user.setPassword(hashedPassword);
-        User userCheck = dbConnection.authorizeUser(user);
-
-        return userCheck;
-    }
-
-
 
 }

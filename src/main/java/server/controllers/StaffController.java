@@ -1,5 +1,7 @@
 package server.controllers;
 
+import server.database.DBConnection;
+import server.models.Order;
 import com.google.gson.Gson;
 import server.database.DBConnection;
 import server.models.Order;
@@ -14,14 +16,17 @@ import java.util.ArrayList;
  */
 public class StaffController {
     private DBConnection dbConnection;
-
-
-    public StaffController(DBConnection dbConnection){
+  
+    public StaffController (DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
-    public StaffController( ){
-
+    /**
+     * Returns the list of all orders currently in the database
+     */
+    public ArrayList<Order> viewOrders() {
+        ArrayList<Order> orders = dbConnection.getOrders();
+        return orders;
     }
 
     /**
