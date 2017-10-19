@@ -6,6 +6,7 @@ import server.controllers.MainController;
 import server.database.DBConnection;
 import server.models.User;
 
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @Path("/start")
@@ -13,6 +14,8 @@ public class RootEndpoint {
     AuthEndpoint auth = new AuthEndpoint();
     MainController mc = new MainController();
 
+
+    @POST
     @Path("/login")
     public void login(String userAsJson){
 
@@ -37,6 +40,7 @@ public class RootEndpoint {
         }
     }
 
+    @POST
     @Path("/logout")
     public void logout(String userId){
         int id = new Gson().fromJson(userId, Integer.class);
