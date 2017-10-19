@@ -39,6 +39,8 @@ K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet)
 
 ## Flowchart
 
+![Flowchart](Arkitektur_documents/Kantine-app-flowchart.png)
+
 ## Sekvensdiagram
 
 ### Sekvensdiagram 01
