@@ -15,6 +15,9 @@ public final class Config {
     private static String DATABASE_USER;
     private static String DATABASE_PASSWORD;
     private static String SALT;
+    private static Boolean ENCRYPTION;
+
+
 
     public JsonObject initConfig() throws IOException {
 
@@ -52,6 +55,7 @@ public final class Config {
         DATABASE_USER = json.get("DATABASE_USER").toString().replace("\"", "");
         DATABASE_PASSWORD = json.get("DATABASE_PASSWORD").toString().replace("\"", "");
         SALT = json.get("SALT").toString().replace("\"", "");
+        ENCRYPTION = Boolean.parseBoolean(json.get("ENCRYPTION").toString().replace("\"", ""));
 
         return json;
 
@@ -86,4 +90,9 @@ public final class Config {
         return SALT;
 
     }
+
+    public static Boolean getENCRYPTION() {
+        return ENCRYPTION;
+    }
+
 }

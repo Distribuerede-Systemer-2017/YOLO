@@ -1,6 +1,7 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.config.Config;
 import server.controllers.UserController;
 import server.database.DBConnection;
 import server.models.Item;
@@ -18,11 +19,10 @@ import java.util.ArrayList;
 @Path("/user")
 public class UserEndpoint {
 
-    private DBConnection dbCon = new DBConnection();
-    private Digester dig = new Digester();
     private ArrayList<Item> items;
     private UserController ucontroller = new UserController();
     private Encryption encryption = new Encryption();
+    private Config config = new Config();
 
 
     @POST
@@ -117,16 +117,38 @@ public class UserEndpoint {
     @Path("/login")
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
 
+        if (config.getENCRYPTION()) {
         userAsJson = new Gson().fromJson(userAsJson, String.class);
         userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
         String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
-        return Response
+            return Response
                 .status(200)
                 .type("application/json")
                 .entity(response)
+                .build();
+        } else{
+            User user = new Gson().fromJson(userAsJson, User.class);
+            User userCheck = ucontroller.authorizeUser(user);
+            String response = new Gson().toJson(userCheck, User.class);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(response)
+                    .build();
+        }
+
+    }
+
+    @POST
+    @Path("/encrypt")
+    public Response encrypt(String request) {
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(new Gson().toJson(encryption.encryptDecryptXOR(request)))
                 .build();
     }
 }
