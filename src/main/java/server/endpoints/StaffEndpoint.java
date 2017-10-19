@@ -1,6 +1,7 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.authentication.Secured;
 import server.controllers.StaffController;
 import server.database.DBConnection;
 import server.models.Order;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 //Created by Nordmenn 19-10-2017 Gruppe YOLO
-
+@Secured
 public class StaffEndpoint {
     private DBConnection dbCon = new DBConnection();
     private ArrayList<Order> orders;

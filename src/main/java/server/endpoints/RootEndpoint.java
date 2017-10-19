@@ -3,6 +3,7 @@ package server.endpoints;
 import com.google.gson.Gson;
 import org.glassfish.jersey.server.spi.ResponseErrorMapper;
 import server.authentication.AuthEndpoint;
+import server.authentication.Secured;
 import server.controllers.MainController;
 import server.database.DBConnection;
 import server.models.User;
@@ -38,7 +39,7 @@ public class RootEndpoint {
         }
         return Response.status(401).type("plain/text").entity("User not authorized").build();
     }
-
+    @Secured
     @POST
     @Path("/logout")
     public void logout(String userId){

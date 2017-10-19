@@ -1,6 +1,7 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.authentication.Secured;
 import server.controllers.UserController;
 import server.database.DBConnection;
 import server.models.Item;
@@ -23,7 +24,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/createUser")
-    public Response createUser(@HeaderParam("Authorization") String token, String jsonUser){
+    public Response createUser(String jsonUser){
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
@@ -44,6 +45,7 @@ public class UserEndpoint {
                 .build();
     }
 
+    @Secured
     @POST
     @Path("/createOrder")
     public Response createOrder(String jsonOrder){
@@ -64,7 +66,7 @@ public class UserEndpoint {
                 .build();
     }
 
-
+    @Secured
     @GET
     @Path("{id}")
     public Response getOrdersById(@PathParam("id") int id){
@@ -88,7 +90,7 @@ public class UserEndpoint {
                 .entity(ordersAsJson)
                 .build();
     }
-
+    @Secured
     @GET
     @Path("/getItems")
     public Response getItems(){

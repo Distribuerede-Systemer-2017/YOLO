@@ -6,7 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-
+import server.controllers.MainController;
+import server.database.DBConnection;
 
 
 import javax.annotation.Priority;
@@ -23,6 +24,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /**
+ * FROM https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey
+ */
+
+/**
  * Class responsible for ???
  */
 @Secured
@@ -32,6 +37,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     ContainerRequestContext localContainerRequestContext;
     String httpMethodType;
     AuthEndpoint authEndpoint = new AuthEndpoint();
+    MainController mc;
     private static final String AUTHENTICATION_SCHEME = "Bearer";
 
     /**
@@ -43,23 +49,40 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
         //Get the Authorization header from the request
         String authHeader = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-        
-        localContainerRequestContext = containerRequestContext;
-        String token = authHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
-        httpMethodType = containerRequestContext.getMethod().toString();
-
-        try {
-            if (checkToken(token) == true) {
-
-            } else {
-                containerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        //Validate the Authorization header
+        if(!isTokenBasedAuthentication(authHeader)) {
+        abortWithUnauthorized(containerRequestContext);
+        return;
         }
 
+        //Extract the token from the Authorization header
+        String token = authHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
+
+        try {
+
+            //Validate the token
+            validateToken(token);
+
+        } catch (Exception e) {
+            abortWithUnauthorized(containerRequestContext);
+        }
+
+    }
+
+    private boolean isTokenBasedAuthentication(String authorizationHeader) {
+
+        //Check if the Authorization header is valid
+        //It must not be null and must be prefixed with "Bearer" plus a whitespace
+        //Authentication scheme comparison must be case-insensitive
+        return authorizationHeader != null && authorizationHeader.toLowerCase().startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+    }
+
+    private void abortWithUnauthorized(ContainerRequestContext requestContext) {
+
+        //Abort with filter chain with a 401 status code
+        //The "WWW-Authenticate" header is sent along with the response:
+        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
     }
 
     /**
@@ -68,28 +91,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
      * @return
      * @throws Exception
      */
-    private boolean checkToken(String token) throws Exception {
+    private boolean validateToken(String token) throws Exception {
 
         boolean isValidToken = true;
         try {
-
-            //???
-            Algorithm algorithm = Algorithm.HMAC256("secret");
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("YOLO").build();
-
-            DecodedJWT jwt = verifier.verify(token);
-
-            //abort if true
-            if (jwt.getExpiresAt().before(new Date(System.currentTimeMillis() * 1000))) {
-                localContainerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            isValidToken = false;
-        } catch (JWTVerificationException e) {
-            isValidToken = false;
+            isValidToken = mc.tokenExists();
         }
+
 
         //else return valid
         return isValidToken;
