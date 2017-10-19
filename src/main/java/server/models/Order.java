@@ -51,7 +51,7 @@ public class Order {
         return isReady;
     }
 
-    public void isReady(boolean status) {
+    public void setIsReady(boolean status) {
         this.isReady = status;
     }
 

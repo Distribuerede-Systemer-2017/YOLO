@@ -101,7 +101,11 @@ public class DBConnection {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setOrderTime(resultSet.getTimestamp("orderTime"));
-                if(resultSet.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                if(resultSet.getInt("isReady") != 1) {
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
                 order.setUser_userId(resultSet.getInt("user_userid"));
 
 
@@ -164,7 +168,11 @@ public class DBConnection {
                 Order order = new Order();
                 order.setOrderId(resultset.getInt("order_id"));
                 order.setOrderTime(resultset.getTimestamp("orderTime"));
-                if(resultset.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                if(resultset.getInt("isReady") != 1){
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
                 order.setUser_userId(resultset.getInt("user_userid"));
 
                 orders.add(order);
