@@ -1,15 +1,12 @@
 package server.utility;
-import org.slf4j.LoggerFactory;
-import server.utility.Log;
 import server.config.Config;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 
 public class Globals implements ServletContextListener {
 
-    private Log log;
+    public static Log log = new Log();
 
     public static Config config = new Config();
 
