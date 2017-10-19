@@ -229,14 +229,14 @@ public class DBConnection {
              */
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setOrderId(resultset.getInt("order_id"));
-                order.setOrderTime(resultset.getTimestamp("orderTime"));
-                if(resultset.getInt("isReady") != 1){
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setOrderTime(resultSet.getTimestamp("orderTime"));
+                if(resultSet.getInt("isReady") != 1){
                     order.setIsReady(false);
                 } else {
                     order.setIsReady(true);
                 }
-                order.setUser_userId(resultset.getInt("user_userid"));
+                order.setUser_userId(resultSet.getInt("user_userid"));
 
                 Item item = new Item();
                 item.setItemId(resultSet.getInt("item_id"));

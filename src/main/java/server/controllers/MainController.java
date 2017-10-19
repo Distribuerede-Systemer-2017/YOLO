@@ -7,16 +7,7 @@ import server.models.User;
 import server.utility.Digester;
 
 public class MainController {
-private DBConnection dbConnection;
-
-import server.utility.Globals;
-
-import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
+    private DBConnection dbConnection;
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;

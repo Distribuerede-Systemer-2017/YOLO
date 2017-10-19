@@ -7,23 +7,17 @@ import server.models.*;
 import server.endpoints.UserEndpoint;
 import server.utility.Globals;
 
+import java.util.ArrayList;
+
 public class UserController {
     private Digester dig;
-    private DBConnection dbConnection;
-
-    public UserController (DBConnection dbConnection){
-        this.dbConnection = dbConnection;
-        this.dig = new Digester();
-    }
-
     private Digester digester;
     private MainController mainController;
     private DBConnection dbConnection;
 
     public UserController (DBConnection dbConnection){
-        this.currentUser = currentUser;
         this.dbConnection = dbConnection;
-        this.digester = new Digester();
+        this.dig = new Digester();
     }
 
     public UserController ( ) {
