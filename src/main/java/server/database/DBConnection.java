@@ -201,6 +201,7 @@ public class DBConnection {
     public User authorizeUser(User controlUser){
         ResultSet resultSet = null;
         User newUser = null;
+
         try {
             PreparedStatement authorizeUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ?");
 
