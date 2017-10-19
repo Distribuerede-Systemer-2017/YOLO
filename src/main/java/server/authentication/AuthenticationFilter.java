@@ -72,6 +72,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     }
 
+
+
     private boolean isTokenBasedAuthentication(String authorizationHeader) {
 
         //Check if the Authorization header is valid

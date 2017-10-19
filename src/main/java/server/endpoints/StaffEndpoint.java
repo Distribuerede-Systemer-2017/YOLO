@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 //Created by Nordmenn 19-10-2017 Gruppe YOLO
 @Secured
+@Path("/staff")
 public class StaffEndpoint {
     private DBConnection dbCon = new DBConnection();
     private ArrayList<Order> orders;

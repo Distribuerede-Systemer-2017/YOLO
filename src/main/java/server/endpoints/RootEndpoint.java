@@ -27,11 +27,14 @@ public class RootEndpoint {
 
             User loginUser = mc.authorizeUser(user);
             String loginUserAsJson = new Gson().toJson(loginUser, User.class);
-            if (loginUser == null) {
-                //Findes ikke
-            } else {
-               Response tokenResponse = auth.AuthUser(userAsJson);
-                return tokenResponse;
+            if(loginUser.isPersonel() == true){
+                return Response.status(200).type("plain/text").entity(auth.AuthUser(loginUserAsJson).getEntity() + "staff").build();
+            }
+            else if(loginUser == null){
+                return Response.status(401).type("plain/text").entity("User not authorized").build();
+            }
+            else{
+                return auth.AuthUser(loginUserAsJson);
             }
 
         } catch (Exception e) {

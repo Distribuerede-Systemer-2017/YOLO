@@ -305,4 +305,30 @@ public class DBConnection {
         }
         return false;
     }
+
+    public boolean tokenStaff(String token){
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        String serverToken = "";
+        try{
+            PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
+            tokenExists.setString(1, token);
+            rs = tokenExists.executeQuery();
+            rs.next();
+            int id = rs.getInt("Users_user_id");
+
+            PreparedStatement checkPersonel = connection.prepareStatement("SELECT * FROM Users WHERE user_id = ?");
+            checkPersonel.setInt(1, id);
+            rs2 = checkPersonel.executeQuery();
+            rs2.next();
+            if(rs2.getInt("isPersonel") == 1){
+                return true;
+            }
+
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
