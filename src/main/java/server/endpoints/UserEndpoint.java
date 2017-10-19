@@ -18,18 +18,29 @@ import java.util.ArrayList;
 public class UserEndpoint {
 
     private ArrayList<Item> items;
-    private UserController ucontroller = new UserController();
+    private UserController userController = new UserController();
     private Encryption encryption = new Encryption();
     private Config config = new Config();
 
 
+    /**
+     *Try catch that returns one of three possible outcomes when trying to create a User
+     *
+     *@param jsonUser the User created described in a String
+     * @return Returns Response status 200(succes), Status 400 (Bad Syntax) or Status 500(Server Error)based on the boolean value of result
+     */
     @POST
     @Path("/createUser")
     public Response createUser(String jsonUser){
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
-            boolean result = ucontroller.addUser(userCreated);
+
+
+            //Call controller and see if the user is created
+
+            boolean result = userController.addUser(userCreated);
+
             status = 200;
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
@@ -46,12 +57,25 @@ public class UserEndpoint {
                 .build();
     }
 
+    /**
+     * An if else statement that executes one of to possible outcomes when trying to create an order
+     *
+     * @param jsonOrder the order created by the User described in a String
+     * @return Returns Response with status 200 (succes) or status 500 (Server Error) based on the boolean value of result
+     */
     @POST
     @Path("/createOrder")
     public Response createOrder(String jsonOrder){
+
+
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-        boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+
+
+        //Call controller and get userID
+
+        boolean result = userController.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+
         if (result) {
             status = 200;
         } else if (!result){
@@ -71,7 +95,7 @@ public class UserEndpoint {
     public Response findOrderById(@PathParam("userId")int userId){
         ArrayList<Order> orders;
         int status = 500;
-        orders = ucontroller.findOrderById(userId);
+        orders = userController.findOrderById(userId);
         if(!(orders == null)){
             status = 200;
         }
@@ -85,17 +109,22 @@ public class UserEndpoint {
                 .build();
     }
 
+
+    /**
+     *
+     * @return Returns Response with status 200 (succes) or status 500 (Server Error) based on the value of items
+     */
     @GET
     @Path("/getItems")
     public Response getItems(){
         int status = 500;
-        this.items = ucontroller.getItems();
+        this.items = userController.getItems();
 
         if(!(items == null)){
             status = 200;
         }
 
-
+        //This method serializes the object itemsAsJson into its equivalent representation in Json.
         String itemsAsJson = new Gson().toJson(items);
 
         return Response
@@ -105,6 +134,11 @@ public class UserEndpoint {
                 .build();
     }
 
+    /**
+     * Skal kommenteres færdigt når den fungere
+     * @param userAsJson
+     * @return
+     */
     @POST
     @Path("/login")
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
@@ -113,7 +147,7 @@ public class UserEndpoint {
         userAsJson = new Gson().fromJson(userAsJson, String.class);
         userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = ucontroller.authorizeUser(user);
+        User userCheck = userController.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
         String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
             return Response
@@ -123,7 +157,7 @@ public class UserEndpoint {
                 .build();
         } else{
             User user = new Gson().fromJson(userAsJson, User.class);
-            User userCheck = ucontroller.authorizeUser(user);
+            User userCheck = userController.authorizeUser(user);
             String response = new Gson().toJson(userCheck, User.class);
             return Response
                     .status(200)

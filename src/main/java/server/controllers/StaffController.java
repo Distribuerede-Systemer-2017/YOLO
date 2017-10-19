@@ -14,8 +14,12 @@ public class StaffController {
     private DBConnection dbConnection;
 
 
-    public StaffController(){
-        this.dbConnection = new DBConnection();
+    public StaffController(DBConnection dbConnection){
+        this.dbConnection = dbConnection;
+    }
+
+    public StaffController( ){
+
     }
 
     /**
