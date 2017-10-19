@@ -37,7 +37,7 @@ public class StaffEndpoint {
     }
 
     @POST
-    @Path("/makeReady?{orderid}")
+    @Path("/makeReady/{orderid}")
     public Response makeReady(@PathParam("orderid") int orderID){
         int status = 500;
         Boolean isReady = staffController.makeReady(orderID);
@@ -48,7 +48,7 @@ public class StaffEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"isReady\":\"true\"}")
+                .entity("{\"isReady\":\"" +isReady + "\"}")
                 .build();
     }
 
