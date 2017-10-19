@@ -1,18 +1,14 @@
 package server.controllers;
 import server.database.DBConnection;
 import server.models.*;
-import server.endpoints.UserEndpoint;
 import server.utility.Digester;
 
-import server.models.*;
-import server.endpoints.UserEndpoint;
 
 import java.util.ArrayList;
 
 public class UserController {
     private User currentUser;
     private Digester dig;
-    private MainController mainController;
     private DBConnection dbConnection;
 
     public UserController (){
@@ -21,9 +17,6 @@ public class UserController {
         this.dig = new Digester();
     }
 
-   // public void logOut() {
-   //     mainController.logout();
-   // }
 
     public void setCurrentUser(User user){
         this.currentUser = user;

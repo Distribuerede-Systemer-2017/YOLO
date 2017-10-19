@@ -8,7 +8,7 @@ import server.models.Order;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.xml.ws.Response;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 //Created by Nordmenn 19-10-2017 Gruppe YOLO
@@ -31,7 +31,6 @@ public class StaffEndpoint {
         }
 
         String ordersAsJson = new Gson().toJson(orders);
-
         return Response
                 .status(status)
                 .type("application/json")
