@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import server.config.Config;
+import server.utility.Globals;
+import server.utility.Log;
 
 
 /**
@@ -18,19 +20,14 @@ import server.config.Config;
 public class DBConnection {
 
     private static Connection connection = null;
+    private static Log log = new Log();
 
     /**
      * Attempts to create the connection to database
      * Gets variables from config file
      */
     public DBConnection() {
-
-        Config config= new Config();
-        try {
-            config.initConfig();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        log.writeLog("DB", this.getClass(), "WORKS", 2);
 
         try {
             try {
@@ -44,14 +41,14 @@ public class DBConnection {
                 e.printStackTrace();
             }
 
-            connection = DriverManager.getConnection(("jdbc:mysql://" + config.getDatabaseHost() + ":"
-                            + config.getDatabasePort() + "/" + config.getDatabaseName()),
-                    config.getDatabaseUser(), config.getDatabasePassword());
+            connection = DriverManager.getConnection(("jdbc:mysql://" + Globals.config.getDatabaseHost() + ":"
+                            + Globals.config.getDatabasePort() + "/" + Globals.config.getDatabaseName()),
+                    Globals.config.getDatabaseUser(), Globals.config.getDatabasePassword());
 
         } catch (SQLException e) {
-            System.out.println(config.getDatabaseHost());
-            System.out.println(config.getDatabaseName());
-            System.out.println(config.getDatabasePort());
+            System.out.println(Globals.config.getDatabaseHost());
+            System.out.println(Globals.config.getDatabaseName());
+            System.out.println(Globals.config.getDatabasePort());
             e.printStackTrace();
         }
 
