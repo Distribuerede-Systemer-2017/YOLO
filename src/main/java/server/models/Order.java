@@ -25,7 +25,6 @@ public class Order {
         this.orderTime = orderTime;
         this.isReady = isReady;
         this.User_userId = User_userId;
-
         this.orders = new ArrayList<Order>();
         this.items = new ArrayList<Item>();
 

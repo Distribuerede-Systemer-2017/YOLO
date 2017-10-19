@@ -7,12 +7,22 @@ import server.models.User;
 import server.utility.Digester;
 
 public class MainController {
-    private DBConnection dbConnection;
+private DBConnection dbConnection;
+
+import server.utility.Globals;
+
+import java.security.MessageDigest;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
     private StaffController staffController;
     private UserController userController;
     private UserEndpoint userEndpoint;
     private StaffEndpoint staffEndpoint;
     private Digester dig;
+    private RootEndpoint rootEndpoint;
 
     public MainController() {
         dbConnection = new DBConnection();
@@ -22,7 +32,7 @@ public class MainController {
         staffEndpoint = new StaffEndpoint();
         dig = new Digester();
     }
-
+  
     public User authorizeUser(User user){
         String hashedPassword = dig.hashWithSalt(user.getPassword());
         user.setPassword(hashedPassword);

@@ -15,4 +15,9 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+    <listener>
+        <listener-class>
+            server.utility.Globals
+        </listener-class>
+    </listener>
 </web-app>

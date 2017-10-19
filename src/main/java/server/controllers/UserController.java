@@ -2,11 +2,12 @@ package server.controllers;
 import server.database.DBConnection;
 import server.models.*;
 import server.utility.Digester;
-
-import java.util.ArrayList;
+import server.database.DBConnection;
+import server.models.*;
+import server.endpoints.UserEndpoint;
+import server.utility.Globals;
 
 public class UserController {
-    private User currentUser;
     private Digester dig;
     private DBConnection dbConnection;
 
@@ -15,20 +16,42 @@ public class UserController {
         this.dig = new Digester();
     }
 
+    private Digester digester;
+    private MainController mainController;
+    private DBConnection dbConnection;
+
+    public UserController (DBConnection dbConnection){
+        this.currentUser = currentUser;
+        this.dbConnection = dbConnection;
+        this.digester = new Digester();
+    }
+
+    public UserController ( ) {
+
+    }
+  
     public boolean addUser(User user){
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
+
+
+        //sets a users password to a hashed with salt password and returns a boolean value if a user has been created
+
+        String hashedPassword = digester.hashWithSalt(user.getPassword());
+
         user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
+
         return result;
     }
 
+    // Adds an item to the order list
     public boolean addOrder(int id, ArrayList<Item> items){
         boolean result = dbConnection.addOrder(id, items);
+
         return result;
     }
 
-    public ArrayList<Order> getOrdersById(int id){
-        ArrayList<Order> orders = dbConnection.findOrderById(id);
+    public ArrayList<Order> findOrderById(int userId) {
+        ArrayList<Order> orders = dbConnection.findOrderById(userId);
         return orders;
     }
 
@@ -36,8 +59,5 @@ public class UserController {
         ArrayList<Item> items = dbConnection.getItems();
         return items;
     }
-
-
-
 
 }

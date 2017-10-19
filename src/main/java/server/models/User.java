@@ -17,13 +17,13 @@ public class User {
     private Digester digester;
     private String token;
 
-    public User(int userId, String username, String password, boolean isPersonel) {
+    public User(int userId, String username, String password, boolean isPersonel, Digester digester) {
         this.user_id = userId;
         this.username = username;
         this.password = password;
         this.isPersonel = isPersonel;
         this.users = new ArrayList<User>();
-        this.digester = new Digester();
+        this.digester = digester;
 
     }
 

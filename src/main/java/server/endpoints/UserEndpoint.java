@@ -8,6 +8,7 @@ import server.models.Item;
 import server.models.Order;
 import server.models.User;
 import server.utility.Digester;
+import server.utility.Globals;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -30,14 +31,23 @@ public class UserEndpoint {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
             boolean result = ucontroller.addUser(userCreated);
             status = 200;
+            //Logging for user created
+            Globals.log.writeLog(getClass().getName(), this, "Creation of user" + userCreated.getUsername() + " successful", 0);
+
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
                 status = 400;
+                //Logging for user not found
+                Globals.log.writeLog(getClass().getName(), this, "Creation of user failed. Error code 400", 2);
+
             }
             else if(e.getClass() == InternalServerErrorException.class){
                 status = 500;
+                //Logging for server failure
+                Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
             }
         }
+
         return Response
                 .status(status)
                 .type("application/json")
@@ -52,17 +62,22 @@ public class UserEndpoint {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+
         if (result) {
             status = 200;
+            //Logging for order created
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderCreated.getOrderId(), 0 );
+
         } else if (!result){
             status = 500;
-        }
+            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1 );
 
+        }
 
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"orderCreated\":\"true\"}")
+                .entity("{\"orderCreated\":\""+result+"\"}")
                 .build();
     }
 
@@ -73,10 +88,11 @@ public class UserEndpoint {
 
         int status = 500;
         ArrayList<Order> foundOrders;
-        foundOrders = ucontroller.getOrdersById(id);
+        foundOrders = ucontroller.findOrderById(id);
 
         if (!(foundOrders == null)){
             status = 200;
+
         }
         else if (foundOrders == null){
             status = 500;
@@ -110,5 +126,4 @@ public class UserEndpoint {
                 .entity(itemsAsJson)
                 .build();
     }
-
 }
