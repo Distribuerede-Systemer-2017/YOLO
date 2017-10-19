@@ -2,6 +2,7 @@ package server.database;
 
 import server.models.Item;
 import server.models.Order;
+import server.models.Token;
 import server.models.User;
 
 import java.io.IOException;
@@ -254,5 +255,68 @@ public class DBConnection {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Date checkTokenDate(User user){
+        ResultSet rs;
+        try{
+            PreparedStatement checkTokenDate = connection.prepareStatement("SELECT * Token WHERE Token_userId = ?");
+            checkTokenDate.setInt(1, user.getUserId());
+            rs = checkTokenDate.executeQuery();
+            rs.next();
+            return rs.getDate("tokenDate");
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String createToken(User user, String token){
+        try{
+            PreparedStatement createToken = connection.prepareStatement("INSERT into Token (tokenString, Token_userId) VALUES (?, ?)");
+            createToken.setString(1, token);
+            createToken.setInt(3, user.getUserId());
+            int rowsAffected = createToken.executeUpdate();
+            if (rowsAffected == 1){
+                return token;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean deleteToken(int id){
+        try{
+            PreparedStatement deleteToken = connection.prepareStatement("DELETE * FROM Token WHERE Users_userId = ?");
+            deleteToken.setInt(1, id);
+            int rowsAffected = deleteToken.executeUpdate();
+            if (rowsAffected > 0){
+                return true;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Token tokenExists(String token){
+        ResultSet rs;
+        Token foundToken = null;
+        try{
+            PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
+            tokenExists.setString(1, token);
+            rs = tokenExists.executeQuery();
+            rs.next();
+            foundToken.setUserId(rs.getInt("Users_user_id"));
+            foundToken.setTokenDate(rs.getDate("tokenDate"));
+            foundToken.setTokenId(rs.getInt("tokenId"));
+            foundToken.setTokenString(rs.getString("tokenString"));
+            return foundToken;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return foundToken;
     }
 }

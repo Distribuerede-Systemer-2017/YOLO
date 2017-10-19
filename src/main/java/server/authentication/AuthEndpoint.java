@@ -1,19 +1,19 @@
 
-        package server.authentication;
+package server.authentication;
 
-        import com.auth0.jwt.JWT;
-        import com.auth0.jwt.algorithms.Algorithm;
-        import com.auth0.jwt.exceptions.JWTCreationException;
-        import com.google.gson.Gson;
-        import server.controllers.UserController;
-        import server.models.User;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.google.gson.Gson;
+import server.controllers.MainController;
+import server.database.DBConnection;
+import server.models.User;
 
-        import javax.ws.rs.POST;
-        import javax.ws.rs.Path;
-        import javax.ws.rs.core.Response;
-        import java.io.UnsupportedEncodingException;
-        import java.util.ArrayList;
-        import java.util.Date;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * Created by Tobias on 10-10-2017.
@@ -21,8 +21,8 @@
 
 @Path("/auth")
 public class AuthEndpoint {
-    UserController ucontroller = new UserController();
-    ArrayList<String> tokenArray = new ArrayList<String>();
+    MainController mcontroller = new MainController();
+    DBConnection dbCon = new DBConnection();
     User tokenUser = new User();
 
     @POST
@@ -31,7 +31,7 @@ public class AuthEndpoint {
         String token = null;
 
         try {
-            tokenUser = ucontroller.authorizeUser(user);
+            tokenUser = mcontroller.authorizeUser(user);
             try {
                 Algorithm algorithm = Algorithm.HMAC256("secret");
                 long timevalue;
@@ -40,7 +40,7 @@ public class AuthEndpoint {
 
                 token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
                         .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
-                // tokenArray.add(token);
+                dbCon.createToken(tokenUser, token);
             }catch (UnsupportedEncodingException e){
                 e.printStackTrace();
             }catch (JWTCreationException e){

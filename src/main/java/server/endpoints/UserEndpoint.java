@@ -18,9 +18,8 @@ import java.util.ArrayList;
 public class UserEndpoint {
 
     private DBConnection dbCon = new DBConnection();
-    private Digester dig = new Digester();
     private ArrayList<Item> items;
-    private UserController ucontroller = new UserController();
+    private UserController ucontroller = new UserController(dbCon);
 
     @POST
     @Path("/createUser")
@@ -110,17 +109,4 @@ public class UserEndpoint {
                 .build();
     }
 
-    @POST
-    @Path("/login")
-    public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
-        User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = ucontroller.authorizeUser(user);
-        String userAsJson2 = new Gson().toJson(userCheck, User.class);
-
-        return Response
-                .status(200)
-                .type("application/json")
-                .entity(userAsJson2)
-                .build();
-    }
 }

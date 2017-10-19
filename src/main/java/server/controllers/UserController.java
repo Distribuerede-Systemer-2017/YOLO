@@ -3,9 +3,6 @@ import server.database.DBConnection;
 import server.models.*;
 import server.utility.Digester;
 
-
-import javax.ws.rs.core.Cookie;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class UserController {
@@ -13,15 +10,9 @@ public class UserController {
     private Digester dig;
     private DBConnection dbConnection;
 
-    public UserController (){
-        this.currentUser = currentUser;
-        this.dbConnection = new DBConnection();
+    public UserController (DBConnection dbConnection){
+        this.dbConnection = dbConnection;
         this.dig = new Digester();
-    }
-
-
-    public void setCurrentUser(User user){
-        this.currentUser = user;
     }
 
     public boolean addUser(User user){
@@ -46,12 +37,7 @@ public class UserController {
         return items;
     }
 
-    public User authorizeUser(User user){
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
-        user.setPassword(hashedPassword);
-        User userCheck = dbConnection.authorizeUser(user);
-        return userCheck;
-    }
+
 
 
 }
