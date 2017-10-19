@@ -2,7 +2,10 @@ package server.controllers;
 
 import server.database.DBConnection;
 import server.models.Order;
+<<<<<<< HEAD
 import server.endpoints.StaffEndpoint;
+=======
+>>>>>>> origin/norwegians
 
 import java.util.ArrayList;
 
@@ -12,6 +15,7 @@ import java.util.ArrayList;
 public class StaffController {
     private DBConnection dbConnection;
 
+<<<<<<< HEAD
     public StaffController(){
         this.dbConnection = new DBConnection();
 

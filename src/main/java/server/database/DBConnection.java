@@ -118,7 +118,11 @@ public class DBConnection {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setOrderTime(resultSet.getTimestamp("orderTime"));
-                if(resultSet.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                if(resultSet.getInt("isReady") != 1) {
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
                 order.setUser_userId(resultSet.getInt("user_userid"));
 
 
@@ -200,7 +204,11 @@ public class DBConnection {
                 Order order = new Order();
                 order.setOrderId(resultset.getInt("order_id"));
                 order.setOrderTime(resultset.getTimestamp("orderTime"));
-                if(resultset.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                if(resultset.getInt("isReady") != 1){
+                    order.setIsReady(false);
+                } else {
+                    order.setIsReady(true);
+                }
                 order.setUser_userId(resultset.getInt("user_userid"));
 
                 orders.add(order);
@@ -218,11 +226,16 @@ public class DBConnection {
      * @return Returns whether or not the order was added to the database.
      */
     public boolean addOrder(int userId, ArrayList<Item> items){
+<<<<<<< HEAD
 
         //Missing comment
+=======
+        Timestamp orderTimestamp = new Timestamp(System.currentTimeMillis());
+>>>>>>> origin/norwegians
         try{
-            PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (userId) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement addOrder = connection.prepareStatement("INSERT into Orders (user_userid, orderTime) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             addOrder.setInt(1, userId);
+            addOrder.setTimestamp(2, orderTimestamp);
             addOrder.executeUpdate();
             ResultSet rs = addOrder.getGeneratedKeys();
             rs.next();
@@ -232,7 +245,7 @@ public class DBConnection {
 
             PreparedStatement addItemsToOrder;
             for (int i = 0; i < items.size(); i++) {
-                addItemsToOrder = connection.prepareStatement("INSERT into order_has_items (Order_orderId, Items_itemsId) VALUES (?, ?)");
+                addItemsToOrder = connection.prepareStatement("INSERT into Order_has_Items (Orders_orderId, Items_itemId) VALUES (?, ?)");
                 addItemsToOrder.setInt(1, orderId);
                 addItemsToOrder.setInt(2, items.get(i).getItemId());
                 addItemsToOrder.executeUpdate();
