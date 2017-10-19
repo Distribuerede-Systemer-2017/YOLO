@@ -102,27 +102,84 @@ public class DBConnection {
          */
         ResultSet resultSet = null;
         ArrayList<Order> orders = new ArrayList<>();
-        ArrayList<Item> itemsInOrder = new ArrayList<>();
 
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT Order.order_id, Items.item_id, Items.ItemName from ((Orders " +
-                                                                "INNER JOIN Order_has_Items ON Orders.order_id = Order_has_Items.Orders_orderId)" +
-                                                                "INNER JOIN Items ON Items.item_id = Order_has_Items.Items_itemId)");
+            PreparedStatement getOrders = connection.prepareStatement(
+                "SELECT o.order_id,o.orderTime,o.isReady,o.user_userid, i.item_id, i.ItemName, i.itemDescription, i.itemPrice from ((Orders o\n" +
+                        "INNER JOIN Order_has_Items oi ON o.order_id = oi.Orders_orderId)\n" +
+                        "INNER JOIN Items i ON i.item_id = oi.Items_itemId)");
 
             resultSet = getOrders.executeQuery();
 
             /**
-             * While loop that uses resultSet.next to go through each individual Order and add them to the ArrayList.
+             * While loop that uses resultSet.next to go through each individual Order and item and add item to order ArrayLists and order to orders ArrayList.
              */
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setOrderTime(resultSet.getTimestamp("orderTime"));
-                if(resultSet.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
+                order.isReady(resultSet.getBoolean("isReady"));
                 order.setUser_userId(resultSet.getInt("user_userid"));
 
+                Item item = new Item();
+                item.setItemId(resultSet.getInt("item_id"));
+                item.setItemName(resultSet.getString("itemName"));
+                item.setItemDescription(resultSet.getString("itemDescription"));
+                item.setItemPrice(resultSet.getInt("itemPrice"));
 
+                Boolean addToOrders = true;
+                if (orders.isEmpty()) {
+                    order.setItems(item);
+                } else {
+
+                    for (int i = 0; i <= orders.size(); i++) {
+                        if (order.getOrderId() == orders.get(i).getOrderId()) {
+                            orders.get(i).setItems(item);
+                            addToOrders = false;
+                            break;
+                        } else {
+                            order.setItems(item);
+                            break;
+                        }
+                    }
+                }
+                if (addToOrders)
                 orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    /**
+     * Methods responsible for retrieving all items from the database and adding them to an ArrayList.
+     * @return Returns an ArrayList of items from the database.
+     */
+    public ArrayList<Item> getItems() {
+
+        ResultSet resultSet = null;
+        ArrayList<Item> items = new ArrayList<>();
+
+        /**
+         * Tries to access the items database using a PreparedStatement.
+         * Uses .excecuteQuery() to go through each item.
+         */
+        try {
+            PreparedStatement getItems = connection.prepareStatement("SELECT * FROM Items");
+            resultSet = getItems.executeQuery();
+
+            /**
+             * While loop that uses a resultSet to go through each item and add it to the ArrayList.
+             */
+            while (resultSet.next()) {
+                Item item = new Item();
+                item.setItemId(resultSet.getInt("item_id"));
+                item.setItemName(resultSet.getString("itemName"));
+                item.setItemDescription(resultSet.getString("itemDescription"));
+                item.setItemPrice(resultSet.getInt("itemPrice"));
+
+                items.add(item);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,50 +191,8 @@ public class DBConnection {
                 close();
             }
         }
-        return orders;
+        return items;
     }
-
-    /**
-     * Methods responsible for retrieving all items from the database and adding them to an ArrayList.
-     * @return Returns an ArrayList of items from the database.
-     */
-    public ArrayList<Item> getItems() {
-
-            ResultSet resultSet = null;
-            ArrayList<Item> items = new ArrayList<>();
-
-        /**
-         * Tries to access the items database using a PreparedStatement.
-         * Uses .excecuteQuery() to go through each item.
-         */
-        try {
-                PreparedStatement getItems = connection.prepareStatement("SELECT * FROM Items");
-                resultSet = getItems.executeQuery();
-
-            /**
-             * While loop that uses a resultSet to go through each item and add it to the ArrayList.
-             */
-            while (resultSet.next()) {
-                    Item item = new Item();
-                    item.setItemId(resultSet.getInt("item_id"));
-                    item.setItemName(resultSet.getString("itemName"));
-                    item.setItemDescription(resultSet.getString("itemDescription"));
-                    item.setItemPrice(resultSet.getInt("itemPrice"));
-
-                    items.add(item);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    resultSet.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    close();
-                }
-            }
-            return items;
-        }
 
     /**
      * Method used to find orders from individual users using ID as a primary key.
@@ -185,25 +200,58 @@ public class DBConnection {
      * @return Returns an ArrayList of orders from the specified user.
      */
     public ArrayList<Order> findOrderById(int userId) {
-        ResultSet resultset = null;
-        ArrayList<Order> orders = null;
 
         /**
-         * Uses PreparedStatement to access the "Orders" database and only selecting the orders where the userid = the parameter.
+         * Creates ResultSet to filter through all Orders.
+         * Creates ArrayList which will ultimately be the end product.
          */
-        try{
-            PreparedStatement findOrderById = connection.prepareStatement("SELECT * FROM Orders WHERE user_userid = ?");
-            findOrderById.setInt(1, userId);
+        ResultSet resultSet = null;
+        ArrayList<Order> orders = new ArrayList<>();
 
-            resultset = findOrderById.executeQuery();
-            while(resultset.next()){
+        try {
+            PreparedStatement findOrderById = connection.prepareStatement(
+                    "SELECT o.order_id,o.orderTime,o.isReady,o.user_userid, i.item_id, i.ItemName, i.itemDescription, i.itemPrice from ((Orders o\n" +
+                            "INNER JOIN Order_has_Items oi ON o.order_id = oi.Orders_orderId)\n" +
+                            "INNER JOIN Items i ON i.item_id = oi.Items_itemId)" +
+                            "WHERE o.user_userid = ?");
+
+            findOrderById.setInt(1,userId);
+            resultSet = findOrderById.executeQuery();
+
+            /**
+             * While loop that uses resultSet.next to go through each individual Order and item and add item to order ArrayLists and order to orders ArrayList.
+             */
+            while (resultSet.next()) {
                 Order order = new Order();
-                order.setOrderId(resultset.getInt("order_id"));
-                order.setOrderTime(resultset.getTimestamp("orderTime"));
-                if(resultset.getInt("isReady") != 1){order.isReady(false);} else {order.isReady(true);}
-                order.setUser_userId(resultset.getInt("user_userid"));
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setOrderTime(resultSet.getTimestamp("orderTime"));
+                order.isReady(resultSet.getBoolean("isReady"));
+                order.setUser_userId(resultSet.getInt("user_userid"));
 
-                orders.add(order);
+                Item item = new Item();
+                item.setItemId(resultSet.getInt("item_id"));
+                item.setItemName(resultSet.getString("itemName"));
+                item.setItemDescription(resultSet.getString("itemDescription"));
+                item.setItemPrice(resultSet.getInt("itemPrice"));
+
+                Boolean addToOrders = true;
+                if (orders.isEmpty()) {
+                    order.setItems(item);
+                } else {
+
+                    for (int i = 0; i <= orders.size(); i++) {
+                        if (order.getOrderId() == orders.get(i).getOrderId()) {
+                            orders.get(i).setItems(item);
+                            addToOrders = false;
+                            break;
+                        } else {
+                            order.setItems(item);
+                            break;
+                        }
+                    }
+                }
+                if (addToOrders)
+                    orders.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();

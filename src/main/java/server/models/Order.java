@@ -13,7 +13,7 @@ public class Order {
     private Timestamp orderTime;
     private boolean isReady;
     private int User_userId;
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
 
     public Order(){
 

@@ -51,9 +51,8 @@ public class UserController {
         return result;
     }
 
-    // Gets an order by their id
-    public ArrayList<Order> getOrdersById(int id){
-        ArrayList<Order> orders= dbConnection.findOrderById(id);
+    public ArrayList<Order> findOrderById(int userId) {
+        ArrayList<Order> orders = dbConnection.findOrderById(userId);
         return orders;
     }
 
