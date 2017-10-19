@@ -15,6 +15,7 @@ public class User {
     private boolean isPersonel;
     private ArrayList<User> users;
     private Digester digester;
+    private String token;
 
     public User(int userId, String username, String password, boolean isPersonel) {
         this.user_id = userId;
@@ -63,6 +64,9 @@ public class User {
         isPersonel = personel;
     }
 
+    public void setToken(String token){
+        this.token = token;
+    }
 
 }
 

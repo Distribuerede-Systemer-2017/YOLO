@@ -27,7 +27,6 @@ import java.util.Date;
 public class AuthEndpoint {
     private MainController mcontroller = new MainController();
     private DBConnection dbCon = new DBConnection();
-    private User tokenUser = new User();
 
     /**
      * Authenticates the user and returns a token if user exists
@@ -39,6 +38,7 @@ public class AuthEndpoint {
         User user = new Gson().fromJson(jsonUser, User.class);
         String token = null;
         Date expDate;
+        User tokenUser;
 
         try {
             tokenUser = mcontroller.authorizeUser(user);
@@ -66,4 +66,7 @@ public class AuthEndpoint {
 
     }
 
+    public MainController getMcontroller() {
+        return mcontroller;
+    }
 }

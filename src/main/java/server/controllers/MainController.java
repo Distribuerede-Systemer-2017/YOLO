@@ -39,9 +39,5 @@ public class MainController {
         return check;
     }
 
-    public boolean checkTokenStaff(String token){
-        Boolean check = dbConnection.tokenStaff(token);
-        return check;
-    }
 
 }
