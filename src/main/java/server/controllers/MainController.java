@@ -1,35 +1,70 @@
 package server.controllers;
 
+import server.database.DBConnection;
+import server.endpoints.RootEndpoint;
+import server.endpoints.StaffEndpoint;
+import server.endpoints.UserEndpoint;
 import server.models.User;
-
-import java.security.MessageDigest;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainController {
 
     private User currentUser;
+    private DBConnection dbConnection;
+    private StaffController staffController;
+    private UserController userController;
+    private UserEndpoint userEndpoint;
+    private StaffEndpoint staffEndpoint;
+    private RootEndpoint rootEndpoint;
 
-    public MainController(User currentUser) {
-        this.currentUser = currentUser;
+
+    public MainController() {
+        currentUser = null;
+        dbConnection = new DBConnection();
+        staffController = new StaffController();
+        userController = new UserController();
+        userEndpoint = new UserEndpoint();
+        staffEndpoint = new StaffEndpoint();
+        rootEndpoint = new RootEndpoint();
+
     }
 
 
-    public void Login(String username, String password) {
+    public void login(String username, String password) {
 
-        //kald DBConnection metode (find objekt ud fra username og password)
+        User user = new User();
 
-        //tjek om objekt = is personel eller ej
+        user.setUsername(username);
+        user.setPassword(password);
+        //Logikken der tjekker, hvorvidt en bruger findes eller ej
 
-        if (currentUser.isPersonel()) {
+        try {
 
-        } else {
+         //   currentUser = dbConnection.getUser(username, password);
+
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (currentUser.isPersonel()) {
+           //     staffController.loadUser(currentUser);
+            } else {
+            //    userController.loadUser(currentUser);
+            }
+
+
+            if (currentUser == null) {
+                //Findes ikke
+            } else if (!currentUser.isPersonel()) {
+                //Log-in as user
+                userController.setCurrentUser(user);
+            } else {
+                //Log-in as staff
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
-    }
 
+    }
 }
 
