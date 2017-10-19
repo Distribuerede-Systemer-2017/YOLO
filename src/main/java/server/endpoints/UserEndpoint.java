@@ -23,7 +23,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/createUser")
-    public Response createUser(String jsonUser){
+    public Response createUser(@HeaderParam("Authorization") String token, String jsonUser){
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);

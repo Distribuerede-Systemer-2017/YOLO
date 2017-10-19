@@ -41,7 +41,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
      */
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
+        //Get the Authorization header from the request
         String authHeader = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        
         localContainerRequestContext = containerRequestContext;
         String token = authHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
 
