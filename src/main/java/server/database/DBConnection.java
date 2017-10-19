@@ -259,9 +259,9 @@ public class DBConnection {
 
     public String createToken(User user, String token){
         try{
-            PreparedStatement createToken = connection.prepareStatement("INSERT into Token (tokenString, Token_userId) VALUES (?, ?)");
+            PreparedStatement createToken = connection.prepareStatement("INSERT into Token (tokenString, Users_userId) VALUES (?, ?)");
             createToken.setString(1, token);
-            createToken.setInt(3, user.getUserId());
+            createToken.setInt(2, user.getUserId());
             int rowsAffected = createToken.executeUpdate();
             if (rowsAffected == 1){
                 return token;
@@ -274,7 +274,7 @@ public class DBConnection {
 
     public boolean deleteToken(int id){
         try{
-            PreparedStatement deleteToken = connection.prepareStatement("DELETE * FROM Token WHERE Users_userId = ?");
+            PreparedStatement deleteToken = connection.prepareStatement("DELETE FROM Token WHERE Users_userId = ?");
             deleteToken.setInt(1, id);
             int rowsAffected = deleteToken.executeUpdate();
             if (rowsAffected > 0){
