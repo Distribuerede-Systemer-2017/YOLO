@@ -56,7 +56,7 @@ Er man en elev ved CBS som har opprettet en bruker på kantine-programmet, har m
 #### Use-case 02 - Se varer 
 Når man er logget inn, kan man velge å se varene som kantinene ved CBS tilbyr. Her vil man få en meny opp med f.eks. ulike bagels, sandwicher, smoothies og juicer. Ved hver vare skal det stå en beskrivelse med innhold og prisen på produktet. Dette gir brukeren mulighet til å se hvilke produkter de kan bestille.
 
-#### Use-case 03 - Kjøp varer 
+#### Use-case 03 - Tilføy varer til handlekurv
 Når en elev ved CBS er logget inn og ser på oversikten over varer i kantinen, kan en elev velge "bestill vare".  Da vil denne varen legges til den gitte brukers sin innkjøpskurv, men ordren er ikke bekreftet før eleven godkjenner i sin handlekurv. 
 
 #### Use-case 04 - Se min innkjøpskurv / Check ut 
