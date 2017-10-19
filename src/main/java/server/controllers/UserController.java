@@ -53,14 +53,6 @@ public class UserController {
         user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
 
-        //Conditional logging for creation of user
-        if(result) {
-            Globals.log.writeLog(getClass().getName(), this, "Creation of user" + user.getUsername() + " successful", 0);
-
-        } else {
-            Globals.log.writeLog(getClass().getName(), this, "Creation of user" + user.getUsername() + " failed", 2);
-        }
-
         return result;
     }
 
@@ -68,12 +60,6 @@ public class UserController {
     public boolean addOrder(int id, ArrayList<Item> items){
         boolean result = dbConnection.addOrder(id, items);
 
-        //Conditional logging for adding an order
-        if(result) {
-            Globals.log.writeLog(getClass().getName(), this, "Added order id: " + id + " to " + currentUser.getUsername() + "'s orders successful", 0);
-        } else {
-            Globals.log.writeLog(getClass().getName(), this, "Adding order id: " + id + " to" + currentUser.getUsername() + "'s orders failed", 2);
-        }
         return result;
     }
 
@@ -93,15 +79,6 @@ public class UserController {
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
 
-        //Conditional logging for user authorization
-        if (userCheck != null) {
-
-            Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + userCheck.getUsername() + " successful", 0);
-
-        } else {
-
-            Globals.log.writeLog(getClass().getName(), this, "Log-in attempt by" + userCheck.getUsername() + " failed", 0);
-        }
         return userCheck;
     }
 

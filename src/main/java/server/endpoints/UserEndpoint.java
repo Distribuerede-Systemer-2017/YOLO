@@ -31,13 +31,20 @@ public class UserEndpoint {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
             boolean result = ucontroller.addUser(userCreated);
             status = 200;
-            Globals.log.writeLog(getClass().getName(), this, "Oprettede bruger med navnet: " + userCreated.getUsername(), 0 );
+            //Logging for user created
+            Globals.log.writeLog(getClass().getName(), this, "Creation of user" + userCreated.getUsername() + " successful", 0);
+
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
                 status = 400;
+                //Logging for user not found
+                Globals.log.writeLog(getClass().getName(), this, "Creation of user failed. Error code 400", 2);
+
             }
             else if(e.getClass() == InternalServerErrorException.class){
                 status = 500;
+                //Logging for server failure
+                Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
             }
         }
 
@@ -54,13 +61,17 @@ public class UserEndpoint {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
-        Globals.log.writeLog(getClass().getName(), this, "Oprettede ordrer med id: " + orderCreated.getOrderId(), 0 );
+
         if (result) {
             status = 200;
+            //Logging for order created
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderCreated.getOrderId(), 0 );
+
         } else if (!result){
             status = 500;
-        }
+            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1 );
 
+        }
 
         return Response
                 .status(status)
@@ -80,6 +91,7 @@ public class UserEndpoint {
 
         if (!(foundOrders == null)){
             status = 200;
+
         }
         else if (foundOrders == null){
             status = 500;
@@ -121,7 +133,8 @@ public class UserEndpoint {
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
 
-        Globals.log.writeLog(getClass().getName(), this, "Authorized bruger med navnet:" + user.getUsername(), 0 );
+        //Logging for user authorized
+        Globals.log.writeLog(getClass().getName(), this, "Authorized user with username:" + user.getUsername(), 0 );
 
         return Response
                 .status(200)

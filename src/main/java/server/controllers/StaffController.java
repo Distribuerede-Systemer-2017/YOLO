@@ -1,8 +1,10 @@
 package server.controllers;
 
+import com.google.gson.Gson;
 import server.database.DBConnection;
 import server.models.Order;
 import server.endpoints.StaffEndpoint;
+import server.utility.Globals;
 
 import javax.ws.rs.Path;
 import java.util.ArrayList;
@@ -32,8 +34,10 @@ public class StaffController {
 
     public boolean makeReady(int orderID) {
         boolean result = dbConnection.makeReady(orderID);
+
         return result;
     }
 
 }
+
 
