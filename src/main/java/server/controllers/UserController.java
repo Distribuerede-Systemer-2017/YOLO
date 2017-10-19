@@ -7,6 +7,7 @@ import server.utility.Digester;
 import server.database.DBConnection;
 import server.models.*;
 import server.endpoints.UserEndpoint;
+import server.utility.Globals;
 
 import java.util.ArrayList;
 
@@ -51,12 +52,14 @@ public class UserController {
 
         user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
+
         return result;
     }
 
     // Adds an item to the order list
     public boolean addOrder(int id, ArrayList<Item> items){
         boolean result = dbConnection.addOrder(id, items);
+
         return result;
     }
 
@@ -75,6 +78,7 @@ public class UserController {
         String hashedPassword = digester.hashWithSalt(user.getPassword());
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
+
         return userCheck;
     }
 

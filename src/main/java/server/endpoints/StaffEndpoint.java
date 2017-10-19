@@ -3,6 +3,7 @@ package server.endpoints;
 import com.google.gson.Gson;
 import server.controllers.StaffController;
 import server.models.Order;
+import server.utility.Globals;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -38,12 +39,18 @@ public class StaffEndpoint {
 
     @POST
     @Path("/makeReady/{orderid}")
-    public Response makeReady(@PathParam("orderid") int orderID){
+    public Response makeReady(@PathParam("orderid") int orderID, String jsonOrder){
+        Order orderReady = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         Boolean isReady = staffController.makeReady(orderID);
 
         if(isReady){
             status = 200;
+            //Logging for order made ready
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderReady.getOrderId(), 0 );
+
+
+
         }
         return Response
                 .status(status)

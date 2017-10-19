@@ -1,12 +1,13 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
-import server.config.Config;
 import server.controllers.UserController;
+import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
-import server.utility.Encryption;
+import server.utility.Digester;
+import server.utility.Globals;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -17,39 +18,36 @@ import java.util.ArrayList;
 @Path("/user")
 public class UserEndpoint {
 
+    private DBConnection dbCon = new DBConnection();
+    private Digester dig = new Digester();
     private ArrayList<Item> items;
-    private UserController userController = new UserController();
-    private Encryption encryption = new Encryption();
-    private Config config = new Config();
+    private UserController ucontroller = new UserController();
 
-
-    /**
-     *Try catch that returns one of three possible outcomes when trying to create a User
-     *
-     *@param jsonUser the User created described in a String
-     * @return Returns Response status 200(succes), Status 400 (Bad Syntax) or Status 500(Server Error)based on the boolean value of result
-     */
     @POST
     @Path("/createUser")
     public Response createUser(String jsonUser){
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
-
-
-            //Call controller and see if the user is created
-
-            boolean result = userController.addUser(userCreated);
-
+            boolean result = ucontroller.addUser(userCreated);
             status = 200;
+            //Logging for user created
+            Globals.log.writeLog(getClass().getName(), this, "Creation of user" + userCreated.getUsername() + " successful", 0);
+
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
                 status = 400;
+                //Logging for user not found
+                Globals.log.writeLog(getClass().getName(), this, "Creation of user failed. Error code 400", 2);
+
             }
             else if(e.getClass() == InternalServerErrorException.class){
                 status = 500;
+                //Logging for server failure
+                Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
             }
         }
+
         return Response
                 .status(status)
                 .type("application/json")
@@ -57,29 +55,22 @@ public class UserEndpoint {
                 .build();
     }
 
-    /**
-     * An if else statement that executes one of to possible outcomes when trying to create an order
-     *
-     * @param jsonOrder the order created by the User described in a String
-     * @return Returns Response with status 200 (succes) or status 500 (Server Error) based on the boolean value of result
-     */
     @POST
     @Path("/createOrder")
     public Response createOrder(String jsonOrder){
-
-
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
-
-
-        //Call controller and get userID
-
-        boolean result = userController.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+        boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
 
         if (result) {
             status = 200;
+            //Logging for order created
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderCreated.getOrderId(), 0 );
+
         } else if (!result){
             status = 500;
+            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1 );
+
         }
 
         return Response
@@ -90,17 +81,23 @@ public class UserEndpoint {
     }
 
 
-    @POST
-    @Path("/findOrdersById/{userId}")
-    public Response findOrderById(@PathParam("userId")int userId){
-        ArrayList<Order> orders;
+    @GET
+    @Path("{id}")
+    public Response getOrdersById(@PathParam("id") int id){
+
         int status = 500;
-        orders = userController.findOrderById(userId);
-        if(!(orders == null)){
+        ArrayList<Order> foundOrders;
+        foundOrders = ucontroller.findOrderById(id);
+
+        if (!(foundOrders == null)){
             status = 200;
+
+        }
+        else if (foundOrders == null){
+            status = 500;
         }
 
-        String ordersAsJson = new Gson().toJson(orders);
+        String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
 
         return Response
                 .status(status)
@@ -109,22 +106,17 @@ public class UserEndpoint {
                 .build();
     }
 
-
-    /**
-     *
-     * @return Returns Response with status 200 (succes) or status 500 (Server Error) based on the value of items
-     */
     @GET
     @Path("/getItems")
     public Response getItems(){
         int status = 500;
-        this.items = userController.getItems();
+        this.items = ucontroller.getItems();
 
         if(!(items == null)){
             status = 200;
         }
 
-        //This method serializes the object itemsAsJson into its equivalent representation in Json.
+
         String itemsAsJson = new Gson().toJson(items);
 
         return Response
@@ -134,47 +126,20 @@ public class UserEndpoint {
                 .build();
     }
 
-    /**
-     * Skal kommenteres færdigt når den fungere
-     * @param userAsJson
-     * @return
-     */
     @POST
     @Path("/login")
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
-
-        if (config.getENCRYPTION()) {
-        userAsJson = new Gson().fromJson(userAsJson, String.class);
-        userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = userController.authorizeUser(user);
+        User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
-        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
-            return Response
-                .status(200)
-                .type("application/json")
-                .entity(response)
-                .build();
-        } else{
-            User user = new Gson().fromJson(userAsJson, User.class);
-            User userCheck = userController.authorizeUser(user);
-            String response = new Gson().toJson(userCheck, User.class);
-            return Response
-                    .status(200)
-                    .type("application/json")
-                    .entity(response)
-                    .build();
-        }
 
-    }
+        //Logging for user authorized
+        Globals.log.writeLog(getClass().getName(), this, "Authorized user with username:" + user.getUsername(), 0 );
 
-    @POST
-    @Path("/encrypt")
-    public Response encrypt(String request) {
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(new Gson().toJson(encryption.encryptDecryptXOR(request)))
+                .entity(userAsJson2)
                 .build();
     }
 }
