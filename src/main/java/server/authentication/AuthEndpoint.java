@@ -1,5 +1,5 @@
 
-        package server.endpoints;
+        package server.authentication;
 
         import com.auth0.jwt.JWT;
         import com.auth0.jwt.algorithms.Algorithm;
@@ -25,11 +25,8 @@
 @Path("/auth")
 public class AuthEndpoint {
     UserController ucontroller = new UserController();
-    Digester dig = new Digester();
     ArrayList<String> tokenArray = new ArrayList<String>();
     User foundUser = new User();
-
-    String checkHashed;
 
     @POST
     public Response AuthUser(String jsonUser) {
