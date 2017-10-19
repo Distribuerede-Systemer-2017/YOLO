@@ -25,6 +25,10 @@ public class StaffController {
         return orders;
     }
 
+    public boolean makeReady(int orderID) {
+        boolean result = dbConnection.makeReady(orderID);
+        return result;
+    }
 
 }
 

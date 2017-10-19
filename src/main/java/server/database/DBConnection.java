@@ -296,7 +296,7 @@ public class DBConnection {
          * Uses PreparedStatement to update a specific order in the database using the given ID and setting isReady to 1 (true).
          */
         try{
-            PreparedStatement makeReady = connection.prepareStatement("UPDATE order SET isReady = 1 WHERE orderID = ?");
+            PreparedStatement makeReady = connection.prepareStatement("UPDATE Orders SET isReady = 1 WHERE order_id = ?");
             makeReady.setInt(1, orderId);
             int rowsAffected = makeReady.executeUpdate();
 
