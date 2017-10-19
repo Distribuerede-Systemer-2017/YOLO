@@ -122,7 +122,7 @@ public class UserEndpoint {
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
-        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2)+"klientBody:"+encryption.encryptDecryptXOR(userAsJson));
+        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
         return Response
                 .status(200)
                 .type("application/json")
