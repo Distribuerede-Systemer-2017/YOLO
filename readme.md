@@ -41,7 +41,11 @@ K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet)
 
 ## Sekvensdiagram
 
-## Use-cases
+## Use-case diagram
+
+![Use-case-Diagram](project%20management/Use-case-diagram%20Kantine.png)
+
+## Use-cases med beskrivelser
 
 ### Gjest:
 
