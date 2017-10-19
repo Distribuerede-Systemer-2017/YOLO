@@ -10,7 +10,6 @@ import javax.ws.rs.Path;
 
 @Path("/start")
 public class RootEndpoint {
-    DBConnection dbCon = new DBConnection();
     AuthEndpoint auth = new AuthEndpoint();
     MainController mc = new MainController();
 
@@ -41,6 +40,6 @@ public class RootEndpoint {
     @Path("/logout")
     public void logout(String userId){
         int id = new Gson().fromJson(userId, Integer.class);
-        dbCon.deleteToken(id);
+        mc.deleteToken(id);
     }
 }

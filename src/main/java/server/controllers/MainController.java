@@ -12,7 +12,6 @@ public class MainController {
     private UserController userController;
     private UserEndpoint userEndpoint;
     private StaffEndpoint staffEndpoint;
-    private RootEndpoint rootEndpoint;
     private Digester dig;
 
     public MainController() {
@@ -21,7 +20,6 @@ public class MainController {
         userController = new UserController(dbConnection);
         userEndpoint = new UserEndpoint();
         staffEndpoint = new StaffEndpoint();
-        rootEndpoint = new RootEndpoint();
         dig = new Digester();
     }
 
@@ -30,6 +28,10 @@ public class MainController {
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
+    }
+
+    public void deleteToken(int id){
+        dbConnection.deleteToken(id);
     }
 
 }

@@ -17,7 +17,7 @@ public class StaffEndpoint {
     private DBConnection dbCon = new DBConnection();
     private ArrayList<Order> orders;
     private boolean isReady = false;
-    private StaffController staffController = new StaffController();
+    private StaffController staffController = new StaffController(dbCon);
 
     @GET
     @Path("/viewOrders")
