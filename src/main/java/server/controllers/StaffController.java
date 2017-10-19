@@ -20,6 +20,23 @@ public class StaffController {
         this.dbConnection = new DBConnection();
 
     }
+=======
+    private DBConnection dbConnection;
+
+    public StaffController () {
+        this.dbConnection = new DBConnection();
+    }
+
+    /**
+     * Returns the list of all orders currently in the database
+     */
+    public ArrayList<Order> viewOrders() {
+        ArrayList<Order> orders = dbConnection.getOrders();
+        return orders;
+    }
+
+    public void makeReady() {
+>>>>>>> origin/norwegians
 
     /**
      * Returns the list of all orders in the database
