@@ -1,12 +1,14 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
+import server.config.Config;
 import server.controllers.UserController;
 import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
 import server.utility.Digester;
+import server.utility.Encryption;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -17,10 +19,11 @@ import java.util.ArrayList;
 @Path("/user")
 public class UserEndpoint {
 
-    private DBConnection dbCon = new DBConnection();
-    private Digester dig = new Digester();
     private ArrayList<Item> items;
     private UserController ucontroller = new UserController();
+    private Encryption encryption = new Encryption();
+    private Config config = new Config();
+
 
     @POST
     @Path("/createUser")
@@ -57,7 +60,6 @@ public class UserEndpoint {
             status = 500;
         }
 
-
         return Response
                 .status(status)
                 .type("application/json")
@@ -66,22 +68,17 @@ public class UserEndpoint {
     }
 
 
-    @GET
-    @Path("{id}")
-    public Response getOrdersById(@PathParam("id") int id){
-
+    @POST
+    @Path("/findOrdersById?{userId}")
+    public Response findOrderById(@PathParam("userId")int userId){
+        ArrayList<Order> orders;
         int status = 500;
-        ArrayList<Order> foundOrders;
-        foundOrders = ucontroller.getOrdersById(id);
-
-        if (!(foundOrders == null)){
+        orders = ucontroller.findOrderById(userId);
+        if(!(orders == null)){
             status = 200;
         }
-        else if (foundOrders == null){
-            status = 500;
-        }
 
-        String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
+        String ordersAsJson = new Gson().toJson(orders);
 
         return Response
                 .status(status)
@@ -113,14 +110,39 @@ public class UserEndpoint {
     @POST
     @Path("/login")
     public Response authorizeUser(String userAsJson) { //virker ikke nå fordi vi skal hashe på klient-siden også
+
+        if (config.getENCRYPTION()) {
+        userAsJson = new Gson().fromJson(userAsJson, String.class);
+        userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
         User userCheck = ucontroller.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
+        String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
+            return Response
+                .status(200)
+                .type("application/json")
+                .entity(response)
+                .build();
+        } else{
+            User user = new Gson().fromJson(userAsJson, User.class);
+            User userCheck = ucontroller.authorizeUser(user);
+            String response = new Gson().toJson(userCheck, User.class);
+            return Response
+                    .status(200)
+                    .type("application/json")
+                    .entity(response)
+                    .build();
+        }
 
+    }
+
+    @POST
+    @Path("/encrypt")
+    public Response encrypt(String request) {
         return Response
                 .status(200)
                 .type("application/json")
-                .entity(userAsJson2)
+                .entity(new Gson().toJson(encryption.encryptDecryptXOR(request)))
                 .build();
     }
 }

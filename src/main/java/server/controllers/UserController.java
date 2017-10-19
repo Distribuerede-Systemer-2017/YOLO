@@ -1,7 +1,6 @@
 package server.controllers;
 import server.database.DBConnection;
 import server.models.*;
-import server.endpoints.UserEndpoint;
 import server.utility.Digester;
 
 import server.database.DBConnection;
@@ -9,12 +8,13 @@ import server.models.*;
 import server.endpoints.UserEndpoint;
 import server.utility.Globals;
 
+import javax.ws.rs.core.Cookie;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class UserController {
     private User currentUser;
     private Digester dig;
-    private MainController mainController;
     private DBConnection dbConnection;
 
     public UserController (){
@@ -23,9 +23,6 @@ public class UserController {
         this.dig = new Digester();
     }
 
-   // public void logOut() {
-   //     mainController.logout();
-   // }
 
     public void setCurrentUser(User user){
         this.currentUser = user;
@@ -59,8 +56,8 @@ public class UserController {
         return result;
     }
 
-    public ArrayList<Order> getOrdersById(int id){
-        ArrayList<Order> orders = dbConnection.findOrderById(id);
+    public ArrayList<Order> findOrderById(int userId) {
+        ArrayList<Order> orders = dbConnection.findOrderById(userId);
         return orders;
     }
 
@@ -75,7 +72,6 @@ public class UserController {
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
     }
-
 
 
 }

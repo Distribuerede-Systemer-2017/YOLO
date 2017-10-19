@@ -9,6 +9,7 @@ import server.utility.Digester;
 
 public class User {
 
+<<<<<<< HEAD
     private int user_id;
     private String username;
     private String password;
@@ -64,5 +65,7 @@ public class User {
     }
 
 
+=======
+>>>>>>> Endpoints
 }
 

@@ -32,6 +32,7 @@ public class Digester {
     public String hashWithSalt (String string){
 
         salt = Config.getSalt();
+
         return Digester.performHashing(string + salt);
 
     }
