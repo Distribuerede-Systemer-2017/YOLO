@@ -16,8 +16,8 @@ import java.util.ArrayList;
  */
 public class StaffController {
     private DBConnection dbConnection;
-  
-    public StaffController (DBConnection dbConnection) {
+
+    public StaffController(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 

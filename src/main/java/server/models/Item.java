@@ -12,10 +12,10 @@ public class Item {
     private String itemDescription;
     private int itemPrice;
 
-    public Item(){
+    public Item() {
     }
 
-    public Item (int itemId, String itemName, String itemDescription, int itemPrice) {
+    public Item(int itemId, String itemName, String itemDescription, int itemPrice) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemDescription = itemDescription;

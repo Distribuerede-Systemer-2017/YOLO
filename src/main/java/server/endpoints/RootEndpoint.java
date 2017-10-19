@@ -17,20 +17,18 @@ public class RootEndpoint {
     AuthEndpoint auth = new AuthEndpoint();
 
 
-
     @POST
     @Path("/login")
-    public Response login(String userAsJson){
+    public Response login(String userAsJson) {
         User user = new Gson().fromJson(userAsJson, User.class);
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
         try {
             User loginUser = auth.getMcontroller().authorizeUser(user);
             loginUser.setToken(auth.AuthUser(userAsJson).getEntity().toString());
             String jsonUser = new Gson().toJson(loginUser, User.class);
-            if(loginUser == null){
+            if (loginUser == null) {
                 return Response.status(401).type("plain/text").entity("User not authorized").build();
-            }
-            else {
+            } else {
                 return Response.status(200).type("application/json").entity(jsonUser).build();
             }
 
@@ -39,10 +37,11 @@ public class RootEndpoint {
         }
         return Response.status(401).type("plain/text").entity("Bruger ikke godkendt").build();
     }
+
     @Secured
     @POST
     @Path("/logout")
-    public void logout(String userId){
+    public void logout(String userId) {
         int id = new Gson().fromJson(userId, Integer.class);
         auth.getMcontroller().deleteToken(id);
     }

@@ -1,18 +1,20 @@
 package server.utility;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Log {
 
     //Declaring the log variable of class Logger
-    private Logger log ;
+    private Logger log;
 
     /**
      * Method responsible for writing the actual log with a switch for different events
-     * @param className name of Class to be logged in
-     * @param eventObject the object which the event occurs "in"
+     *
+     * @param className        name of Class to be logged in
+     * @param eventObject      the object which the event occurs "in"
      * @param eventDescription description of what happens at the event in question (e.g. "Server printed: ---"
-     * @param logLevel the level of logging needed, from everything to the most severe (used for the switch)
+     * @param logLevel         the level of logging needed, from everything to the most severe (used for the switch)
      */
     public void writeLog(String className, Object eventObject, String eventDescription, Integer logLevel) {
 

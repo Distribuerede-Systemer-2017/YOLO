@@ -9,40 +9,40 @@ public class Token {
     private int userId;
 
 
-    public Token (){
+    public Token() {
 
     }
 
 
-    public void setTokenString(String tokenString){
+    public void setTokenString(String tokenString) {
         this.tokenString = tokenString;
     }
 
-    public void setTokenDate(Date tokenDate){
+    public void setTokenDate(Date tokenDate) {
         this.tokenDate = tokenDate;
     }
 
-    public void setTokenId(int tokenId){
+    public void setTokenId(int tokenId) {
         this.tokenId = tokenId;
     }
 
-    public void setUserId(int userId){
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getTokenString(){
+    public String getTokenString() {
         return tokenString;
     }
 
-    public Date getTokenDate(){
+    public Date getTokenDate() {
         return tokenDate;
     }
 
-    public int getTokenId(){
+    public int getTokenId() {
         return tokenId;
     }
 
-    public int getUserId(){
+    public int getUserId() {
         return userId;
     }
 }

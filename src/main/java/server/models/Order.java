@@ -13,14 +13,14 @@ public class Order {
     private Timestamp orderTime;
     private boolean isReady;
     private int User_userId;
-    private  ArrayList<Order> orders;
+    private ArrayList<Order> orders;
     private ArrayList<Item> items;
 
-    public Order(){
+    public Order() {
 
     }
 
-    public Order (int orderId, Timestamp orderTime, boolean isReady, int User_userId){
+    public Order(int orderId, Timestamp orderTime, boolean isReady, int User_userId) {
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.isReady = isReady;
@@ -30,7 +30,7 @@ public class Order {
 
     }
 
-     public int getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 

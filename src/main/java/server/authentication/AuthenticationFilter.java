@@ -42,6 +42,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     /**
      * Only allows tokens that are authenticated to pass
+     *
      * @param containerRequestContext
      * @throws IOException
      */
@@ -51,9 +52,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String authHeader = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         //Validate the Authorization header
-        if(!isTokenBasedAuthentication(authHeader)) {
-        abortWithUnauthorized(containerRequestContext);
-        return;
+        if (!isTokenBasedAuthentication(authHeader)) {
+            abortWithUnauthorized(containerRequestContext);
+            return;
         }
 
         //Extract the token from the Authorization header
@@ -65,13 +66,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             validateToken(token);
 
 
-
         } catch (Exception e) {
             abortWithUnauthorized(containerRequestContext);
         }
 
     }
-
 
 
     private boolean isTokenBasedAuthentication(String authorizationHeader) {
@@ -91,6 +90,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     /**
      * Method that checks if the token is valid by verifying the token with the JWT library and if it is expired
+     *
      * @param token
      * @return
      * @throws Exception
@@ -99,13 +99,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         mc = new MainController();
         boolean isValidToken;
 
-            isValidToken = mc.checkTokenOwner(token);
+        isValidToken = mc.checkTokenOwner(token);
 
-            if(!isValidToken){
-                throw new Exception();
-            }
+        if (!isValidToken) {
+            throw new Exception();
+        }
 
-            return isValidToken;
+        return isValidToken;
     }
 }
 

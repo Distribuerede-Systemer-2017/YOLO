@@ -1,4 +1,5 @@
 package server.utility;
+
 import server.config.Config;
 
 import javax.servlet.ServletContext;
@@ -14,9 +15,9 @@ public class Globals implements ServletContextListener {
 
     /**
      * This function can be used to initialize Logger and Config classes.
-     *
+     * <p>
      * We do this in order for the rest of the program to use it afterwards.
-     *
+     * <p>
      * This method is automatically called by JERSEY when the server is started
      */
     @Override

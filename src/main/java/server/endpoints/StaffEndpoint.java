@@ -27,7 +27,7 @@ public class StaffEndpoint {
 
         this.orders = staffController.viewOrders();
 
-        if(!(orders == null)){
+        if (!(orders == null)) {
             status = 200;
         }
 
@@ -57,16 +57,16 @@ public class StaffEndpoint {
                 .entity(confirm)
                 .build();
     }
-    
+
 
     @GET
     @Path("/getOrders")
-    public Response getOrders(){
+    public Response getOrders() {
         ArrayList<Order> orders;
         int status = 500;
         orders = staffController.getOrders();
 
-        if(!(orders == null)){
+        if (!(orders == null)) {
             status = 200;
         }
 
@@ -81,23 +81,22 @@ public class StaffEndpoint {
 
     @POST
     @Path("/makeReady/{orderid}")
-    public Response makeReady(@PathParam("orderid") int orderID, String jsonOrder){
+    public Response makeReady(@PathParam("orderid") int orderID, String jsonOrder) {
         Order orderReady = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         Boolean isReady = staffController.makeReady(orderID);
 
-        if(isReady){
+        if (isReady) {
             status = 200;
             //Logging for order made ready
-            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderReady.getOrderId(), 0 );
-
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderReady.getOrderId(), 0);
 
 
         }
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"isReady\":\"" +isReady + "\"}")
+                .entity("{\"isReady\":\"" + isReady + "\"}")
                 .build();
     }
 }

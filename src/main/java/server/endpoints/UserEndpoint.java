@@ -25,7 +25,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/createUser")
-    public Response createUser(String jsonUser){
+    public Response createUser(String jsonUser) {
         int status = 0;
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
@@ -34,14 +34,13 @@ public class UserEndpoint {
             //Logging for user created
             Globals.log.writeLog(getClass().getName(), this, "Creation of user" + userCreated.getUsername() + " successful", 0);
 
-        } catch (Exception e){
-            if(e.getClass() == BadRequestException.class){
+        } catch (Exception e) {
+            if (e.getClass() == BadRequestException.class) {
                 status = 400;
                 //Logging for user not found
                 Globals.log.writeLog(getClass().getName(), this, "Creation of user failed. Error code 400", 2);
 
-            }
-            else if(e.getClass() == InternalServerErrorException.class){
+            } else if (e.getClass() == InternalServerErrorException.class) {
                 status = 500;
                 //Logging for server failure
                 Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
@@ -58,7 +57,7 @@ public class UserEndpoint {
     @Secured
     @POST
     @Path("/createOrder")
-    public Response createOrder(String jsonOrder){
+    public Response createOrder(String jsonOrder) {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
@@ -66,35 +65,34 @@ public class UserEndpoint {
         if (result) {
             status = 200;
             //Logging for order created
-            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderCreated.getOrderId(), 0 );
+            Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderCreated.getOrderId(), 0);
 
-        } else if (!result){
+        } else if (!result) {
             status = 500;
-            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1 );
+            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
 
         }
 
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"orderCreated\":\""+result+"\"}")
+                .entity("{\"orderCreated\":\"" + result + "\"}")
                 .build();
     }
 
     @Secured
     @GET
     @Path("{id}")
-    public Response getOrdersById(@PathParam("id") int id){
+    public Response getOrdersById(@PathParam("id") int id) {
 
         int status = 500;
         ArrayList<Order> foundOrders;
         foundOrders = ucontroller.findOrderById(id);
 
-        if (!(foundOrders == null)){
+        if (!(foundOrders == null)) {
             status = 200;
 
-        }
-        else if (foundOrders == null){
+        } else if (foundOrders == null) {
             status = 500;
         }
 
@@ -106,14 +104,15 @@ public class UserEndpoint {
                 .entity(ordersAsJson)
                 .build();
     }
+
     @Secured
     @GET
     @Path("/getItems")
-    public Response getItems(){
+    public Response getItems() {
         int status = 500;
         this.items = ucontroller.getItems();
 
-        if(!(items == null)){
+        if (!(items == null)) {
             status = 200;
         }
 

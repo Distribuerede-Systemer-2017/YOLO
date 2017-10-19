@@ -30,6 +30,7 @@ public class AuthEndpoint {
 
     /**
      * Authenticates the user and returns a token if user exists
+     *
      * @param jsonUser
      * @return
      */
@@ -45,7 +46,7 @@ public class AuthEndpoint {
             try {
                 Algorithm algorithm = Algorithm.HMAC256("secret");
                 long timevalue;
-                timevalue = (System.currentTimeMillis()*1000)+20000205238L;
+                timevalue = (System.currentTimeMillis() * 1000) + 20000205238L;
                 expDate = new Date(timevalue);
 
                 token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
@@ -53,9 +54,9 @@ public class AuthEndpoint {
 
                 //Add exp date?
                 dbCon.createToken(tokenUser, token);
-            }catch (UnsupportedEncodingException e){
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-            }catch (JWTCreationException e){
+            } catch (JWTCreationException e) {
                 e.printStackTrace();
             }
 

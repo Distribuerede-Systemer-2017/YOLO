@@ -1,4 +1,5 @@
 package server.controllers;
+
 import server.database.DBConnection;
 import server.endpoints.RootEndpoint;
 import server.endpoints.StaffEndpoint;
@@ -23,19 +24,19 @@ public class MainController {
         staffEndpoint = new StaffEndpoint();
         dig = new Digester();
     }
-  
-    public User authorizeUser(User user){
+
+    public User authorizeUser(User user) {
         String hashedPassword = dig.hashWithSalt(user.getPassword());
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;
     }
 
-    public void deleteToken(int id){
+    public void deleteToken(int id) {
         dbConnection.deleteToken(id);
     }
 
-    public boolean checkTokenOwner(String token){
+    public boolean checkTokenOwner(String token) {
         Boolean check = dbConnection.tokenExists(token);
         return check;
     }
