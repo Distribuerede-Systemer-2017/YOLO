@@ -34,6 +34,11 @@ public class MainController {
 
     }
 
+    /**
+     * Use authUser syntax from MainController instead???
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
 
         User user = new User();

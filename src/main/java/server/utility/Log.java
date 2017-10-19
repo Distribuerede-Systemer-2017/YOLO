@@ -19,6 +19,7 @@ public class Log {
         //Initializes the log variable with the class in question
         log = LoggerFactory.getLogger(className);
 
+
         //Switch responsible for choosing the correct logging according to severity
         switch (logLevel) {
             case 2:
