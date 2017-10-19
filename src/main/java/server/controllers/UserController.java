@@ -12,15 +12,21 @@ import java.util.ArrayList;
 
 public class UserController {
     private User currentUser;
-    private Digester dig;
+    private Digester digester;
     private MainController mainController;
     private DBConnection dbConnection;
 
-    public UserController (){
+    public UserController (DBConnection dbConnection){
         this.currentUser = currentUser;
-        this.dbConnection = new DBConnection();
-        this.dig = new Digester();
+        this.dbConnection = dbConnection;
+        this.digester = new Digester();
     }
+
+    public UserController ( ) {
+
+    }
+
+
 
    // public void logOut() {
    //     mainController.logout();
@@ -38,8 +44,11 @@ public class UserController {
      */
     public boolean addUser(User user){
 
+
         //sets a users password to a hashed with salt password and returns a boolean value if a user has been created
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
+
+        String hashedPassword = digester.hashWithSalt(user.getPassword());
+
         user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
         return result;
@@ -63,7 +72,7 @@ public class UserController {
 
     // Authorizes a user, by hashing the input password first, and comparing it to the stored hashed password
     public User authorizeUser(User user){
-        String hashedPassword = dig.hashWithSalt(user.getPassword());
+        String hashedPassword = digester.hashWithSalt(user.getPassword());
         user.setPassword(hashedPassword);
         User userCheck = dbConnection.authorizeUser(user);
         return userCheck;

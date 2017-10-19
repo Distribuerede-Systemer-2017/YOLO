@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class UserEndpoint {
 
     private ArrayList<Item> items;
-    private UserController ucontroller = new UserController();
+    private UserController userController = new UserController();
     private Encryption encryption = new Encryption();
     private Config config = new Config();
 
@@ -36,8 +36,11 @@ public class UserEndpoint {
         try {
             User userCreated = new Gson().fromJson(jsonUser, User.class);
 
+
             //Call controller and see if the user is created
-            boolean result = ucontroller.addUser(userCreated);
+
+            boolean result = userController.addUser(userCreated);
+
             status = 200;
         } catch (Exception e){
             if(e.getClass() == BadRequestException.class){
@@ -68,8 +71,11 @@ public class UserEndpoint {
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
 
+
         //Call controller and get userID
-        boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+
+        boolean result = userController.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
+
         if (result) {
             status = 200;
         } else if (!result){
@@ -89,7 +95,7 @@ public class UserEndpoint {
     public Response findOrderById(@PathParam("userId")int userId){
         ArrayList<Order> orders;
         int status = 500;
-        orders = ucontroller.findOrderById(userId);
+        orders = userController.findOrderById(userId);
         if(!(orders == null)){
             status = 200;
         }
@@ -112,7 +118,7 @@ public class UserEndpoint {
     @Path("/getItems")
     public Response getItems(){
         int status = 500;
-        this.items = ucontroller.getItems();
+        this.items = userController.getItems();
 
         if(!(items == null)){
             status = 200;
@@ -141,7 +147,7 @@ public class UserEndpoint {
         userAsJson = new Gson().fromJson(userAsJson, String.class);
         userAsJson = encryption.encryptDecryptXOR(userAsJson);
         User user = new Gson().fromJson(userAsJson, User.class);
-        User userCheck = ucontroller.authorizeUser(user);
+        User userCheck = userController.authorizeUser(user);
         String userAsJson2 = new Gson().toJson(userCheck, User.class);
         String response = new Gson().toJson(encryption.encryptDecryptXOR(userAsJson2));
             return Response
@@ -151,7 +157,7 @@ public class UserEndpoint {
                 .build();
         } else{
             User user = new Gson().fromJson(userAsJson, User.class);
-            User userCheck = ucontroller.authorizeUser(user);
+            User userCheck = userController.authorizeUser(user);
             String response = new Gson().toJson(userCheck, User.class);
             return Response
                     .status(200)
