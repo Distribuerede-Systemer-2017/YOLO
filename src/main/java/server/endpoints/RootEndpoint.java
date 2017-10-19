@@ -28,14 +28,7 @@ public class RootEndpoint {
             String loginUserAsJson = new Gson().toJson(loginUser, User.class);
             if (loginUser == null) {
                 //Findes ikke
-            } else if (loginUser.isPersonel()) {
-                auth.AuthUser(userAsJson);
-                return Response
-                        .status(200)
-                        .type("application/json")
-                        .entity(loginUserAsJson)
-                        .build();
-            } else if (!loginUser.isPersonel()){
+            } else {
                 auth.AuthUser(userAsJson);
                 return Response
                         .status(200)
@@ -43,7 +36,7 @@ public class RootEndpoint {
                         .entity(loginUserAsJson)
                         .build();
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

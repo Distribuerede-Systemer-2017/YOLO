@@ -19,12 +19,20 @@ import java.util.Date;
  * Created by Tobias on 10-10-2017.
  */
 
+/**
+ * This class is the endpoint for authenticating the user
+ */
 @Path("/auth")
 public class AuthEndpoint {
     MainController mcontroller = new MainController();
     DBConnection dbCon = new DBConnection();
     User tokenUser = new User();
 
+    /**
+     * Authenticates the user and returns a token if user exists
+     * @param jsonUser
+     * @return
+     */
     @POST
     public Response AuthUser(String jsonUser) {
         User user = new Gson().fromJson(jsonUser, User.class);
