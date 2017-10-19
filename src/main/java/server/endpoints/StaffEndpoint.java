@@ -1,39 +1,56 @@
 package server.endpoints;
 
 import com.google.gson.Gson;
-import server.database.DBConnection;
+import server.controllers.StaffController;
 import server.models.Order;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-/**
- * Created by Felix on 17-10-2017
- */
-
+@Path("/staff")
 public class StaffEndpoint {
-    DBConnection dbCon = new DBConnection();
-    String isReadyFeedback = "This order is now ready";
 
-    @PUT
-    @Path("{orderId}")
-    public Response isReady(@PathParam("orderId") int orderId) {
-        return Response
-                .status(200)
-                .type("application/json")
-                .entity(isReadyFeedback)
-                .build();
-    }
+    StaffController staffController = new StaffController();
 
     @GET
-    public Response getOrders() {
+    @Path("/getOrders")
+    public Response getOrders(){
+        ArrayList<Order> orders;
+        int status = 500;
+        orders = staffController.getOrders();
 
-        String ordersAsJson = new Gson().toJson(dbCon.getOrders());
+        if(!(orders == null)){
+            status = 200;
+        }
+
+        String ordersAsJson = new Gson().toJson(orders);
+
         return Response
-                .status(200)
+                .status(status)
                 .type("application/json")
                 .entity(ordersAsJson)
                 .build();
     }
+
+    @POST
+    @Path("/makeReady/{orderid}")
+    public Response makeReady(@PathParam("orderid") int orderID){
+        int status = 500;
+        Boolean isReady = staffController.makeReady(orderID);
+
+        if(isReady){
+            status = 200;
+        }
+        return Response
+                .status(status)
+                .type("application/json")
+                .entity("{\"isReady\":\"" +isReady + "\"}")
+                .build();
+    }
+
+
 }

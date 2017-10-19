@@ -20,7 +20,8 @@
 *.rar
 *.iml
 
-.idea
+#IntelliJ files
+*.idea
 target
 
 

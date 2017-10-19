@@ -1,25 +1,35 @@
 package server.controllers;
 
-import java.util.ArrayList;
-import server.endpoints.StaffEndpoint;
+import server.database.DBConnection;
 import server.models.Order;
+import server.endpoints.StaffEndpoint;
+
+import javax.ws.rs.Path;
+import java.util.ArrayList;
 
 /**
- * Created by Felix on 17-10-2017
+ * Class responsible for all logic related to staff operations
  */
-
 public class StaffController {
-    public MainController mainController;
+    private DBConnection dbConnection;
 
-    public ArrayList<Order> getOrders(){
-        return StaffEndpoint.getOrders();
+
+    public StaffController(){
+        this.dbConnection = new DBConnection();
     }
 
-    public void changeOrderStatus(int id) {
-        StaffEndpoint.isReady(id);
+    /**
+     * Returns the list of all orders in the database
+     */
+    public ArrayList<Order> getOrders() {
+        ArrayList<Order> orders = dbConnection.getOrders();
+        return orders;
     }
 
-    public void logout(int id){
-        mainController.logout(id);
+    public boolean makeReady(int orderID) {
+        boolean result = dbConnection.makeReady(orderID);
+        return result;
     }
+
 }
+

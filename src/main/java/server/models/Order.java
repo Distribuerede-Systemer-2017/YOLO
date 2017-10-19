@@ -1,6 +1,6 @@
 package server.models;
 
-import javax.print.attribute.standard.DateTimeAtCreation;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -10,18 +10,22 @@ import java.util.ArrayList;
 public class Order {
 
     private int orderId;
-    private DateTimeAtCreation orderTime;
-    private boolean isReady;  //Skal det gjøres noe med denne?
+    private Timestamp orderTime;
+    private boolean isReady;
     private int User_userId;
-    private ArrayList<Order> orders;
+    private ArrayList<Item> items = new ArrayList<>();
 
-    public Order (int orderId, DateTimeAtCreation orderTime, boolean isReady, int User_userId){
+    public Order(){
+
+    }
+
+    public Order (int orderId, Timestamp orderTime, boolean isReady, int User_userId){
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.isReady = isReady;
         this.User_userId = User_userId;
 
-        this.orders = new ArrayList<Order>();
+        this.items = new ArrayList<Item>();
 
     }
 
@@ -33,19 +37,20 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public DateTimeAtCreation getOrderTime() {
+    public Timestamp getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(DateTimeAtCreation orderTime) {
+    public void setOrderTime(Timestamp orderTime) {
         this.orderTime = orderTime;
     }
+
     public boolean isReady() {
         return isReady;
     }
 
-    public void setisReady(boolean isReady) {
-        this.isReady = isReady;
+    public void isReady(boolean status) {
+        this.isReady = status;
     }
 
     public int getUser_userId() {
@@ -56,8 +61,12 @@ public class Order {
         User_userId = user_userId;
     }
 
-    public ArrayList<Order> getOrders() {
-        return orders;
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Item item) {
+        items.add(item);
     }
 
 }

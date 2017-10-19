@@ -12,15 +12,14 @@ public class Item {
     private String itemDescription;
     private int itemPrice;
 
-    private ArrayList<Item> items;
+    public Item(){
+    }
 
     public Item (int itemId, String itemName, String itemDescription, int itemPrice) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
-
-        this.items = new ArrayList<Item>();
     }
 
     public int getItemId() {
@@ -53,9 +52,5 @@ public class Item {
 
     public void setItemPrice(int itemPrice) {
         this.itemPrice = itemPrice;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
     }
 }
