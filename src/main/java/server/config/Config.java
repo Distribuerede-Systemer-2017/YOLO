@@ -7,10 +7,6 @@ import sun.misc.IOUtils;
 import java.io.*;
 import java.net.URISyntaxException;
 
-/**
- * Created by AR, FE, LH on 17-10-2017
- */
-
 public final class Config {
 
     private static String DATABASE_HOST;
@@ -23,10 +19,6 @@ public final class Config {
     public JsonObject initConfig() throws IOException {
 
         JsonObject json = new JsonObject();
-
-        /**
-         * Json config filepath
-         */
 
         JsonParser parserJ = new JsonParser();
 
