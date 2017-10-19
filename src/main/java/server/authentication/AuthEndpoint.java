@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.google.gson.Gson;
 import server.controllers.MainController;
 import server.database.DBConnection;
+import server.models.Token;
 import server.models.User;
 
 import javax.ws.rs.POST;
@@ -24,9 +25,9 @@ import java.util.Date;
  */
 @Path("/auth")
 public class AuthEndpoint {
-    MainController mcontroller = new MainController();
-    DBConnection dbCon = new DBConnection();
-    User tokenUser = new User();
+    private MainController mcontroller = new MainController();
+    private DBConnection dbCon = new DBConnection();
+    private User tokenUser = new User();
 
     /**
      * Authenticates the user and returns a token if user exists
@@ -37,6 +38,7 @@ public class AuthEndpoint {
     public Response AuthUser(String jsonUser) {
         User user = new Gson().fromJson(jsonUser, User.class);
         String token = null;
+        Date expDate;
 
         try {
             tokenUser = mcontroller.authorizeUser(user);
@@ -44,10 +46,12 @@ public class AuthEndpoint {
                 Algorithm algorithm = Algorithm.HMAC256("secret");
                 long timevalue;
                 timevalue = (System.currentTimeMillis()*1000)+20000205238L;
-                Date expDate = new Date(timevalue);
+                expDate = new Date(timevalue);
 
                 token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
                         .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
+
+                //Add exp date?
                 dbCon.createToken(tokenUser, token);
             }catch (UnsupportedEncodingException e){
                 e.printStackTrace();
@@ -61,4 +65,5 @@ public class AuthEndpoint {
         }
 
     }
+
 }

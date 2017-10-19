@@ -269,7 +269,9 @@ public class DBConnection {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return null;
+
+        //Return empty
+        return "";
     }
 
     public boolean deleteToken(int id){

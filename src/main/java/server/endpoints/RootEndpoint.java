@@ -29,14 +29,10 @@ public class RootEndpoint {
             if (loginUser == null) {
                 //Findes ikke
             } else {
-                auth.AuthUser(userAsJson);
-                return Response
-                        .status(200)
-                        .type("application/json")
-                        .entity(loginUserAsJson)
-                        .build();
+               Response tokenResponse = auth.AuthUser(userAsJson);
+                return tokenResponse;
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
