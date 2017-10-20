@@ -18,7 +18,6 @@ public final class Config {
     private static Boolean ENCRYPTION;
 
 
-
     public JsonObject initConfig() throws IOException {
 
         JsonObject json = new JsonObject();
@@ -37,7 +36,7 @@ public final class Config {
         StringBuffer json_string = new StringBuffer();
         String str = "";
 
-        while((str = reader.readLine()) != null){
+        while ((str = reader.readLine()) != null) {
             json_string.append(str);
         }
 

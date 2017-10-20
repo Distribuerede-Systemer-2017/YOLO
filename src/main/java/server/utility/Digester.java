@@ -1,6 +1,7 @@
 package server.utility;
 
 import java.security.MessageDigest;
+
 import server.config.Config;
 
 
@@ -25,11 +26,12 @@ public class Digester {
 
     /**
      * Hash string + salt
+     *
      * @param string input string
      * @return Hashed string + salt
      */
 
-    public String hashWithSalt (String string){
+    public String hashWithSalt(String string) {
 
         salt = Config.getSalt();
         return Digester.performHashing(string + salt);
@@ -38,6 +40,7 @@ public class Digester {
 
     /**
      * Performing hash of string
+     *
      * @param string input string
      * @return Hashed string
      */

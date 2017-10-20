@@ -1,6 +1,7 @@
 package server.models;
 
 import java.util.ArrayList;
+
 import server.utility.Digester;
 
 /**
@@ -15,6 +16,7 @@ public class User {
     private boolean isPersonel;
     private ArrayList<User> users;
     private Digester digester;
+    private String token;
 
     public User(int userId, String username, String password, boolean isPersonel, Digester digester) {
         this.user_id = userId;
@@ -50,7 +52,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password; //skal ifølge Andy hashes her(han fikk vite det av Tidemann), DB authorizeUser fungerer ikke med det.
     }
 
@@ -63,6 +65,9 @@ public class User {
         isPersonel = personel;
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 
 }
 
