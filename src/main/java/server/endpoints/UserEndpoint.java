@@ -7,7 +7,7 @@ import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
-import server.utility.Digester;
+import server.utility.Encryption;
 import server.utility.Globals;
 
 import javax.ws.rs.*;
@@ -20,16 +20,20 @@ import java.util.ArrayList;
 public class UserEndpoint {
 
     private DBConnection dbCon = new DBConnection();
-    private ArrayList<Item> items;
     private UserController ucontroller = new UserController(dbCon);
+    private Encryption encryption = new Encryption();
 
     @POST
     @Path("/createUser")
     public Response createUser(String jsonUser) {
         int status = 0;
+        boolean result = false;
         try {
+            //Parse Json with encrypted Json object to a String with the Encrypted Object thats no longer a Json ( {"rewqr"} => rewqr )
+            //Then Decrypt the object and assign it as a Object in Json format ( rewqr => {"username":"..." }
+            jsonUser = encryption.decryptXOR(jsonUser);
             User userCreated = new Gson().fromJson(jsonUser, User.class);
-            boolean result = ucontroller.addUser(userCreated);
+            result = ucontroller.addUser(userCreated);
             status = 200;
             //Logging for user created
             Globals.log.writeLog(getClass().getName(), this, "Creation of user" + userCreated.getUsername() + " successful", 0);
@@ -50,7 +54,8 @@ public class UserEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"userCreated\":\"true\"}")
+                //encrypt response to clien before sending
+                .entity(encryption.encryptXOR("{\"userCreated\":\""+ result +"\"}"))
                 .build();
     }
 
@@ -58,6 +63,10 @@ public class UserEndpoint {
     @POST
     @Path("/createOrder")
     public Response createOrder(String jsonOrder) {
+        //Parse Json with encrypted Json object to a String with the Encrypted Object thats no longer a Json ( {"rewqr"} => rewqr )
+        //Then Decrypt the object and assign it as a Object in Json format ( rewqr => {"username":"..." }
+        jsonOrder = encryption.decryptXOR(jsonOrder);
+        // parse json object
         Order orderCreated = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         boolean result = ucontroller.addOrder(orderCreated.getUser_userId(), orderCreated.getItems());
@@ -76,7 +85,8 @@ public class UserEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"orderCreated\":\"" + result + "\"}")
+                //encrypt response to clien before sending
+                .entity(encryption.encryptXOR("{\"orderCreated\":\"" + result + "\"}"))
                 .build();
     }
 
@@ -84,7 +94,6 @@ public class UserEndpoint {
     @GET
     @Path("{id}")
     public Response getOrdersById(@PathParam("id") int id) {
-
         int status = 500;
         ArrayList<Order> foundOrders;
         foundOrders = ucontroller.findOrderById(id);
@@ -101,7 +110,8 @@ public class UserEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity(ordersAsJson)
+                //encrypt response to clien before sending
+                .entity(encryption.encryptXOR(ordersAsJson))
                 .build();
     }
 
@@ -109,20 +119,44 @@ public class UserEndpoint {
     @GET
     @Path("/getItems")
     public Response getItems() {
+        ArrayList<Item> items;
         int status = 500;
-        this.items = ucontroller.getItems();
+        items = ucontroller.getItems();
 
         if (!(items == null)) {
             status = 200;
         }
-
 
         String itemsAsJson = new Gson().toJson(items);
 
         return Response
                 .status(status)
                 .type("application/json")
-                .entity(itemsAsJson)
+                //encrypt response to clien before sending
+                .entity(encryption.encryptXOR(itemsAsJson))
                 .build();
     }
+
+    @POST
+    @Path("/encrypt")
+    public Response encrypt(String toBeEncrypted) {
+
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(encryption.encryptXOR(toBeEncrypted))
+                .build();
+    }
+    @POST
+    @Path("/decrypt")
+    public Response decrypt(String toBeDecrypted) {
+    toBeDecrypted = new Gson().fromJson(toBeDecrypted, String.class);
+    toBeDecrypted = encryption.encryptXOR(toBeDecrypted);
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(new Gson().toJson(toBeDecrypted))
+                .build();
+    }
+
 }

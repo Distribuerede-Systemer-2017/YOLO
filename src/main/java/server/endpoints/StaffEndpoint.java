@@ -5,6 +5,7 @@ import server.authentication.Secured;
 import server.controllers.StaffController;
 import server.database.DBConnection;
 import server.models.Order;
+import server.utility.Encryption;
 import server.utility.Globals;
 
 import javax.ws.rs.*;
@@ -16,49 +17,10 @@ import java.util.ArrayList;
 @Path("/staff")
 public class StaffEndpoint {
     private DBConnection dbCon = new DBConnection();
-    private ArrayList<Order> orders;
-    private boolean isReady = false;
     private StaffController staffController = new StaffController(dbCon);
+    private Encryption encryption = new Encryption();
 
-    @GET
-    @Path("/viewOrders")
-    public Response viewOrders() {
-        int status = 500;
-
-        this.orders = staffController.viewOrders();
-
-        if (!(orders == null)) {
-            status = 200;
-        }
-
-        String ordersAsJson = new Gson().toJson(orders);
-        return Response
-                .status(status)
-                .type("application/json")
-                .entity(ordersAsJson)
-                .build();
-    }
-
-    @PUT
-    @Path("{id}")
-    public Response makeReady() {
-
-        int status = 0;
-
-        if (status == 200) {
-            this.isReady = true;
-        }
-
-        String confirm = "Order ready";
-
-        return Response
-                .status(status)
-                .type("application/json")
-                .entity(confirm)
-                .build();
-    }
-
-
+    @Secured
     @GET
     @Path("/getOrders")
     public Response getOrders() {
@@ -75,13 +37,16 @@ public class StaffEndpoint {
         return Response
                 .status(status)
                 .type("application/json")
-                .entity(ordersAsJson)
+                //encrypt response
+                .entity(encryption.encryptXOR(ordersAsJson))
                 .build();
     }
 
+    @Secured
     @POST
     @Path("/makeReady/{orderid}")
     public Response makeReady(@PathParam("orderid") int orderID, String jsonOrder) {
+        jsonOrder = encryption.decryptXOR(jsonOrder);
         Order orderReady = new Gson().fromJson(jsonOrder, Order.class);
         int status = 500;
         Boolean isReady = staffController.makeReady(orderID);
@@ -90,13 +55,12 @@ public class StaffEndpoint {
             status = 200;
             //Logging for order made ready
             Globals.log.writeLog(getClass().getName(), this, "Created order with id: " + orderReady.getOrderId(), 0);
-
-
         }
         return Response
                 .status(status)
                 .type("application/json")
-                .entity("{\"isReady\":\"" + isReady + "\"}")
+                //encrypt response to client
+                .entity(encryption.encryptXOR("{\"isReady\":\"" + isReady + "\"}"))
                 .build();
     }
 }
