@@ -41,4 +41,9 @@ public class MainController {
         return false;
     }
 
+    public void createToken(User tokenUser, String token){
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.createToken(tokenUser, token);
+    }
+
 }

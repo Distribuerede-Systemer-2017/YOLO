@@ -25,7 +25,6 @@ import java.util.Date;
 @Path("/auth")
 public class AuthEndpoint {
     private MainController mcontroller = new MainController();
-    private DBConnection dbCon = mcontroller.getDbConnection();
 
     /**
      * Authenticates the user and returns a token if user exists
@@ -50,9 +49,9 @@ public class AuthEndpoint {
 
                 token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
                         .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
-
                 //Add exp date?
-                dbCon.createToken(tokenUser, token);
+                mcontroller.createToken(tokenUser, token);
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JWTCreationException e) {
