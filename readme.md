@@ -35,6 +35,8 @@ K6 : Klienten skal kunne tilgå liste over bestillinger (kantinepersonalet)
 
 ## ER-diagram
 
+![ER-Diagram](Arkitektur_documents/ER-Diagram.png)
+
 ## Klassediagram
 
 ## Flowchart
