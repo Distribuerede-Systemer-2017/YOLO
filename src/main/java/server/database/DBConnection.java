@@ -259,7 +259,7 @@ public class DBConnection {
                     order.setItems(item);
                 } else {
 
-                    for (int i = 0; i <= orders.size(); i++) {
+                    for (int i = 0; i < orders.size(); i++) {
                         if (order.getOrderId() == orders.get(i).getOrderId()) {
                             orders.get(i).setItems(item);
                             addToOrders = false;
@@ -270,8 +270,9 @@ public class DBConnection {
                         }
                     }
                 }
-                if (addToOrders)
+                if (addToOrders) {
                     orders.add(order);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

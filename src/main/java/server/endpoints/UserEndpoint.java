@@ -92,7 +92,7 @@ public class UserEndpoint {
     //get all orders for one user with the id
     @Secured
     @GET
-    @Path("{id}")
+    @Path("/getOrdersById/{id}")
     public Response getOrdersById(@PathParam("id") int id) {
         int status = 500;
         ArrayList<Order> foundOrders;
@@ -107,7 +107,7 @@ public class UserEndpoint {
             Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
         }
 
-        String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
+        String ordersAsJson = new Gson().toJson(foundOrders);
 
         return Response
                 .status(status)
