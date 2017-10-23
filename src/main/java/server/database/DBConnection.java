@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import server.config.Config;
+import server.utility.Globals;
 
 
 /**
@@ -49,9 +50,9 @@ public class DBConnection {
                     config.getDatabaseUser(), config.getDatabasePassword());
 
         } catch (SQLException e) {
-            System.out.println(config.getDatabaseHost());
-            System.out.println(config.getDatabaseName());
-            System.out.println(config.getDatabasePort());
+            Globals.log.writeLog(getClass().getName(), this, "Error connection refused with hostname: " + config.getDatabaseHost(), 2);
+            Globals.log.writeLog(getClass().getName(), this, "and databasename: " + config.getDatabaseName(), 2);
+            Globals.log.writeLog(getClass().getName(), this, "and port number: " + config.getDatabasePort(), 2);
             e.printStackTrace();
         }
 
