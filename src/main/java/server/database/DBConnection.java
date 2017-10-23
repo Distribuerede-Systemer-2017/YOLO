@@ -154,6 +154,13 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try{
+                resultSet.close();
+            } catch(SQLException e){
+                e.printStackTrace();
+                close();
+            }
         }
         return orders;
     }
@@ -267,6 +274,13 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try{
+                resultSet.close();
+            } catch(SQLException e){
+                e.printStackTrace();
+                close();
+            }
         }
         return orders;
     }
@@ -346,6 +360,7 @@ public class DBConnection {
                 resultSet.close();
             } catch (SQLException se) {
                 se.printStackTrace();
+                close();
             }
         }
         return newUser;
