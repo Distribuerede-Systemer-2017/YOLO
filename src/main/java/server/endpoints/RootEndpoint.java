@@ -46,6 +46,7 @@ public class RootEndpoint {
     @POST
     @Path("/logout")
     public void logout(String userId) {
+        userId = encryption.decryptXOR(userId);
         int id = new Gson().fromJson(userId, Integer.class);
         auth.getMcontroller().deleteToken(id);
     }

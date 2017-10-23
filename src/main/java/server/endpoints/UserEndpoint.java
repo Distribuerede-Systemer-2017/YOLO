@@ -136,4 +136,23 @@ public class UserEndpoint {
                 .entity(encryption.encryptXOR(itemsAsJson))
                 .build();
     }
+    @POST
+    @Path("/encrypt")
+    public Response encrypt(String toBeEncrypted) {
+
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(encryption.encryptXOR(toBeEncrypted))
+                .build();
+    }
+    @POST
+    @Path("/decrypt")
+    public Response decrypt(String toBeDecrypted) {
+        return Response
+                .status(200)
+                .type("application/json")
+                .entity(new Gson().toJson(encryption.decryptXOR(toBeDecrypted)))
+                .build();
+    }
 }

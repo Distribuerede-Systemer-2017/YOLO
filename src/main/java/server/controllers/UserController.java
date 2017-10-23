@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 public class UserController {
     private Digester dig;
-    private Digester digester;
-    private MainController mainController;
     private DBConnection dbConnection;
 
     public UserController(DBConnection dbConnection) {
@@ -30,7 +28,7 @@ public class UserController {
 
         //sets a users password to a hashed with salt password and returns a boolean value if a user has been created
 
-        String hashedPassword = digester.hashWithSalt(user.getPassword());
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
 
         user.setPassword(hashedPassword);
         boolean result = dbConnection.addUser(user);
