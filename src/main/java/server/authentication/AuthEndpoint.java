@@ -16,13 +16,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /**
- * Created by Tobias on 10-10-2017.
+ * Created by Tobias on 17-10-2017.
  */
 
 /**
  * This class is the endpoint for authenticating the user
  */
-@Path("/auth")
 public class AuthEndpoint {
     private MainController mcontroller = new MainController();
 
@@ -32,8 +31,7 @@ public class AuthEndpoint {
      * @param jsonUser
      * @return
      */
-    @POST
-    public Response AuthUser(String jsonUser) {
+    public String AuthUser(String jsonUser) {
         User user = new Gson().fromJson(jsonUser, User.class);
         String token = null;
         Date expDate;
@@ -58,9 +56,9 @@ public class AuthEndpoint {
                 e.printStackTrace();
             }
 
-            return Response.status(200).type("plain/text").entity(token).build();
+            return token;
         } catch (Exception e) {
-            return Response.status(401).type("plain/text").entity("User not authorized").build();
+            return "User not authorized";
         }
 
     }

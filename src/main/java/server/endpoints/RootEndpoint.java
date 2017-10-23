@@ -15,7 +15,12 @@ public class RootEndpoint {
     private AuthEndpoint auth = new AuthEndpoint();
     private Encryption encryption = new Encryption();
 
-
+    /**
+     *
+     * @param userAsJson
+     * @return Response with entity as a userAsJson that includes a token to be used for authorization
+     * Gives user access to endpoint methods through assigning them a token.
+     */
     @POST
     @Path("/login")
     public Response login(String userAsJson) {
@@ -27,7 +32,7 @@ public class RootEndpoint {
         //Logikken der tjekker, hvorvidt en bruger findes eller ej
         try {
             User loginUser = auth.getMcontroller().authorizeUser(user);
-            loginUser.setToken(auth.AuthUser(userAsJson).getEntity().toString());
+            loginUser.setToken(auth.AuthUser(userAsJson));
             String jsonUser = new Gson().toJson(loginUser, User.class);
             if (loginUser == null) {
                 return Response.status(401).type("plain/text").entity("User not authorized").build();
@@ -42,6 +47,12 @@ public class RootEndpoint {
         return Response.status(401).type("plain/text").entity("Bruger ikke godkendt").build();
     }
 
+    /**
+     *
+     * @param userAsJson
+     * @return Plain text based on whether or not logout was successful.
+     * Logout for users, deletes token in database (as well as all previous ones if they forgot to logout in an earlier visit).
+     */
     @Secured
     @POST
     @Path("/logout")
