@@ -3,7 +3,6 @@ package server.endpoints;
 import com.google.gson.Gson;
 import server.authentication.Secured;
 import server.controllers.UserController;
-import server.database.DBConnection;
 import server.models.Item;
 import server.models.Order;
 import server.models.User;
@@ -14,7 +13,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-//Created by Tobias & Martin 17-10-2017 Gruppe YOLO
+/**
+ * Created by Tobias WR & Martin GS 17/10/2017
+ */
 
 @Path("/user")
 public class UserEndpoint {
@@ -22,6 +23,14 @@ public class UserEndpoint {
     private UserController ucontroller = new UserController();
     private Encryption encryption = new Encryption();
 
+
+    /**
+     *
+     * @param jsonUser
+     * @return Response true or false
+     * Creates an user in the database and assigns a token through the AuthEndpoint class.
+     * {"username":"****", "password":"****"}
+     */
     @POST
     @Path("/createUser")
     public Response createUser(String jsonUser) {
@@ -58,6 +67,13 @@ public class UserEndpoint {
                 .build();
     }
 
+
+    /**
+     *
+     * @param jsonOrder
+     * @return Response true or false
+     * Creates an order in the database by receiving a json string of an order. ({"User_userId":"34","items":[{"itemName":"Kage","itemId":"1"}]}
+     */
     @Secured
     @POST
     @Path("/createOrder")
@@ -89,6 +105,12 @@ public class UserEndpoint {
                 .build();
     }
 
+    /**
+     *
+     * @param id
+     * @return Response ordersAsJson
+     * Retrieves all orders placed by the user by using the id as a parameter.
+     */
     @Secured
     @GET
     @Path("{id}")
@@ -114,6 +136,11 @@ public class UserEndpoint {
                 .build();
     }
 
+    /**
+     *
+     * @return Response itemsAsJson
+     * Retrieves all items in the database to be used for creating a menu in the client.
+     */
     @Secured
     @GET
     @Path("/getItems")

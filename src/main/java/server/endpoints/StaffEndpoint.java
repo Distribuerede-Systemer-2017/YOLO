@@ -19,7 +19,11 @@ public class StaffEndpoint {
     private Encryption encryption = new Encryption();
     private StaffController staffController = new StaffController();
 
-
+    /**
+     *
+     * @return Response ordersAsJson
+     * Retrieves all orders in the system to be used for the staff side of a client.
+     */
     @Secured
     @GET
     @Path("/getOrders")
@@ -42,6 +46,13 @@ public class StaffEndpoint {
                 .build();
     }
 
+    /**
+     *
+     * @param orderID
+     * @param jsonOrder
+     * @return Response true or false
+     * Changes the isReady boolean value in the database for the specified order (through the id) and returns a true or false entity in the response.
+     */
     @Secured
     @POST
     @Path("/makeReady/{orderid}")
