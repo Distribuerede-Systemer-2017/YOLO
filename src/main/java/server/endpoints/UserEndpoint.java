@@ -100,9 +100,11 @@ public class UserEndpoint {
 
         if (!(foundOrders == null)) {
             status = 200;
+            Globals.log.writeLog(getClass().getName(), this, "Found orders from user with id: " + id, 0);
 
         } else if (foundOrders == null) {
             status = 500;
+            Globals.log.writeLog(getClass().getName(), this, "Internal Server Error 500", 1);
         }
 
         String ordersAsJson = new Gson().toJson(foundOrders, Order.class);
