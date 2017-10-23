@@ -90,6 +90,7 @@ public class UserEndpoint {
                 .build();
     }
 
+    //get all orders for one user with the id
     @Secured
     @GET
     @Path("{id}")
