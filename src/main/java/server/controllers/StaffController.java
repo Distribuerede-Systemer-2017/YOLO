@@ -22,14 +22,6 @@ public class StaffController {
     }
 
     /**
-     * Returns the list of all orders currently in the database
-     */
-    public ArrayList<Order> viewOrders() {
-        ArrayList<Order> orders = dbConnection.getOrders();
-        return orders;
-    }
-
-    /**
      * Returns the list of all orders in the database
      */
     public ArrayList<Order> getOrders() {
@@ -38,9 +30,12 @@ public class StaffController {
     }
 
     public boolean makeReady(int orderID) {
-        boolean result = dbConnection.makeReady(orderID);
+        int result = dbConnection.makeReady(orderID);
 
-        return result;
+        if(result>0){
+            return true;
+        }
+        return false;
     }
 
 }

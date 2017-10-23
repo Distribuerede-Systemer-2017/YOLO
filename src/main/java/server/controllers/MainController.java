@@ -32,13 +32,21 @@ public class MainController {
         return userCheck;
     }
 
-    public void deleteToken(int id) {
-        dbConnection.deleteToken(id);
+    public boolean deleteToken(int id) {
+       int result = dbConnection.deleteToken(id);
+
+       if(result>0){
+           return true;
+       }
+       return false;
     }
 
     public boolean checkTokenOwner(String token) {
-        Boolean check = dbConnection.tokenExists(token);
-        return check;
+        String serverToken = dbConnection.tokenExists(token);
+        if(serverToken.equals(token)){
+            return true;
+        }
+        return false;
     }
 
 

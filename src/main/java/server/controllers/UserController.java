@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 public class UserController {
     private Digester dig;
-    private Digester digester;
-    private MainController mainController;
     private DBConnection dbConnection;
 
     public UserController(DBConnection dbConnection) {
@@ -30,19 +28,26 @@ public class UserController {
 
         //sets a users password to a hashed with salt password and returns a boolean value if a user has been created
 
-        String hashedPassword = digester.hashWithSalt(user.getPassword());
+        String hashedPassword = dig.hashWithSalt(user.getPassword());
 
         user.setPassword(hashedPassword);
-        boolean result = dbConnection.addUser(user);
+        int result = dbConnection.addUser(user);
 
-        return result;
+        if(result>0){
+            return true;
+        }
+
+        return false;
     }
 
     // Adds an item to the order list
     public boolean addOrder(int id, ArrayList<Item> items) {
-        boolean result = dbConnection.addOrder(id, items);
+        int result = dbConnection.addOrder(id, items);
 
-        return result;
+        if(result == 1){
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<Order> findOrderById(int userId) {

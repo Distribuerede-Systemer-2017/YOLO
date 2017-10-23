@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.google.gson.Gson;
 import server.controllers.MainController;
 import server.database.DBConnection;
-import server.models.Token;
 import server.models.User;
 
 import javax.ws.rs.POST;
