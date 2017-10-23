@@ -2,7 +2,6 @@ package server.database;
 
 import server.models.Item;
 import server.models.Order;
-import server.models.Token;
 import server.models.User;
 
 import java.io.IOException;
@@ -75,21 +74,20 @@ public class DBConnection {
      * @param user parameter is inserted into the database using PreparedStatements.
      * @return returns whether or not the user was added to the database by using "rowsAffected".
      */
-    public boolean addUser(User user) {
+    public int addUser(User user) {
+        int rowsAffected = 0;
         try {
             PreparedStatement addUser = connection.prepareStatement("INSERT INTO Users (username, password) VALUES (?, ?)");
 
             addUser.setString(1, user.getUsername());
             addUser.setString(2, user.getPassword());
 
-            int rowsAffected = addUser.executeUpdate();
-            if (rowsAffected == 1) {
-                return true;
-            }
+            rowsAffected = addUser.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return rowsAffected;
+
     }
 
     /**
@@ -280,7 +278,7 @@ public class DBConnection {
      * @param items  Parameter determining which item was ordered.
      * @return Returns whether or not the order was added to the database.
      */
-    public boolean addOrder(int userId, ArrayList<Item> items) {
+    public int addOrder(int userId, ArrayList<Item> items) {
         Timestamp orderTimestamp = new Timestamp(System.currentTimeMillis());
         try {
             PreparedStatement addOrder = connection.prepareStatement("INSERT INTO Orders (user_userid, orderTime) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -300,12 +298,12 @@ public class DBConnection {
                 addItemsToOrder.setInt(2, items.get(i).getItemId());
                 addItemsToOrder.executeUpdate();
             }
-            return true;
+            return 1;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
     /**
@@ -359,24 +357,20 @@ public class DBConnection {
      * @param orderId Parameter specifying which order is to be made ready.
      * @return Returns whether the task was completed or not.
      */
-    public boolean makeReady(int orderId) {
-
+    public int makeReady(int orderId) {
+        int rowsAffected = 0;
         /**
          * Uses PreparedStatement to update a specific order in the database using the given ID and setting isReady to 1 (true).
          */
         try {
             PreparedStatement makeReady = connection.prepareStatement("UPDATE Orders SET isReady = 1 WHERE order_id = ?");
             makeReady.setInt(1, orderId);
-            int rowsAffected = makeReady.executeUpdate();
-
-            if (rowsAffected == 1) {
-                return true;
-            }
+            rowsAffected = makeReady.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return rowsAffected;
     }
 
     public String createToken(User user, String token) {
@@ -396,36 +390,33 @@ public class DBConnection {
         return "";
     }
 
-    public boolean deleteToken(int id) {
+    public int deleteToken(int id) {
+        int rowsAffected = 0;
         try {
-            PreparedStatement deleteToken = connection.prepareStatement("DELETE FROM Token WHERE Users_userId = ?");
+            PreparedStatement deleteToken = connection.prepareStatement("DELETE FROM Token WHERE Users_user_id = ?");
             deleteToken.setInt(1, id);
-            int rowsAffected = deleteToken.executeUpdate();
-            if (rowsAffected > 0) {
-                return true;
-            }
+            rowsAffected = deleteToken.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return rowsAffected;
     }
 
-    public boolean tokenExists(String token) {
+    public String tokenExists(String token) {
         ResultSet rs;
         String serverToken = "";
         try {
             PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
             tokenExists.setString(1, token);
             rs = tokenExists.executeQuery();
-
-            Boolean check = rs.next();
-
-            return check;
+            rs.next();
+            serverToken = rs.getString("tokenString");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return serverToken;
     }
 
 

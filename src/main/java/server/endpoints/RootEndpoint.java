@@ -45,9 +45,22 @@ public class RootEndpoint {
     @Secured
     @POST
     @Path("/logout")
-    public void logout(String userId) {
-        userId = encryption.decryptXOR(userId);
-        int id = new Gson().fromJson(userId, Integer.class);
-        auth.getMcontroller().deleteToken(id);
+    public Response logout(String userAsJson) {
+        User userFromJson = new Gson().fromJson(userAsJson, User.class);
+        boolean deleted = auth.getMcontroller().deleteToken(userFromJson.getUserId());
+        if (deleted){
+            return Response
+                    .status(200)
+                    .type("plain/text")
+                    .entity("Logged out.")
+                    .build();
+        }
+        else{
+            return Response
+                    .status(500)
+                    .type("plain/text")
+                    .entity("Server error, token might not exist.")
+                    .build();
+        }
     }
 }

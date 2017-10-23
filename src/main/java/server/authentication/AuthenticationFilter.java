@@ -34,9 +34,6 @@ import java.util.Date;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
-    ContainerRequestContext localContainerRequestContext;
-    String httpMethodType;
-    AuthEndpoint authEndpoint = new AuthEndpoint();
     MainController mc;
     private static final String AUTHENTICATION_SCHEME = "Bearer";
 

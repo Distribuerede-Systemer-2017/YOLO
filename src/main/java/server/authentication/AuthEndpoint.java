@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.google.gson.Gson;
 import server.controllers.MainController;
 import server.database.DBConnection;
-import server.models.Token;
 import server.models.User;
 
 import javax.ws.rs.POST;
@@ -26,7 +25,6 @@ import java.util.Date;
 @Path("/auth")
 public class AuthEndpoint {
     private MainController mcontroller = new MainController();
-    private DBConnection dbCon = new DBConnection();
 
     /**
      * Authenticates the user and returns a token if user exists
@@ -51,9 +49,9 @@ public class AuthEndpoint {
 
                 token = JWT.create().withClaim("username", tokenUser.getUsername()).withKeyId(String.valueOf(tokenUser.getUserId()))
                         .withExpiresAt(expDate).withIssuer("YOLO").sign(algorithm);
-
                 //Add exp date?
-                dbCon.createToken(tokenUser, token);
+                mcontroller.createToken(tokenUser, token);
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JWTCreationException e) {

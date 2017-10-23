@@ -19,8 +19,7 @@ import java.util.ArrayList;
 @Path("/user")
 public class UserEndpoint {
 
-    private DBConnection dbCon = new DBConnection();
-    private UserController ucontroller = new UserController(dbCon);
+    private UserController ucontroller = new UserController();
     private Encryption encryption = new Encryption();
 
     @POST
