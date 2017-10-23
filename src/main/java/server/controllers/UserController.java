@@ -3,29 +3,20 @@ package server.controllers;
 import server.database.DBConnection;
 import server.models.*;
 import server.utility.Digester;
-import server.database.DBConnection;
-import server.models.*;
-import server.endpoints.UserEndpoint;
-import server.utility.Globals;
 
 import java.util.ArrayList;
 
 public class UserController {
     private Digester dig;
-    private DBConnection dbConnection;
 
-    public UserController(DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public UserController() {
         this.dig = new Digester();
     }
 
-    public UserController() {
-
-    }
 
     public boolean addUser(User user) {
 
-
+        DBConnection dbConnection = new DBConnection();
         //sets a users password to a hashed with salt password and returns a boolean value if a user has been created
 
         String hashedPassword = dig.hashWithSalt(user.getPassword());
@@ -42,6 +33,7 @@ public class UserController {
 
     // Adds an item to the order list
     public boolean addOrder(int id, ArrayList<Item> items) {
+        DBConnection dbConnection = new DBConnection();
         int result = dbConnection.addOrder(id, items);
 
         if(result == 1){
@@ -51,11 +43,13 @@ public class UserController {
     }
 
     public ArrayList<Order> findOrderById(int userId) {
+        DBConnection dbConnection = new DBConnection();
         ArrayList<Order> orders = dbConnection.findOrderById(userId);
         return orders;
     }
 
     public ArrayList<Item> getItems() {
+        DBConnection dbConnection = new DBConnection();
         ArrayList<Item> items = dbConnection.getItems();
         return items;
     }

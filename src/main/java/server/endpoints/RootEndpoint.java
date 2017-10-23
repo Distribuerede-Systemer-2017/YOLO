@@ -45,9 +45,9 @@ public class RootEndpoint {
     @Secured
     @POST
     @Path("/logout")
-    public Response logout(String userId) {
-        int id = new Gson().fromJson(userId, Integer.class);
-        boolean deleted = auth.getMcontroller().deleteToken(id);
+    public Response logout(String userAsJson) {
+        User userFromJson = new Gson().fromJson(userAsJson, User.class);
+        boolean deleted = auth.getMcontroller().deleteToken(userFromJson.getUserId());
         if (deleted){
             return Response
                     .status(200)

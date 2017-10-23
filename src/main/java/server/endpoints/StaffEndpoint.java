@@ -16,9 +16,9 @@ import java.util.ArrayList;
 @Secured
 @Path("/staff")
 public class StaffEndpoint {
-    private DBConnection dbCon = new DBConnection();
-    private StaffController staffController = new StaffController(dbCon);
     private Encryption encryption = new Encryption();
+    private StaffController staffController = new StaffController();
+
 
     @Secured
     @GET

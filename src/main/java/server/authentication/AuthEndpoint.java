@@ -25,7 +25,7 @@ import java.util.Date;
 @Path("/auth")
 public class AuthEndpoint {
     private MainController mcontroller = new MainController();
-    private DBConnection dbCon = new DBConnection();
+    private DBConnection dbCon = mcontroller.getDbConnection();
 
     /**
      * Authenticates the user and returns a token if user exists
