@@ -48,5 +48,6 @@ public class RootEndpoint {
     public void logout(String userId) {
         int id = new Gson().fromJson(userId, Integer.class);
         auth.getMcontroller().deleteToken(id);
+        //Seian
     }
 }
