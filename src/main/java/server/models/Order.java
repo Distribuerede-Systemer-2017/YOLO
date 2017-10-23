@@ -19,14 +19,6 @@ public class Order {
         this.items = new ArrayList<>();
     }
 
-    public Order(int orderId, Timestamp orderTime, boolean isReady, int User_userId) {
-        this.orderId = orderId;
-        this.orderTime = orderTime;
-        this.isReady = isReady;
-        this.User_userId = User_userId;
-        this.items = new ArrayList<Item>();
-
-    }
 
     public int getOrderId() {
         return orderId;
