@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import server.config.Config;
 
-
 /**
  * Class responsible for establishing connection between the database and the server
+ * @author Group YOLO
  */
 
 public class DBConnection {
@@ -24,7 +24,6 @@ public class DBConnection {
      * Gets variables from config file
      */
     public DBConnection() {
-
         Config config = new Config();
         try {
             config.initConfig();
@@ -43,18 +42,15 @@ public class DBConnection {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
             connection = DriverManager.getConnection(("jdbc:mysql://" + config.getDatabaseHost() + ":"
                             + config.getDatabasePort() + "/" + config.getDatabaseName()),
-                    config.getDatabaseUser(), config.getDatabasePassword());
-
+                                config.getDatabaseUser(), config.getDatabasePassword());
         } catch (SQLException e) {
             System.out.println(config.getDatabaseHost());
             System.out.println(config.getDatabaseName());
             System.out.println(config.getDatabasePort());
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -69,13 +65,14 @@ public class DBConnection {
     }
 
     /**
-     * Method reponsible for adding a user to the database.
+     * Method responsible for adding a user to the database.
      *
-     * @param user parameter is inserted into the database using PreparedStatements.
+     * @param user Parameter is inserted into the database using PreparedStatements.
      * @return returns whether or not the user was added to the database by using "rowsAffected".
      */
     public int addUser(User user) {
         int rowsAffected = 0;
+
         try {
             PreparedStatement addUser = connection.prepareStatement("INSERT INTO Users (username, password) VALUES (?, ?)");
 
@@ -87,7 +84,6 @@ public class DBConnection {
             e.printStackTrace();
         }
         return rowsAffected;
-
     }
 
     /**
@@ -303,7 +299,10 @@ public class DBConnection {
             rs.next();
             int orderId = rs.getInt(1);
 
-            //Missing comment
+            /**
+             * Tries to access the Order_has_Items database using a PreparedStatement.
+             * Inserts new order into Order_has_Items by looping through the items-ArrayList.
+             */
 
             PreparedStatement addItemsToOrder;
             for (int i = 0; i < items.size(); i++) {
@@ -341,7 +340,9 @@ public class DBConnection {
 
             resultSet = authorizeUser.executeQuery();
 
-            //Mangler kommentar?
+            /**
+             * While loop that uses resultSet.next to go through each individual User, controlling username, password and checking if the user is personnel.
+             */
             while (resultSet.next()) {
                 newUser = new User();
                 newUser.setUserId(resultSet.getInt("user_id"));
@@ -388,6 +389,13 @@ public class DBConnection {
         return rowsAffected;
     }
 
+    /**
+     * Method used to create token .
+     *
+     * @param user Parameter specifying which user that will be assigned a token.
+     * @param token Parameter specifying which token will be assigned to the current user.
+     * @return Returns empty token string
+     */
     public String createToken(User user, String token) {
         try {
             PreparedStatement createToken = connection.prepareStatement("INSERT INTO Token (tokenString, Users_user_id) VALUES (?, ?)");
@@ -400,13 +408,18 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        //Return empty
         return "";
     }
 
+    /**
+     * Method used to delete token .
+     *
+     * @param id Parameter specifying which token that will be deleted based on userId.
+     * @return Returns whether the task was completed or not.
+     */
     public int deleteToken(int id) {
         int rowsAffected = 0;
+
         try {
             PreparedStatement deleteToken = connection.prepareStatement("DELETE FROM Token WHERE Users_user_id = ?");
             deleteToken.setInt(1, id);
@@ -418,9 +431,16 @@ public class DBConnection {
         return rowsAffected;
     }
 
+    /**
+     * Method used to check if token exists.
+     *
+     * @param token Parameter specifying which token that will be checked
+     * @return Returns the serverToken string.
+     */
     public String tokenExists(String token) {
         ResultSet rs;
         String serverToken = "";
+
         try {
             PreparedStatement tokenExists = connection.prepareStatement("SELECT * FROM Token WHERE tokenString = ?");
             tokenExists.setString(1, token);
@@ -433,6 +453,4 @@ public class DBConnection {
         }
         return serverToken;
     }
-
-
 }
