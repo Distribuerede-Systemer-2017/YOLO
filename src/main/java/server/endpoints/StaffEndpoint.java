@@ -40,7 +40,7 @@ public class StaffEndpoint {
 
         return Response
                 .status(status)
-                .type("application/json")
+
                 //encrypt response
                 .entity(encryption.encryptXOR(ordersAsJson))
                 .build();

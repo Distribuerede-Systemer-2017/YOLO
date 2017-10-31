@@ -35,16 +35,30 @@ public class RootEndpoint {
             loginUser.setToken(auth.AuthUser(userAsJson));
             String jsonUser = new Gson().toJson(loginUser, User.class);
             if (loginUser == null) {
-                return Response.status(401).type("plain/text").entity("User not authorized").build();
+                return Response
+                        .status(401)
+                        .type("application/json")
+                        //encrypt response to clien before sending
+                        .entity(encryption.encryptXOR("{\"Login result\":\"false\"}"))
+                        .build();
             } else {
                 //return encrypted object in Json format
-                return Response.status(200).type("application/json").entity(encryption.encryptXOR(jsonUser)).build();
+                return Response
+                        .status(200)
+                        .type("application/json")
+                        .entity(encryption.encryptXOR(jsonUser))
+                        .build();
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Response.status(401).type("plain/text").entity("Bruger ikke godkendt").build();
+        return Response
+                .status(401)
+                .type("application/json")
+                //encrypt response to clien before sending
+                .entity(encryption.encryptXOR("{\"Authorize result\":\"false\"}"))
+                .build();
     }
 
     /**
@@ -62,15 +76,17 @@ public class RootEndpoint {
         if (deleted){
             return Response
                     .status(200)
-                    .type("plain/text")
-                    .entity("Logged out.")
+                    .type("application/json")
+                    //encrypt response to clien before sending
+                    .entity(encryption.encryptXOR("{\"Attempt to log out\":\"" + deleted + "\"}"))
                     .build();
         }
         else{
             return Response
                     .status(500)
-                    .type("plain/text")
-                    .entity("Server error, token might not exist.")
+                    .type("application/json")
+                    //encrypt response to clien before sending
+                    .entity(encryption.encryptXOR("{\"Attempt to log out\":\"" + deleted + "\"}"))
                     .build();
         }
     }

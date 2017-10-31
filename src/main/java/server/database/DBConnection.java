@@ -216,7 +216,6 @@ public class DBConnection {
      * @return Returns an ArrayList of orders from the specified user.
      */
     public ArrayList<Order> findOrderById(int userId) {
-
         /**
          * Creates ResultSet to filter through all Orders.
          * Creates ArrayList which will ultimately be the end product.
@@ -238,43 +237,44 @@ public class DBConnection {
              * While loop that uses resultSet.next to go through each individual Order and item and add item to order ArrayLists and order to orders ArrayList.
              */
             while (resultSet.next()) {
-                Order order = new Order();
-                order.setOrderId(resultSet.getInt("order_id"));
-                order.setOrderTime(resultSet.getTimestamp("orderTime"));
+                Order newOrder = new Order();
+                newOrder.setOrderId(resultSet.getInt("order_id"));
+                newOrder.setOrderTime(resultSet.getTimestamp("orderTime"));
                 if (resultSet.getInt("isReady") != 1) {
-                    order.setIsReady(false);
+                    newOrder.setIsReady(false);
                 } else {
-                    order.setIsReady(true);
+                    newOrder.setIsReady(true);
                 }
-                order.setUser_userId(resultSet.getInt("user_userid"));
+                newOrder.setUser_userId(resultSet.getInt("user_userid"));
 
-                Item item = new Item();
-                item.setItemId(resultSet.getInt("item_id"));
-                item.setItemName(resultSet.getString("itemName"));
-                item.setItemDescription(resultSet.getString("itemDescription"));
-                item.setItemPrice(resultSet.getInt("itemPrice"));
+                Item newItem = new Item();
+                newItem.setItemId(resultSet.getInt("item_id"));
+                newItem.setItemName(resultSet.getString("itemName"));
+                newItem.setItemDescription(resultSet.getString("itemDescription"));
+                newItem.setItemPrice(resultSet.getInt("itemPrice"));
 
                 Boolean addToOrders = true;
                 if (orders.isEmpty()) {
-                    order.setItems(item);
+                    newOrder.setItems(newItem);
                 } else {
 
-                    for (int i = 0; i < orders.size(); i++) {
-                        if (order.getOrderId() == orders.get(i).getOrderId()) {
-                            orders.get(i).setItems(item);
+                    for (Order order : orders) {
+                            System.out.println(newOrder.getOrderId());
+                        if (newOrder.getOrderId() == order.getOrderId()) {
+                            order.setItems(newItem);
                             addToOrders = false;
-                            break;
                         } else {
-                            order.setItems(item);
-                            break;
+                            newOrder.setItems(newItem);
                         }
                     }
                 }
                 if (addToOrders) {
-                    orders.add(order);
+                    orders.add(newOrder);
                 }
             }
-        } catch (SQLException e) {
+        }
+
+        catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try{
