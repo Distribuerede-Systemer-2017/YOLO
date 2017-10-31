@@ -9,7 +9,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import server.controllers.MainController;
 import server.database.DBConnection;
 
-
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Class responsible for all logic related to staff operations
+ * @author Group YOLO
  */
 public class StaffController {
 
@@ -17,6 +18,7 @@ public class StaffController {
 
     /**
      * Returns the list of all orders in the database
+     * @return orders
      */
     public ArrayList<Order> getOrders() {
         DBConnection dbConnection = new DBConnection();
@@ -24,6 +26,11 @@ public class StaffController {
         return orders;
     }
 
+    /**
+     * Method to make an order ready
+     * @param orderID
+     * @return boolean
+     */
     public boolean makeReady(int orderID) {
         DBConnection dbConnection = new DBConnection();
         int result = dbConnection.makeReady(orderID);
