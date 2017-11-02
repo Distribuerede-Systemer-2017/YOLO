@@ -35,10 +35,9 @@ public class UserController {
         user.setPassword(hashedPassword);
         int result = dbConnection.addUser(user);
 
-        if(result>0){
+        if(result>0) {
             return true;
         }
-
         return false;
     }
 

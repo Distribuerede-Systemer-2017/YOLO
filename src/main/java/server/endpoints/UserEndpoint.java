@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 /**
- * Created by Tobias WR & Martin GS 17/10/2017
+ * Created by Tobias WR & Martin GS 17/10/2017 h
  */
 
 @Path("/user")
