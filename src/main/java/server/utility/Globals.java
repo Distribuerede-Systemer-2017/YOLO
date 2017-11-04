@@ -31,7 +31,6 @@ public class Globals implements ServletContextListener {
             e.printStackTrace();
         }
 
-        //Slet?
         ServletContext context = servletContextEvent.getServletContext();
         System.setProperty("rootpath", context.getRealPath("/"));
 

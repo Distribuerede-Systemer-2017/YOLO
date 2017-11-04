@@ -9,6 +9,9 @@ import server.config.Config;
  * Created by AR, FE, LH on 17-10-2017
  */
 
+/**
+ * Class responsible for hashing strings
+ */
 public class Digester {
 
     private String salt;

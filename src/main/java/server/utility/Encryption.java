@@ -18,7 +18,11 @@ public class Encryption {
      * Herefter unparses objektet fra JSON igen, således at vi kan bruge objektet i serveren.
      */
 
-    //method to encrypt a string
+    /**
+     * Method responsible for encrypting a string using the XOR encryption
+     * @param toBeEncrypted the string to be encrypted
+     * @return the encrypted string if encryption is toggled
+     */
     public String encryptXOR(String toBeEncrypted) {
 
         //check if encryption is true in the Config file
@@ -45,6 +49,12 @@ public class Encryption {
     }
 
     //method to decrypt a string parsed as Json
+
+    /**
+     * Method responsible for decrypting an encrypted string that has been encrypted by XOR
+     * @param toBeDecrypted encrypted string to be decrypted
+     * @return the plaintext string
+     */
     public String decryptXOR(String toBeDecrypted) {
 
         //check if encryption is true in the Config file

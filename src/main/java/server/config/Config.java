@@ -7,6 +7,9 @@ import sun.misc.IOUtils;
 import java.io.*;
 import java.net.URISyntaxException;
 
+/**
+ * The class that is responsible for retrieving the values from the config.json file to be used throughout the system
+ */
 public final class Config {
 
     private static String DATABASE_HOST;
@@ -18,6 +21,11 @@ public final class Config {
     private static Boolean ENCRYPTION;
 
 
+    /**
+     * Method responsible for initializing the config to be used throughout the server, reads the config.json file
+     * @return returns the config file in JSON to be used in methods
+     * @throws IOException
+     */
     public JsonObject initConfig() throws IOException {
 
         JsonObject json = new JsonObject();

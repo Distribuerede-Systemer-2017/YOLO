@@ -27,7 +27,7 @@ import java.util.Date;
  */
 
 /**
- * Class responsible for ???
+ * Class responsible for intercepting the client request and authenticating token
  */
 @Secured
 @Provider
@@ -68,7 +68,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     }
 
-
+    /**
+     * Ensures the token sent is valid
+     * @param authorizationHeader the header of the HTTP request
+     * @return true if the header isn't empty and starts with BEARER
+     */
     private boolean isTokenBasedAuthentication(String authorizationHeader) {
 
         //Check if the Authorization header is valid
@@ -77,6 +81,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         return authorizationHeader != null && authorizationHeader.toLowerCase().startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
     }
 
+    /**
+     * Aborts the request if the token isn't valid and returns a 401 status code
+     * @param requestContext
+     */
     private void abortWithUnauthorized(ContainerRequestContext requestContext) {
 
         //Abort with filter chain with a 401 status code
